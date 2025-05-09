@@ -30,6 +30,7 @@ body {
     font-weight: 700;
     text-shadow: 0 0 16px #00eaff, 0 0 32px #0ff4f8;
     transition: text-shadow 0.5s;
+    text-align: center;
 }
 .logo-glow span {
     color: #fff;
