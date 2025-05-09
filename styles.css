@@ -1,0 +1,883 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --accent-color: #3b82f6;
+    --text-color: #1f2937;
+    --light-text: #6b7280;
+    --background: #ffffff;
+    --light-background: #f3f4f6;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background);
+}
+
+/* Header Styles */
+.header {
+    background-color: var(--background);
+    box-shadow: var(--shadow);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 8rem 2rem 4rem;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+}
+
+.btn.primary {
+    background-color: white;
+    color: var(--primary-color);
+}
+
+.btn.secondary {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Sections */
+section {
+    padding: 4rem 2rem;
+}
+
+section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+/* Stats Cards */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 1rem 0;
+}
+
+.trend {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.trend.positive {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+}
+
+.trend.negative {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--danger-color);
+}
+
+/* Zones Section */
+.zones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.zone-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.zone-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5rem 0;
+}
+
+/* Chart Container */
+.chart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+/* Pricing Section */
+.pricing-stats {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.data-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.data-point {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.data-point h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Pricing Table */
+.table-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+.pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.pricing-table th,
+.pricing-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.pricing-table th {
+    background-color: var(--light-background);
+    font-weight: 600;
+}
+
+.pricing-table tr:last-child td {
+    border-bottom: none;
+}
+
+.positive {
+    color: var(--success-color);
+}
+
+.negative {
+    color: var(--danger-color);
+}
+
+/* Case Study Section */
+.case-study {
+    background-color: #fff;
+}
+
+.case-study-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.case-study-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+blockquote {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    font-style: italic;
+    margin: 2rem 0;
+}
+
+blockquote cite {
+    display: block;
+    margin-top: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    color: var(--light-text);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--text-color);
+    color: white;
+    padding: 4rem 2rem 2rem;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.footer-section p {
+    color: #9ca3af;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #374151;
+    color: #9ca3af;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .hero {
+        padding: 6rem 1rem 3rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    section {
+        padding: 3rem 1rem;
+    }
+
+    .stats-container,
+    .zones-grid,
+    .data-points {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Demand Tracking Modern Section --- */
+.demand-tracking-modern {
+    background: #f8fafc;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 1200px;
+}
+.demand-tracking-modern h2 {
+    text-align: left;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.demand-modern-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.demand-modern-card {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 2rem 1.5rem 2rem;
+    flex: 1 1 300px;
+    min-width: 280px;
+    max-width: 370px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+.demand-modern-card h3 {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+.demand-modern-label {
+    color: var(--light-text);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+.demand-modern-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0.5rem 0 0.25rem 0;
+}
+.demand-modern-desc {
+    color: var(--light-text);
+    font-size: 1rem;
+    margin-bottom: 0.7rem;
+}
+.demand-modern-badge {
+    display: inline-block;
+    padding: 0.25rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+.demand-modern-badge.positive {
+    background: #e6f9ef;
+    color: var(--success-color);
+    border: 1px solid #b6f0d2;
+}
+.demand-modern-badge.warning {
+    background: #fff7e6;
+    color: #eab308;
+    border: 1px solid #ffe7b6;
+}
+.demand-modern-bars {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+.demand-modern-bar-labels {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.7rem;
+    gap: 0.7rem;
+}
+.demand-modern-bar {
+    flex: 1;
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    margin: 0 0.5rem;
+    overflow: hidden;
+}
+.demand-modern-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.7s cubic-bezier(.4,0,.2,1);
+}
+.demand-modern-bar-fill.centro {
+    background: linear-gradient(90deg, #1e40af 60%, #2563eb 100%);
+}
+.demand-modern-bar-fill.playa {
+    background: linear-gradient(90deg, #2563eb 60%, #3b82f6 100%);
+}
+.demand-modern-bar-fill.historica {
+    background: linear-gradient(90deg, #1e293b 60%, #64748b 100%);
+}
+.demand-modern-bar-value {
+    min-width: 36px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* --- Booking Ranking Section --- */
+.booking-ranking-section {
+    background: #f8fafc;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 1200px;
+}
+.booking-ranking-section h2 {
+    text-align: left;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.booking-ranking-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.booking-ranking-card {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 2rem 1.5rem 2rem;
+    flex: 1 1 400px;
+    min-width: 320px;
+    max-width: 500px;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.booking-ranking-card h3 {
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+.booking-ranking-label {
+    color: var(--light-text);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+.booking-ranking-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+.booking-ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 1.05rem;
+}
+.booking-ranking-item:last-child {
+    border-bottom: none;
+}
+.booking-ranking-pos {
+    font-weight: 700;
+    font-size: 1.2rem;
+    width: 1.7rem;
+    text-align: center;
+}
+.booking-ranking-hotel {
+    font-weight: 600;
+    flex: 1;
+}
+.booking-ranking-score {
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 0.1rem 0.5rem;
+    font-size: 1rem;
+    margin-right: 0.2rem;
+    color: #fff;
+    background: #64748b;
+}
+.booking-ranking-score.gold {
+    background: #fbbf24;
+    color: #fff;
+}
+.booking-ranking-score.silver {
+    background: #a3a3a3;
+    color: #fff;
+}
+.booking-ranking-score.bronze {
+    background: #f59e42;
+    color: #fff;
+}
+.booking-ranking-city {
+    color: var(--light-text);
+    font-size: 0.95rem;
+    margin-right: 0.2rem;
+}
+.booking-ranking-price {
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-right: 0.2rem;
+}
+.booking-ranking-tag {
+    font-size: 0.85rem;
+    border-radius: 999px;
+    padding: 0.15rem 0.7rem;
+    font-weight: 500;
+    margin-left: 0.2rem;
+}
+.booking-ranking-tag.best {
+    background: #e6f9ef;
+    color: var(--success-color);
+    border: 1px solid #b6f0d2;
+}
+.booking-ranking-tag.comp {
+    background: #fef9c3;
+    color: #eab308;
+    border: 1px solid #fde68a;
+}
+.booking-ranking-tag.std {
+    background: #f3f4f6;
+    color: #64748b;
+    border: 1px solid #e5e7eb;
+}
+.booking-ranking-desc {
+    color: var(--light-text);
+    font-size: 0.98rem;
+    margin-top: 0.7rem;
+}
+
+/* --- Booking Price Chart --- */
+#weeklyPriceChart {
+    margin: 1.5rem 0 1rem 0;
+    max-width: 100%;
+    height: 220px !important;
+}
+
+/* --- Booking Factors --- */
+.booking-factors {
+    margin-top: 1.5rem;
+}
+.booking-factors h4 {
+    font-size: 1.05rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.7rem;
+}
+.booking-factor-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+.booking-factor-bar {
+    flex: 1;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 0.5rem;
+}
+.booking-factor-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.7s cubic-bezier(.4,0,.2,1);
+}
+.booking-factor-bar-fill.high {
+    width: 100%;
+    background: linear-gradient(90deg, #2563eb 60%, #3b82f6 100%);
+}
+.booking-factor-bar-fill.critical {
+    width: 100%;
+    background: linear-gradient(90deg, #e11d48 60%, #fbbf24 100%);
+}
+.booking-factor-bar-fill.medium {
+    width: 70%;
+    background: linear-gradient(90deg, #f59e42 60%, #fde68a 100%);
+}
+.booking-factor-impact {
+    font-size: 0.95rem;
+    color: var(--light-text);
+    min-width: 90px;
+}
+
+/* Responsive for new sections */
+@media (max-width: 900px) {
+    .demand-modern-grid,
+    .booking-ranking-grid {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .demand-modern-card,
+    .booking-ranking-card {
+        max-width: 100%;
+        min-width: 0;
+    }
+}
+
+/* --- Benefits Section --- */
+.benefits-section {
+    background: #fff;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 1200px;
+}
+.benefits-section h2 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+}
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.benefit-card {
+    background: #f8fafc;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.benefit-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.benefit-card h3 {
+    color: var(--primary-color);
+    font-size: 1.15rem;
+    margin-bottom: 0.7rem;
+}
+.benefit-card p {
+    color: var(--light-text);
+    font-size: 1rem;
+}
+
+/* --- FAQ Section --- */
+.faq-section {
+    background: #fff;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 900px;
+}
+.faq-section h2 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+}
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.faq-item {
+    background: #f8fafc;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+}
+.faq-item h3 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+.faq-item p {
+    color: var(--light-text);
+    font-size: 1rem;
+}
+
+/* --- Dashboard Section --- */
+.dashboard-section {
+    background: #fff;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 1200px;
+}
+.dashboard-section h2 {
+    text-align: left;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.dashboard-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.dashboard-kpi-card {
+    background: #f8fafc;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dashboard-kpi-label {
+    color: var(--light-text);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+.dashboard-kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+.dashboard-kpi-value.positive {
+    color: var(--success-color);
+}
+.dashboard-kpi-value.warning {
+    color: #eab308;
+}
+
+/* --- History Section --- */
+.history-section {
+    background: #fff;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 1200px;
+}
+.history-section h2 {
+    text-align: left;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+.history-table th,
+.history-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+.history-table th {
+    background-color: var(--light-background);
+    font-weight: 600;
+}
+.history-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Notes Section --- */
+.notes-section {
+    background: #fff;
+    padding: 3rem 1rem 2rem;
+    border-radius: var(--border-radius);
+    margin: 3rem auto 0 auto;
+    max-width: 900px;
+}
+.notes-section h2 {
+    text-align: left;
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+.note-item {
+    background: #f8fafc;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 1.2rem 1.5rem 1.1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1rem;
+}
+.note-date {
+    color: var(--primary-color);
+    font-weight: 600;
+    min-width: 90px;
+}
+.note-user {
+    color: var(--secondary-color);
+    font-weight: 500;
+    min-width: 120px;
+}
+.note-text {
+    color: var(--light-text);
+    font-size: 1rem;
+} 
