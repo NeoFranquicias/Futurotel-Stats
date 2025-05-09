@@ -1,0 +1,62 @@
+[
+  {
+    "nombre": "Hotel Parquemar",
+    "ciudad": "Guardamar",
+    "lat": 38.0906,
+    "lng": -0.6557
+  },
+  {
+    "nombre": "Aparthotel Carrio Sol",
+    "ciudad": "Calpe",
+    "lat": 38.6494,
+    "lng": 0.0458
+  },
+  {
+    "nombre": "Futurotel Malagueta Beach",
+    "ciudad": "Malaga",
+    "lat": 36.7196,
+    "lng": -4.4146
+  },
+  {
+    "nombre": "Apartamentos Royal Urban Granada",
+    "ciudad": "Granada",
+    "lat": 37.1773,
+    "lng": -3.5986
+  },
+  {
+    "nombre": "Futurotel Spa Garden",
+    "ciudad": "Granada",
+    "lat": 37.1882,
+    "lng": -3.6067
+  },
+  {
+    "nombre": "Apartamentos Comfort City",
+    "ciudad": "Granada",
+    "lat": 37.1741,
+    "lng": -3.6015
+  },
+  {
+    "nombre": "Futurotel Granada Dreams",
+    "ciudad": "Granada",
+    "lat": 37.1808,
+    "lng": -3.5952
+  },
+  {
+    "nombre": "Cambrils Paradise",
+    "ciudad": "Cambrils",
+    "lat": 41.0748,
+    "lng": 1.0522
+  },
+  {
+    "nombre": "Sevilla Space",
+    "ciudad": "Sevilla",
+    "lat": 37.3886,
+    "lng": -5.9823
+  },
+  {
+    "nombre": "Torre Hogar",
+    "ciudad": "Madrid",
+    "lat": 40.4168,
+    "lng": -3.7038
+  }
+]

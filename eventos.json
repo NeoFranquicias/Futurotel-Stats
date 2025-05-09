@@ -1,0 +1,39 @@
+{
+  "eventos": [
+    {
+      "id": 1,
+      "fecha": "2025-05-01",
+      "evento": "Congreso IA",
+      "descripcion": "Congreso internacional sobre IA aplicada al turismo",
+      "tipo": "Congreso",
+      "asistentes": 350,
+      "ciudad": "Madrid",
+      "visible": true
+    },
+    {
+      "id": 2,
+      "fecha": "2025-04-22",
+      "evento": "Fiesta de Primavera",
+      "descripcion": "",
+      "tipo": "Fiesta",
+      "asistentes": "",
+      "ciudad": "Barcelona",
+      "visible": true
+    },
+    {
+      "id": 3,
+      "fecha": "2025-04-15",
+      "evento": "Seminario Blockchain",
+      "descripcion": "Aplicaciones de blockchain en hoteles",
+      "tipo": "Seminario",
+      "asistentes": 120,
+      "ciudad": "Valencia",
+      "visible": true
+    }
+  ],
+  "demandaPorCiudad": {
+    "Madrid": [36, 37, 35, 36, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35],
+    "Barcelona": [29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30],
+    "Valencia": [21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22]
+  }
+}

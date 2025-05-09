@@ -1,0 +1,62 @@
+[
+  {
+    "nombre": "Hotel Parquemar",
+    "ciudad": "Guardamar",
+    "categoria": "4",
+    "tipo": "hotel"
+  },
+  {
+    "nombre": "Aparthotel Carrio Sol",
+    "ciudad": "Calpe",
+    "categoria": "aparthotel",
+    "tipo": "aparthotel"
+  },
+  {
+    "nombre": "Futurotel Malagueta Beach",
+    "ciudad": "Malaga",
+    "categoria": "4",
+    "tipo": "hotel"
+  },
+  {
+    "nombre": "Apartamentos Royal Urban Granada",
+    "ciudad": "Granada",
+    "categoria": "apartamento",
+    "tipo": "apartamento"
+  },
+  {
+    "nombre": "Futurotel Spa Garden",
+    "ciudad": "Granada",
+    "categoria": "spa",
+    "tipo": "spa"
+  },
+  {
+    "nombre": "Apartamentos Comfort City",
+    "ciudad": "Granada",
+    "categoria": "apartamento",
+    "tipo": "apartamento"
+  },
+  {
+    "nombre": "Futurotel Granada Dreams",
+    "ciudad": "Granada",
+    "categoria": "4",
+    "tipo": "hotel"
+  },
+  {
+    "nombre": "Cambrils Paradise",
+    "ciudad": "Cambrils",
+    "categoria": "3",
+    "tipo": "hotel"
+  },
+  {
+    "nombre": "Sevilla Space",
+    "ciudad": "Sevilla",
+    "categoria": "4",
+    "tipo": "hotel"
+  },
+  {
+    "nombre": "Torre Hogar",
+    "ciudad": "Madrid",
+    "categoria": "4",
+    "tipo": "hotel"
+  }
+]

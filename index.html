@@ -3,387 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futurotel - Estadísticas de Demanda</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Futurotel Stats</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-    <header class="header">
-        <nav class="nav-container">
-            <div class="logo">Futurotel</div>
-            <ul class="nav-links">
-                <li><a href="#monitoreo">Monitoreo de Demanda</a></li>
-                <li><a href="#analisis">Análisis de Precios</a></li>
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#caso-estudio">Caso de Estudio</a></li>
-            </ul>
-        </nav>
+    <header class="futuristic-header">
+        <div class="logo-glow">Futurotel <span>Stats</span></div>
     </header>
-
     <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Futurotel - Estadísticas de Demanda</h1>
-                <p>Optimice la rentabilidad de su hotel con análisis en tiempo real de la demanda, precios y competencia para tomar decisiones estratégicas basadas en datos.</p>
-                <div class="cta-buttons">
-                    <a href="#dashboard" class="btn primary">Ver Dashboard</a>
-                    
-                </div>
-            </div>
-        </section>
-
-        <section class="demand-tracking-modern">
-            <h2>Seguimiento Constante de la Demanda</h2>
-            <div class="demand-modern-grid">
-                <div class="demand-modern-card">
-                    <h3>Demanda Actual</h3>
-                    <span class="demand-modern-label">Último mes</span>
-                    <div class="demand-modern-value">87.4%</div>
-                    <div class="demand-modern-desc">Ocupación promedio</div>
-                    <span class="demand-modern-badge positive">↑ 12% vs. mes anterior</span>
-                </div>
-                <div class="demand-modern-card">
-                    <h3>Previsión</h3>
-                    <span class="demand-modern-label">Próximos 30 días</span>
-                    <div class="demand-modern-value">92.1%</div>
-                    <div class="demand-modern-desc">Ocupación esperada</div>
-                    <span class="demand-modern-badge warning">Alta demanda</span>
-                </div>
-                <div class="demand-modern-card">
-                    <h3>Zonas con Mayor Demanda</h3>
-                    <span class="demand-modern-label">Este mes</span>
-                    <div class="demand-modern-bars">
-                        <div class="demand-modern-bar-labels">
-                            <span>Zona Centro</span>
-                            <div class="demand-modern-bar">
-                                <div class="demand-modern-bar-fill centro" style="width:94%"></div>
-                            </div>
-                            <span class="demand-modern-bar-value">94%</span>
-                        </div>
-                        <div class="demand-modern-bar-labels">
-                            <span>Zona Playa</span>
-                            <div class="demand-modern-bar">
-                                <div class="demand-modern-bar-fill playa" style="width:86%"></div>
-                            </div>
-                            <span class="demand-modern-bar-value">86%</span>
-                        </div>
-                        <div class="demand-modern-bar-labels">
-                            <span>Zona Histórica</span>
-                            <div class="demand-modern-bar">
-                                <div class="demand-modern-bar-fill historica" style="width:79%"></div>
-                            </div>
-                            <span class="demand-modern-bar-value">79%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="zones-section">
-            <h2>Zonas con Mayor Demanda</h2>
-            <div class="zones-grid">
-                <div class="zone-card">
-                    <h3>Zona Centro</h3>
-                    <div class="zone-value">94%</div>
-                </div>
-                <div class="zone-card">
-                    <h3>Zona Playa</h3>
-                    <div class="zone-value">86%</div>
-                </div>
-                <div class="zone-card">
-                    <h3>Zona Histórica</h3>
-                    <div class="zone-value">79%</div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="demandChart"></canvas>
-            </div>
-        </section>
-
-        <section id="analisis" class="pricing-section">
-            <h2>Optimización de Precios con Big Data</h2>
-            <div class="pricing-stats">
-                <div class="pricing-stat">
-                    <h3>Frecuencia de Análisis</h3>
-                    <div class="stat-value">Cada 30 min</div>
-                    <p>Consulta automática de datos</p>
-                </div>
-            </div>
-            <div class="data-points">
-                <div class="data-point">
-                    <h4>Precio Actual</h4>
-                    <p>Precio vigente en todos los canales de venta.</p>
-                </div>
-                <div class="data-point">
-                    <h4>Variación de Precio</h4>
-                    <p>Cambios históricos y recientes en las tarifas.</p>
-                </div>
-                <div class="data-point">
-                    <h4>Habitaciones Vendidas</h4>
-                    <p>Ocupación resultante de cada nivel de precio.</p>
-                </div>
-                <div class="data-point">
-                    <h4>Diferencia Competitiva</h4>
-                    <p>Comparativa con la media de la competencia.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- DASHBOARD VISUAL -->
         <section class="dashboard-section">
-            <h2>Panel de Control - KPIs</h2>
-            <div class="dashboard-kpi-grid">
-                <div class="dashboard-kpi-card">
-                    <span class="dashboard-kpi-label">Ocupación Actual</span>
-                    <span class="dashboard-kpi-value">87.4%</span>
+
+            <h2>Panel General</h2>
+            <div class="kpi-cards">
+                <div class="kpi-card">
+                    <span class="kpi-title">Ocupación Media</span>
+                    <span class="kpi-value" id="kpi-ocupacion">--%</span>
+                    <canvas class="sparkline" id="spark-ocupacion"></canvas>
                 </div>
-                <div class="dashboard-kpi-card">
-                    <span class="dashboard-kpi-label">Previsión Próx. 30 días</span>
-                    <span class="dashboard-kpi-value">92.1%</span>
+                <div class="kpi-card">
+                    <span class="kpi-title">Ingresos</span>
+                    <span class="kpi-value" id="kpi-ingresos">-- €</span>
+                    <canvas class="sparkline" id="spark-ingresos"></canvas>
                 </div>
-                <div class="dashboard-kpi-card">
-                    <span class="dashboard-kpi-label">Ingresos Último Mes</span>
-                    <span class="dashboard-kpi-value">€128,500</span>
+                <div class="kpi-card">
+                    <span class="kpi-title">ADR</span>
+                    <span class="kpi-value" id="kpi-adr">-- €</span>
+                    <canvas class="sparkline" id="spark-adr"></canvas>
                 </div>
-                <div class="dashboard-kpi-card">
-                    <span class="dashboard-kpi-label">Variación de Precios</span>
-                    <span class="dashboard-kpi-value positive">+4.2%</span>
+                <div class="kpi-card">
+                    <span class="kpi-title">RevPAR</span>
+                    <span class="kpi-value" id="kpi-revpar">-- €</span>
+                    <canvas class="sparkline" id="spark-revpar"></canvas>
                 </div>
-                <div class="dashboard-kpi-card">
-                    <span class="dashboard-kpi-label">Alertas</span>
-                    <span class="dashboard-kpi-value warning">1</span>
+                <div class="kpi-card">
+                    <span class="kpi-title">Reservas</span>
+                    <span class="kpi-value" id="kpi-reservas">--</span>
+                    <canvas class="sparkline" id="spark-reservas"></canvas>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-title">Cancelaciones</span>
+                    <span class="kpi-value" id="kpi-cancelaciones">--</span>
+                    <canvas class="sparkline" id="spark-cancelaciones"></canvas>
                 </div>
             </div>
         </section>
-
-        <section class="pricing-table-section">
-            <h2>Tabla Comparativa de Precios y Variaciones</h2>
-            <button class="btn primary" id="download-csv" style="margin-bottom:1rem;">Descargar tabla (CSV)</button>
-            <div class="table-container">
-                <table class="pricing-table" id="main-pricing-table">
+        
+        <section class="ranking-section">
+            <h2>Ranking de Hoteles</h2>
+            <div class="ranking-filters">
+                <select id="filter-ciudad">
+                    <option value="">Todas las ciudades</option>
+                    <option value="Guardamar">Guardamar</option>
+                    <option value="Calpe">Calpe</option>
+                    <option value="Malaga">Malaga</option>
+                    <option value="Granada">Granada</option>
+                    <option value="Cambrils">Cambrils</option>
+                    <option value="Sevilla">Sevilla</option>
+                    <option value="Madrid">Madrid</option>
+                </select>
+                <select id="filter-categoria">
+                    <option value="">Todas las categorías</option>
+                    <option value="4">4 estrellas</option>
+                    <option value="3">3 estrellas</option>
+                    <option value="aparthotel">Aparthotel</option>
+                    <option value="apartamento">Apartamento</option>
+                    <option value="spa">Spa</option>
+                </select>
+                <select id="filter-tipo">
+                    <option value="">Todos los tipos</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="apartamento">Apartamento</option>
+                    <option value="aparthotel">Aparthotel</option>
+                    <option value="spa">Spa</option>
+                </select>
+            </div>
+            <div class="ranking-table-container">
+                <table class="ranking-table">
                     <thead>
                         <tr>
+                            <th>Posición</th>
                             <th>Hotel</th>
-                            <th>Zona</th>
-                            <th>Precio Actual</th>
-                            <th>Variación</th>
-                            <th>Hab. Vendidas</th>
-                            <th>Diferencia</th>
+                            <th>Ciudad</th>
+                            <th>Categoría</th>
+                            <th>Tipo</th>
+                            <th>Ocupación</th>
+                            <th>Ingresos</th>
+                            <th>Satisfacción</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Hotel Parquemar</td>
-                            <td>Playa</td>
-                            <td>145€</td>
-                            <td class="positive">+6.8%</td>
-                            <td>48</td>
-                            <td class="positive">+15€</td>
-                        </tr>
-                        <tr>
-                            <td>Aparthotel Carrio Sol</td>
-                            <td>Playa</td>
-                            <td>135€</td>
-                            <td class="positive">+4.2%</td>
-                            <td>52</td>
-                            <td class="positive">+8€</td>
-                        </tr>
-                        <tr>
-                            <td>Futurotel Malagueta Beach</td>
-                            <td>Playa</td>
-                            <td>160€</td>
-                            <td class="positive">+8.7%</td>
-                            <td>45</td>
-                            <td class="positive">+22€</td>
-                        </tr>
-                        <tr>
-                            <td>Apartamentos Royal Urban Granada</td>
-                            <td>Centro</td>
-                            <td>125€</td>
-                            <td class="positive">+5.2%</td>
-                            <td>38</td>
-                            <td class="positive">+12€</td>
-                        </tr>
-                        <tr>
-                            <td>Apartamentos Comfort City</td>
-                            <td>Centro</td>
-                            <td>115€</td>
-                            <td class="negative">-2.1%</td>
-                            <td>42</td>
-                            <td class="negative">-5€</td>
-                        </tr>
-                        <tr>
-                            <td>Futurotel Granada Dreams</td>
-                            <td>Centro</td>
-                            <td>140€</td>
-                            <td class="positive">+3.5%</td>
-                            <td>35</td>
-                            <td class="positive">+8€</td>
-                        </tr>
-                        <tr>
-                            <td>Cambrils Paradise</td>
-                            <td>Playa</td>
-                            <td>155€</td>
-                            <td class="positive">+7.3%</td>
-                            <td>40</td>
-                            <td class="positive">+18€</td>
-                        </tr>
-                        <tr>
-                            <td>Sevilla Space</td>
-                            <td>Histórico</td>
-                            <td>130€</td>
-                            <td class="negative">-1.2%</td>
-                            <td>45</td>
-                            <td class="negative">-3€</td>
-                        </tr>
-                        <tr>
-                            <td>Torre Hogar</td>
-                            <td>Histórico</td>
-                            <td>120€</td>
-                            <td class="positive">+2.8%</td>
-                            <td>50</td>
-                            <td class="positive">+5€</td>
-                        </tr>
+                    <tbody id="ranking-tbody">
+                        <!-- Hoteles renderizados por JS -->
                     </tbody>
                 </table>
             </div>
         </section>
 
-
-        <section id="caso-estudio" class="case-study">
-            <h2>Caso de Éxito: Temporada Alta en Sevilla</h2>
-            <div class="case-study-content">
-                <div class="case-study-stats">
-                    <div class="stat-card">
-                        <div class="stat-value">98%</div>
-                        <p>Ocupación durante el evento</p>
-                        <span class="trend positive">+15% vs año anterior</span>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">+32%</div>
-                        <p>Incremento en RevPAR</p>
-                        <span class="trend positive">Mayor rentabilidad</span>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">8.9</div>
-                        <p>Puntuación media</p>
-                        <span>Satisfacción cliente</span>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">85%</div>
-                        <p>Reservas directas</p>
-                        <span class="trend positive">+25% vs año anterior</span>
-                    </div>
-                </div>
-                <blockquote>
-                    "El sistema de análisis de demanda y precios nos ha permitido maximizar nuestros ingresos durante la temporada alta, manteniendo una posición competitiva en el mercado y mejorando significativamente nuestra rentabilidad."
-                    <cite>- Director de Revenue, Futurotel España</cite>
-                </blockquote>
+        <section class="events-section">
+            <h2>Eventos recientes</h2>
+            <form id="add-event-form" class="add-event-form">
+                <input type="date" name="fecha" required>
+                <input type="text" name="evento" placeholder="Nombre del evento" required>
+                <input type="text" name="descripcion" placeholder="Descripción">
+                <input type="text" name="tipo" placeholder="Tipo de evento" required>
+                <input type="number" name="asistentes" placeholder="Asistentes">
+                <input type="text" name="ciudad" placeholder="Ciudad" required>
+                <button type="submit">Añadir</button>
+            </form>
+            <div class="table-container">
+                <table id="events-table" class="futuristic-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Fecha</th>
+                            <th>Evento</th>
+                            <th>Descripción</th>
+                            <th>Tipo</th>
+                            <th>Asistentes</th>
+                            <th>Ciudad</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="events-tbody">
+                        <!-- Eventos renderizados por JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="chart-section">
+                <h3>Demanda de la Ciudad (últimos 30 días)</h3>
+                <canvas id="demand-chart"></canvas>
             </div>
         </section>
-
-        <section class="booking-ranking-section">
-            <h2>Ranking de Precios en Booking.com</h2>
-            <div class="booking-ranking-grid">
-                <div class="booking-ranking-card">
-                    <h3>Posición en el Mercado (Sevilla)</h3>
-                    <span class="booking-ranking-label">Comparativa de precios entre hoteles de categoría similar</span>
-                    <ol class="booking-ranking-list">
-                        <li class="booking-ranking-item gold">
-                            <span class="booking-ranking-pos">1</span>
-                            <span class="booking-ranking-hotel">Hotel Sevilla Premium</span>
-                            <span class="booking-ranking-score gold">9.2</span>
-                            <span class="booking-ranking-city">Sevilla</span>
-                            <span class="booking-ranking-price">175€</span>
-                            <span class="booking-ranking-tag best">Mejor precio</span>
-                        </li>
-                        <li class="booking-ranking-item silver">
-                            <span class="booking-ranking-pos">2</span>
-                            <span class="booking-ranking-hotel">Futurotel Centro</span>
-                            <span class="booking-ranking-score silver">8.9</span>
-                            <span class="booking-ranking-city">Sevilla</span>
-                            <span class="booking-ranking-price">125€</span>
-                            <span class="booking-ranking-tag comp">Precio competitivo</span>
-                        </li>
-                        <li class="booking-ranking-item bronze">
-                            <span class="booking-ranking-pos">3</span>
-                            <span class="booking-ranking-hotel">Hotel Royal Plaza</span>
-                            <span class="booking-ranking-score bronze">8.7</span>
-                            <span class="booking-ranking-city">Sevilla</span>
-                            <span class="booking-ranking-price">160€</span>
-                            <span class="booking-ranking-tag comp">Precio competitivo</span>
-                        </li>
-                        <li class="booking-ranking-item">
-                            <span class="booking-ranking-pos">4</span>
-                            <span class="booking-ranking-hotel">Futurotel Histórico</span>
-                            <span class="booking-ranking-score">8.5</span>
-                            <span class="booking-ranking-city">Sevilla</span>
-                            <span class="booking-ranking-price">145€</span>
-                            <span class="booking-ranking-tag std">Precio estándar</span>
-                        </li>
-                        <li class="booking-ranking-item">
-                            <span class="booking-ranking-pos">5</span>
-                            <span class="booking-ranking-hotel">Hotel Continental</span>
-                            <span class="booking-ranking-score">8.4</span>
-                            <span class="booking-ranking-city">Sevilla</span>
-                            <span class="booking-ranking-price">138€</span>
-                            <span class="booking-ranking-tag std">Precio estándar</span>
-                        </li>
-                    </ol>
-                    <p class="booking-ranking-desc">El análisis de precios en Booking.com muestra la posición competitiva de los hoteles Futurotel en relación a establecimientos similares en la misma ubicación.</p>
-                </div>
-                <div class="booking-ranking-card">
-                    <h3>Variación de Precios Semanal</h3>
-                    <span class="booking-ranking-label">Comparativa con la media de la competencia</span>
-                    <canvas id="weeklyPriceChart"></canvas>
-                    <div class="booking-factors">
-                        <h4>Factores Analizados</h4>
-                        <div class="booking-factor-row">
-                            <span>Festividades</span>
-                            <div class="booking-factor-bar"><div class="booking-factor-bar-fill high"></div></div>
-                            <span class="booking-factor-impact">Alto impacto</span>
-                        </div>
-                        <div class="booking-factor-row">
-                            <span>Ocupación</span>
-                            <div class="booking-factor-bar"><div class="booking-factor-bar-fill critical"></div></div>
-                            <span class="booking-factor-impact">Impacto crítico</span>
-                        </div>
-                        <div class="booking-factor-row">
-                            <span>Valoraciones</span>
-                            <div class="booking-factor-bar"><div class="booking-factor-bar-fill medium"></div></div>
-                            <span class="booking-factor-impact">Impacto medio</span>
-                        </div>
-                        <div class="booking-factor-row">
-                            <span>Competencia</span>
-                            <div class="booking-factor-bar"><div class="booking-factor-bar-fill high"></div></div>
-                            <span class="booking-factor-impact">Alto impacto</span>
-                        </div>
-                    </div>
-                </div>
+        <section class="map-section">
+            <h2>Mapa Interactivo de Hoteles</h2>
+            <div id="hotel-map" style="width:100%;height:450px;border-radius:18px;box-shadow:0 0 24px #00eaff55;"></div>
+        </section>
+        <section class="compare-section">
+            <h2>Comparativa de Hoteles</h2>
+            <div class="compare-graph-container">
+                <canvas id="compare-chart" style="max-width:700px;width:100%;height:340px;"></canvas>
             </div>
         </section>
-
-        
     </main>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Futurotel</h3>
-                <p>Optimizando la rentabilidad hotelera con análisis de datos en tiempo real.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Contacto</h3>
-                <p>Email: info@futurotel.com</p>
-                <p>Tel: +34 900 123 456</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Futurotel. Todos los derechos reservados.</p>
-        </div>
+    <footer class="futuristic-footer">
+        <span>&copy; 2025 Futurotel Insights. All rights reserved.</span>
     </footer>
-
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="app.js"></script>
 </body>
-</html> 
+</html>
