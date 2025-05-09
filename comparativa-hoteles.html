@@ -9,7 +9,7 @@
         html, body {
             margin: 0; padding: 0; height: 100%; width: 100%;
             overflow: hidden;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            background: #12232e;
         }
         body {
             min-height: 100vh;
@@ -37,7 +37,7 @@
         }
         .compare-title {
             position: absolute;
-            top: 3vh;
+            top: 0vh;
             left: 0; right: 0;
             text-align: center;
             color: #fff;
@@ -215,7 +215,15 @@
                 maintainAspectRatio: false,
                 layout: { padding: 60 },
                 plugins: {
-                    legend: { labels: { color: '#00eaff', font: { family: 'Orbitron', size: 18 } } },
+                    legend: {
+  position: 'bottom',
+  labels: {
+    color: '#00eaff',
+    font: { family: 'Orbitron', size: 18 },
+    boxWidth: 18,
+    padding: 12
+  }
+},
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -252,11 +260,39 @@
                     animateRotate: true,
                     animateScale: true,
                     onProgress: function(animation) {
-                        if (animation.currentStep === 1 && ctx) ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+                        //if (animation.currentStep === 1 && ctx) ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
                     }
                 }
             }
         });
+
+        // --- Animación eléctrica/futurista mejorada ---
+if(window.radarElectricInterval) clearInterval(window.radarElectricInterval);
+window.radarElectricInterval = setInterval(() => {
+    if (compareChart && compareChart.data && compareChart.data.datasets) {
+        compareChart.data.datasets.forEach(ds => {
+            // Número de puntos a mover por dataset en cada ciclo (1 o 2)
+            let puntosAMover = Math.random() < 0.7 ? 1 : 2;
+            let indices = [];
+            while (indices.length < puntosAMover) {
+                let idx = Math.floor(Math.random() * ds.data.length);
+                if (!indices.includes(idx)) indices.push(idx);
+            }
+            ds.data = ds.data.map((v, i) => {
+                if (indices.includes(i)) {
+                    let delta = (Math.random() - 0.5) * 3; // movimiento pequeño
+                    let nuevo = v + delta;
+                    if (nuevo > 100) nuevo = 100;
+                    if (nuevo < 0) nuevo = 0;
+                    return Math.round((v + (nuevo - v) * 0.35)*100)/100;
+                } else {
+                    return v;
+                }
+            });
+        });
+        compareChart.update('active');
+    }
+}, 5000);
     }
 
     // Redibuja la gráfica tras cada resize
