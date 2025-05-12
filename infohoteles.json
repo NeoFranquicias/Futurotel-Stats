@@ -1,0 +1,102 @@
+[
+  {
+    "posicion": 1,
+    "nombre": "Cambrils Paradise",
+    "ciudad": "Cambrils",
+    "categoria": "3",
+    "tipo": "hotel",
+    "ocupacion": "84%",
+    "ingresos": "550.376 €",
+    "satisfaccion": "87 / 100"
+  },
+  {
+    "posicion": 2,
+    "nombre": "Futurotel Granada Dreams",
+    "ciudad": "Granada",
+    "categoria": "4",
+    "tipo": "hotel",
+    "ocupacion": "79%",
+    "ingresos": "519.862 €",
+    "satisfaccion": "93 / 100"
+  },
+  {
+    "posicion": 3,
+    "nombre": "Futurotel Spa Garden",
+    "ciudad": "Granada",
+    "categoria": "spa",
+    "tipo": "spa",
+    "ocupacion": "78%",
+    "ingresos": "503.236 €",
+    "satisfaccion": "90 / 100"
+  },
+  {
+    "posicion": 4,
+    "nombre": "Hotel Parquemar",
+    "ciudad": "Guardamar",
+    "categoria": "4",
+    "tipo": "hotel",
+    "ocupacion": "77%",
+    "ingresos": "507.972 €",
+    "satisfaccion": "92 / 100"
+  },
+  {
+    "posicion": 5,
+    "nombre": "Apartamentos Royal Urban Granada",
+    "ciudad": "Granada",
+    "categoria": "apartamento",
+    "tipo": "apartamento",
+    "ocupacion": "76%",
+    "ingresos": "508.791 €",
+    "satisfaccion": "87 / 100"
+  },
+  {
+    "posicion": 6,
+    "nombre": "Futurotel Malagueta Beach",
+    "ciudad": "Malaga",
+    "categoria": "4",
+    "tipo": "hotel",
+    "ocupacion": "68%",
+    "ingresos": "455.611 €",
+    "satisfaccion": "89 / 100"
+  },
+  {
+    "posicion": 7,
+    "nombre": "Apartamentos Comfort City",
+    "ciudad": "Granada",
+    "categoria": "apartamento",
+    "tipo": "apartamento",
+    "ocupacion": "68%",
+    "ingresos": "440.382 €",
+    "satisfaccion": "91 / 100"
+  },
+  {
+    "posicion": 8,
+    "nombre": "Sevilla Space",
+    "ciudad": "Sevilla",
+    "categoria": "4",
+    "tipo": "hotel",
+    "ocupacion": "67%",
+    "ingresos": "449.952 €",
+    "satisfaccion": "90 / 100"
+  },
+  {
+    "posicion": 9,
+    "nombre": "Torre Hogar",
+    "ciudad": "Madrid",
+    "categoria": "4",
+    "tipo": "hotel",
+    "ocupacion": "66%",
+    "ingresos": "436.614 €",
+    "satisfaccion": "86 / 100"
+  },
+  {
+    "posicion": 10,
+    "nombre": "Aparthotel Carrio Sol",
+    "ciudad": "Calpe",
+    "categoria": "aparthotel",
+    "tipo": "aparthotel",
+    "ocupacion": "66%",
+    "ingresos": "432.896 €",
+    "satisfaccion": "87 / 100"
+  }
+] 

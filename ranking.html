@@ -149,7 +149,7 @@
     <div class="ranking-title">Ranking de hoteles Futurotel</div>
     <br><br>
     <div class="ranking-table-container" style="width: 100%; max-width: 1500px;">
-        <table class="ranking-table" style="font-size: 1rem;">
+        <table class="ranking-table" style="font-size: 1rem; z-index: 9999;">
             <thead>
                 <tr>
                     <th>Posición</th>
@@ -162,109 +162,35 @@
                     <th>Satisfacción</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="top1">
-                    <td class="medal">🥇</td>
-                    <td>Cambrils Paradise</td>
-                    <td>Cambrils</td>
-                    <td>3</td>
-                    <td>hotel</td>
-                    <td>84%</td>
-                    <td>550.376&nbsp;€</td>
-                    <td>87 / 100</td>
-                </tr>
-                <tr class="top2">
-                    <td class="medal">🥈</td>
-                    <td>Futurotel Granada Dreams</td>
-                    <td>Granada</td>
-                    <td>4</td>
-                    <td>hotel</td>
-                    <td>79%</td>
-                    <td>519.862&nbsp;€</td>
-                    <td>93 / 100</td>
-                </tr>
-                <tr class="top3">
-                    <td class="medal">🥉</td>
-                    <td>Futurotel Spa Garden</td>
-                    <td>Granada</td>
-                    <td>spa</td>
-                    <td>spa</td>
-                    <td>78%</td>
-                    <td>503.236&nbsp;€</td>
-                    <td>90 / 100</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Hotel Parquemar</td>
-                    <td>Guardamar</td>
-                    <td>4</td>
-                    <td>hotel</td>
-                    <td>77%</td>
-                    <td>507.972&nbsp;€</td>
-                    <td>92 / 100</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Apartamentos Royal Urban Granada</td>
-                    <td>Granada</td>
-                    <td>apartamento</td>
-                    <td>apartamento</td>
-                    <td>76%</td>
-                    <td>508.791&nbsp;€</td>
-                    <td>87 / 100</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Futurotel Malagueta Beach</td>
-                    <td>Malaga</td>
-                    <td>4</td>
-                    <td>hotel</td>
-                    <td>68%</td>
-                    <td>455.611&nbsp;€</td>
-                    <td>89 / 100</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Apartamentos Comfort City</td>
-                    <td>Granada</td>
-                    <td>apartamento</td>
-                    <td>apartamento</td>
-                    <td>68%</td>
-                    <td>440.382&nbsp;€</td>
-                    <td>91 / 100</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Sevilla Space</td>
-                    <td>Sevilla</td>
-                    <td>4</td>
-                    <td>hotel</td>
-                    <td>67%</td>
-                    <td>449.952&nbsp;€</td>
-                    <td>90 / 100</td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>Torre Hogar</td>
-                    <td>Madrid</td>
-                    <td>4</td>
-                    <td>hotel</td>
-                    <td>66%</td>
-                    <td>436.614&nbsp;€</td>
-                    <td>86 / 100</td>
-                </tr>
-                <tr>
-                    <td>10</td>
-                    <td>Aparthotel Carrio Sol</td>
-                    <td>Calpe</td>
-                    <td>aparthotel</td>
-                    <td>aparthotel</td>
-                    <td>66%</td>
-                    <td>432.896&nbsp;€</td>
-                    <td>87 / 100</td>
-                </tr>
-            </tbody>
+            <tbody id="ranking-tbody"></tbody>
         </table>
     </div>
+    <script src="particles-bg.js"></script>
+    <script>
+    fetch('infohoteles.json')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById('ranking-tbody');
+        tbody.innerHTML = '';
+        data.forEach(hotel => {
+          let clase = '';
+          if(hotel.posicion === 1) clase = 'top1';
+          else if(hotel.posicion === 2) clase = 'top2';
+          else if(hotel.posicion === 3) clase = 'top3';
+          tbody.innerHTML += `
+            <tr class="${clase}">
+              <td class="medal">${hotel.posicion === 1 ? '🥇' : hotel.posicion === 2 ? '🥈' : hotel.posicion === 3 ? '🥉' : hotel.posicion}</td>
+              <td>${hotel.nombre}</td>
+              <td>${hotel.ciudad}</td>
+              <td>${hotel.categoria}</td>
+              <td>${hotel.tipo}</td>
+              <td>${hotel.ocupacion}</td>
+              <td>${hotel.ingresos}</td>
+              <td>${hotel.satisfaccion}</td>
+            </tr>
+          `;
+        });
+      });
+    </script>
 </body>
 </html>
