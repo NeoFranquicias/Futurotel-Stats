@@ -18,22 +18,37 @@
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #e0f7fa;
       min-height: 100vh;
-      display: flex; /* Habilita flexbox */
-      justify-content: center; /* Centra horizontalmente */
-      align-items: center; /* Centra verticalmente */
+      min-width: 100vw;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
     }
     main {
-      padding: 50px;
-      height: 100%;
-      max-width: 1400px;
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      min-width: 100vw;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
     }
-
     .dashboard-section {
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      min-width: 100vw;
       background: rgba(15, 32, 55, 0.92);
-      border-radius: 18px;
-      padding: 32px 28px 38px 28px;
+      border-radius: 0;
+      padding: 0;
       box-shadow: 0 0 70px 10px #00eaff33, 0 0 8px #0ff4f8;
       animation: fadein 1.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 7vh;
     }
     .dashboard-section h2 {
       color: #00eaff;
@@ -45,26 +60,75 @@
     .kpi-cards {
       display: flex;
       flex-wrap: wrap;
-      gap: 30px;
-      justify-content: space-between;
+      gap: 3vw;
+      justify-content: center;
+      align-items: stretch;
+      width: 90vw;
+      margin: 0 auto 2vh auto;
+      height: 28vh;
+      max-width: 1800px;
     }
     .kpi-card {
       background: linear-gradient(135deg, #142850cc 60%, #203a43cc 100%);
-      border: 1.5px solid #00eaff88;
-      border-radius: 16px;
-      box-shadow: 0 0 24px #00eaff33;
-      padding: 26px 20px 18px 20px;
-      min-width: 180px;
-      flex: 1 1 220px;
+      border: 2.5px solid #00eaff88;
+      border-radius: 22px;
+      box-shadow: 0 0 32px #00eaff33;
+      padding: 3.5vh 2vw 2vh 2vw;
+      min-width: 270px;
+      min-height: 22vh;
+      flex: 1 1 18vw;
+      max-width: 20vw;
+      max-height: 32vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       transition: transform 0.3s, box-shadow 0.3s;
       position: relative;
       overflow: hidden;
       cursor: pointer;
       animation: kpi-pop 1.1s;
+      font-size: 2.2rem;
     }
+    .kpi-title { font-size: 3rem; letter-spacing: 0.04em; margin-bottom: 0.2em; }
+    .kpi-value {
+      font-size: 5rem;
+      margin: 0.25em 0 0.18em 0;
+      letter-spacing: 0.03em;
+      color: #fff;
+      text-shadow: 0 0 18px #00eaff, 0 0 32px #0ff4f8;
+      animation: glow-pulse 2.2s infinite alternate;
+      display: inline-block;
+      perspective: 200px;
+      transition: color 0.2s;
+    }
+    .flip {
+      animation: flipY 0.6s cubic-bezier(.4,2,.6,1) both;
+    }
+    @keyframes flipY {
+      0% {
+        transform: rotateX(0deg);
+      }
+      50% {
+        transform: rotateX(90deg);
+        color: #fff;
+        text-shadow: 0 0 32px #fff;
+      }
+      100% {
+        transform: rotateX(0deg);
+      }
+    }
+    @keyframes glow-pulse {
+      0% {
+        text-shadow: 0 0 18px #00eaff, 0 0 32px #0ff4f8;
+        color: #fff;
+      }
+      100% {
+        text-shadow: 0 0 32px #00eaff, 0 0 48px #0ff4f8, 0 0 8px #fff;
+        color: #fff;
+      }
+    }
+
     .kpi-card:hover {
       transform: translateY(-6px) scale(1.03);
       box-shadow: 0 0 40px #00eaff77, 0 0 16px #0ff4f8;
@@ -80,14 +144,14 @@
       }
     }
     .kpi-title {
-      font-size: 1.1rem;
+      font-size: 2rem;
       color: #00eaff;
       margin-bottom: 8px;
       letter-spacing: 0.07em;
       text-shadow: 0 0 8px #00eaff77;
     }
     .kpi-value {
-      font-size: 2.1rem;
+      font-size: 2.5rem;
       font-weight: bold;
       color: #fff;
       margin-bottom: 8px;
@@ -95,8 +159,8 @@
       transition: color 0.3s;
     }
     .sparkline {
-      width: 100px !important;
-      height: 32px !important;
+      width: 150px !important;
+      height: 60px !important;
       margin-top: 2px;
       background: transparent;
       display: block;
@@ -149,128 +213,172 @@
           </div>
         </div>
       </section>
-
-      <section class="ranking-section" hidden>
-        <h2>Ranking de Hoteles</h2>
-        <div class="ranking-filters">
-          <select id="filter-ciudad">
-            <option value="">Todas las ciudades</option>
-            <option value="Guardamar">Guardamar</option>
-            <option value="Calpe">Calpe</option>
-            <option value="Malaga">Malaga</option>
-            <option value="Granada">Granada</option>
-            <option value="Cambrils">Cambrils</option>
-            <option value="Sevilla">Sevilla</option>
-            <option value="Madrid">Madrid</option>
-          </select>
-          <select id="filter-categoria">
-            <option value="">Todas las categorías</option>
-            <option value="4">4 estrellas</option>
-            <option value="3">3 estrellas</option>
-            <option value="aparthotel">Aparthotel</option>
-            <option value="apartamento">Apartamento</option>
-            <option value="spa">Spa</option>
-          </select>
-          <select id="filter-tipo">
-            <option value="">Todos los tipos</option>
-            <option value="hotel">Hotel</option>
-            <option value="apartamento">Apartamento</option>
-            <option value="aparthotel">Aparthotel</option>
-            <option value="spa">Spa</option>
-          </select>
-        </div>
-        <div class="ranking-table-container">
-          <table class="ranking-table">
-            <thead>
-              <tr>
-                <th>Posición</th>
-                <th>Hotel</th>
-                <th>Ciudad</th>
-                <th>Categoría</th>
-                <th>Tipo</th>
-                <th>Ocupación</th>
-                <th>Ingresos</th>
-                <th>Satisfacción</th>
-              </tr>
-            </thead>
-            <tbody id="ranking-tbody">
-              <!-- Hoteles renderizados por JS -->
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="events-section" hidden>
-        <h2>Eventos recientes</h2>
-        <form id="add-event-form" class="add-event-form">
-          <input type="date" name="fecha" required />
-          <input
-            type="text"
-            name="evento"
-            placeholder="Nombre del evento"
-            required
-          />
-          <input type="text" name="descripcion" placeholder="Descripción" />
-          <input
-            type="text"
-            name="tipo"
-            placeholder="Tipo de evento"
-            required
-          />
-          <input type="number" name="asistentes" placeholder="Asistentes" />
-          <input type="text" name="ciudad" placeholder="Ciudad" required />
-          <button type="submit">Añadir</button>
-        </form>
-        <div class="table-container">
-          <table id="events-table" class="futuristic-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Fecha</th>
-                <th>Evento</th>
-                <th>Descripción</th>
-                <th>Tipo</th>
-                <th>Asistentes</th>
-                <th>Ciudad</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody id="events-tbody">
-              <!-- Eventos renderizados por JS -->
-            </tbody>
-          </table>
-        </div>
-        <div class="chart-section">
-          <h3>Demanda de la Ciudad (últimos 30 días)</h3>
-          <canvas id="demand-chart"></canvas>
-        </div>
-      </section>
-      <section class="map-section" hidden>
-        <h2>Mapa Interactivo de Hoteles</h2>
-        <div
-          id="hotel-map"
-          style="
-            width: 100%;
-            height: 450px;
-            border-radius: 18px;
-            box-shadow: 0 0 24px #00eaff55;
-          "
-        ></div>
-      </section>
-      <section class="compare-section" hidden>
-        <h2>Comparativa de Hoteles</h2>
-        <div class="compare-graph-container">
-          <canvas
-            id="compare-chart"
-            style="max-width: 700px; width: 100%; height: 340px"
-          ></canvas>
-        </div>
-      </section>
     </main>
     <footer class="futuristic-footer" hidden>
       <span>&copy; 2025 Futurotel Insights. All rights reserved.</span>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Configuración de KPIs (solo metadatos, no valores)
+      const kpiTargets = {
+        'kpi-ocupacion': { suffix: '%', decimals: 0 },
+        'kpi-ingresos': { suffix: ' €', decimals: 0, thousand: true },
+        'kpi-adr': { suffix: ' €', decimals: 0 },
+        'kpi-revpar': { suffix: ' €', decimals: 0 },
+        'kpi-reservas': { suffix: '', decimals: 0, thousand: true },
+        'kpi-cancelaciones': { suffix: '', decimals: 0, thousand: true }
+      };
+      // Sparkline data y charts
+      const sparkData = {};
+      const sparkCharts = {};
+      const SPARK_LENGTH = 20;
+      let kpiValues = {};
+      // Inicializa con valores por defecto
+      Object.keys(kpiTargets).forEach(id => {
+        kpiValues[id] = 0;
+        sparkData[id] = Array(SPARK_LENGTH).fill(0);
+      });
+
+      function createSparkline(id) {
+        const ctx = document.getElementById('spark-' + id.split('-')[1]).getContext('2d');
+        sparkCharts[id] = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: Array(SPARK_LENGTH).fill(''),
+            datasets: [{
+              data: sparkData[id],
+              borderColor: '#00eaff',
+              backgroundColor: 'rgba(0,234,255,0.08)',
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.4,
+              fill: true,
+            }]
+          },
+          options: {
+            responsive: false,
+            animation: { duration: 400 },
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            scales: {
+              x: { display: false },
+              y: { display: false }
+            }
+          }
+        });
+      }
+      function updateSparkline(id, newValue) {
+        sparkData[id].push(newValue);
+        if (sparkData[id].length > SPARK_LENGTH) sparkData[id].shift();
+        const chart = sparkCharts[id];
+        if (chart) {
+          chart.data.datasets[0].data = sparkData[id];
+          chart.update();
+        }
+      }
+      function animateKPI(id, target, duration = 1700) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let start = 0;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          let current = start + (target.value - start) * progress;
+          if (target.decimals === 0) current = Math.round(current);
+          else current = current.toFixed(target.decimals);
+          let text = current;
+          if (target.thousand) text = current.toLocaleString('es-ES');
+          el.textContent = text + target.suffix;
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            // Asegura valor final exacto
+            let finalText = target.value;
+            if (target.thousand) finalText = target.value.toLocaleString('es-ES');
+            el.textContent = finalText + target.suffix;
+            updateSparkline(id, target.value);
+          }
+        };
+        window.requestAnimationFrame(step);
+      }
+      window.addEventListener('DOMContentLoaded', () => {
+        // Carga datos desde JSON
+        fetch('kpis.json')
+          .then(resp => resp.json())
+          .then(data => {
+            // Mapear datos del JSON a los KPIs y sparklines
+            Object.entries(kpiTargets).forEach(([id, meta]) => {
+              const clave = id.replace('kpi-', '');
+              if (data[clave]) {
+                kpiValues[id] = data[clave].actual;
+                sparkData[id] = Array.isArray(data[clave].historial) && data[clave].historial.length
+                  ? data[clave].historial.slice(-SPARK_LENGTH)
+                  : Array(SPARK_LENGTH).fill(data[clave].actual);
+                // Ajusta longitud
+                while (sparkData[id].length < SPARK_LENGTH) sparkData[id].unshift(data[clave].actual);
+              } else {
+                // fallback
+                kpiValues[id] = 0;
+                sparkData[id] = Array(SPARK_LENGTH).fill(0);
+              }
+            });
+          })
+          .catch(() => {
+            // Si falla, usar valores por defecto
+            Object.keys(kpiTargets).forEach(id => {
+              kpiValues[id] = 0;
+              sparkData[id] = Array(SPARK_LENGTH).fill(0);
+            });
+          })
+          .finally(() => {
+            // Inicializa sparklines y valores
+            Object.keys(kpiTargets).forEach(id => createSparkline(id));
+            Object.entries(kpiTargets).forEach(([id, target]) => {
+              animateKPI(id, { ...target, value: kpiValues[id] });
+            });
+
+            // Simulación de movimiento cada 5s
+            setInterval(() => {
+              const kpiIds = Object.keys(kpiTargets);
+              const shuffled = kpiIds.sort(() => 0.5 - Math.random());
+              const numToChange = Math.random() < 0.5 ? 1 : 2;
+              const selected = shuffled.slice(0, numToChange);
+              selected.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const base = kpiValues[id];
+                let delta = 0;
+                if (base > 1000000) delta = Math.floor((Math.random() - 0.5) * 60000);
+                else if (base > 10000) delta = Math.floor((Math.random() - 0.5) * 600);
+                else if (base > 1000) delta = Math.floor((Math.random() - 0.5) * 50);
+                else if (base > 100) delta = Math.floor((Math.random() - 0.5) * 6);
+                else if (id === 'kpi-ocupacion') delta = (Math.random() - 0.5) * 2;
+                else delta = (Math.random() - 0.5) * 2;
+                let nuevo = base + delta;
+                if (kpiTargets[id].decimals === 0) nuevo = Math.round(nuevo);
+                else nuevo = nuevo.toFixed(kpiTargets[id].decimals);
+                let texto = nuevo;
+                if (kpiTargets[id].thousand) texto = nuevo.toLocaleString('es-ES');
+                texto += kpiTargets[id].suffix;
+                el.classList.remove('flip');
+                void el.offsetWidth;
+                el.classList.add('flip');
+                el.textContent = texto;
+                updateSparkline(id, nuevo);
+                setTimeout(() => {
+                  el.classList.remove('flip');
+                  void el.offsetWidth;
+                  el.classList.add('flip');
+                  let finalText = kpiValues[id];
+                  if (kpiTargets[id].thousand) finalText = kpiValues[id].toLocaleString('es-ES');
+                  el.textContent = finalText + kpiTargets[id].suffix;
+                  updateSparkline(id, kpiValues[id]);
+                }, 2500);
+              });
+            }, 5000);
+          });
+      });
+    </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="app.js"></script>
