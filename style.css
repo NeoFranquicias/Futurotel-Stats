@@ -505,20 +505,29 @@ main {
 }
 
 .real-time-prices-section h2 {
+  position: relative; /* Asegura que el z-index funcione */
+  z-index: 2; /* Coloca el contenedor de la tabla por encima */
+
   font-size: 2.5rem; /* Aumenta el tamaño del título */
   margin-bottom: 20px; /* Aumenta el margen inferior */
 }
 
 .prices-table-container {
+  position: relative; /* Asegura que el z-index funcione */
+
   overflow-x: auto;
+  z-index: 2; /* Coloca el contenedor de la tabla por encima */
 }
 
 .prices-table {
+  position: relative; /* Asegura que el z-index funcione */
+
   width: 100%;
   border-collapse: collapse;
   color: #fff;
   font-family: "Orbitron", sans-serif;
   font-size: 1.2rem; /* Aumenta el tamaño de la fuente */
+  z-index: 3; /* Coloca la tabla por encima de todo */
 }
 
 .prices-table th,
