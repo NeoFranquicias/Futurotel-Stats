@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de hoteles Futurotel</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(180deg, #0a233a 0%, #112d44 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Orbitron', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .ranking-title {
+            text-align: center;
+            color: #00eaff;
+            font-size: 1.35rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-top: 1.1rem;
+            margin-bottom: 1.1rem;
+            text-shadow: 0 0 8px #00eaff99;
+            letter-spacing: 1px;
+        }
+        .ranking-table-container {
+            width: 98vw;
+            max-width: 1500px;
+            min-width: 320px;
+            margin: 0 auto;
+            background: rgba(10, 30, 60, 0.92);
+            border-radius: 12px;
+            box-shadow: 0 0 14px #00eaff33;
+            padding: 0.2rem 0.2rem 0.6rem 0.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+            color: #fff;
+            background: none;
+        }
+        .ranking-table th, .ranking-table td {
+            padding: 1.1rem 0.3rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .ranking-table th {
+            color: #00eaff;
+            font-size: 0.90em;
+            background: rgba(0, 234, 255, 0.13);
+            font-weight: 700;
+            border-bottom: 2px solid #00eaff55;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 4px #00eaff55;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Glow y scan azul en encabezado */
+        .ranking-table th::after {
+            content: '';
+            position: absolute;
+            left: -60%;
+            top: 0; bottom: 0;
+            width: 60%;
+            background: linear-gradient(90deg, transparent, #00eaff33 60%, transparent 100%);
+            animation: scan 2.8s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes scan {
+            0% { left: -60%; }
+            100% { left: 100%; }
+        }
+        .ranking-table td {
+            border-bottom: 1px solid #00eaff22;
+        }
+        .ranking-table tr:last-child td {
+            border-bottom: none;
+        }
+        .medal {
+            font-size: 1em;
+        }
+        /* Fade-in y slide suave para filas */
+        .ranking-table tbody tr {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInRow 0.7s cubic-bezier(.61,.01,.45,1.3) forwards;
+        }
+        .ranking-table tbody tr:nth-child(1) { animation-delay: 0.10s; }
+        .ranking-table tbody tr:nth-child(2) { animation-delay: 0.18s; }
+        .ranking-table tbody tr:nth-child(3) { animation-delay: 0.26s; }
+        .ranking-table tbody tr:nth-child(4) { animation-delay: 0.34s; }
+        .ranking-table tbody tr:nth-child(5) { animation-delay: 0.42s; }
+        .ranking-table tbody tr:nth-child(6) { animation-delay: 0.50s; }
+        .ranking-table tbody tr:nth-child(7) { animation-delay: 0.58s; }
+        .ranking-table tbody tr:nth-child(8) { animation-delay: 0.66s; }
+        .ranking-table tbody tr:nth-child(9) { animation-delay: 0.74s; }
+        .ranking-table tbody tr:nth-child(10) { animation-delay: 0.82s; }
+        @keyframes fadeInRow {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: none;
+            }
+        }
+        /* Top 3: glow de color y subrayado animado */
+        .ranking-table tbody tr.top1 td {
+            box-shadow: 0 2px 0 #FFD700 inset;
+            position: relative;
+            animation: goldGlow 2.2s infinite alternate;
+        }
+        .ranking-table tbody tr.top2 td {
+            box-shadow: 0 2px 0 #C0C0C0 inset;
+            position: relative;
+            animation: silverGlow 2.2s infinite alternate;
+        }
+        .ranking-table tbody tr.top3 td {
+            box-shadow: 0 2px 0 #cd7f32 inset;
+            position: relative;
+            animation: bronzeGlow 2.2s infinite alternate;
+        }
+        @keyframes goldGlow {
+            0% { box-shadow: 0 2px 0 #FFD70055 inset; }
+            100% { box-shadow: 0 2px 8px #FFD70099 inset; }
+        }
+        @keyframes silverGlow {
+            0% { box-shadow: 0 2px 0 #C0C0C055 inset; }
+            100% { box-shadow: 0 2px 8px #C0C0C099 inset; }
+        }
+        @keyframes bronzeGlow {
+            0% { box-shadow: 0 2px 0 #cd7f3255 inset; }
+            100% { box-shadow: 0 2px 8px #cd7f3299 inset; }
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <div class="ranking-title">Ranking de hoteles Futurotel</div>
+    <br><br>
+    <div class="ranking-table-container" style="width: 100%; max-width: 1500px;">
+        <table class="ranking-table" style="font-size: 1rem;">
+            <thead>
+                <tr>
+                    <th>Posición</th>
+                    <th>Hotel</th>
+                    <th>Ciudad</th>
+                    <th>Categoría</th>
+                    <th>Tipo</th>
+                    <th>Ocupación</th>
+                    <th>Ingresos</th>
+                    <th>Satisfacción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="top1">
+                    <td class="medal">🥇</td>
+                    <td>Cambrils Paradise</td>
+                    <td>Cambrils</td>
+                    <td>3</td>
+                    <td>hotel</td>
+                    <td>84%</td>
+                    <td>550.376&nbsp;€</td>
+                    <td>87 / 100</td>
+                </tr>
+                <tr class="top2">
+                    <td class="medal">🥈</td>
+                    <td>Futurotel Granada Dreams</td>
+                    <td>Granada</td>
+                    <td>4</td>
+                    <td>hotel</td>
+                    <td>79%</td>
+                    <td>519.862&nbsp;€</td>
+                    <td>93 / 100</td>
+                </tr>
+                <tr class="top3">
+                    <td class="medal">🥉</td>
+                    <td>Futurotel Spa Garden</td>
+                    <td>Granada</td>
+                    <td>spa</td>
+                    <td>spa</td>
+                    <td>78%</td>
+                    <td>503.236&nbsp;€</td>
+                    <td>90 / 100</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Hotel Parquemar</td>
+                    <td>Guardamar</td>
+                    <td>4</td>
+                    <td>hotel</td>
+                    <td>77%</td>
+                    <td>507.972&nbsp;€</td>
+                    <td>92 / 100</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Apartamentos Royal Urban Granada</td>
+                    <td>Granada</td>
+                    <td>apartamento</td>
+                    <td>apartamento</td>
+                    <td>76%</td>
+                    <td>508.791&nbsp;€</td>
+                    <td>87 / 100</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Futurotel Malagueta Beach</td>
+                    <td>Malaga</td>
+                    <td>4</td>
+                    <td>hotel</td>
+                    <td>68%</td>
+                    <td>455.611&nbsp;€</td>
+                    <td>89 / 100</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Apartamentos Comfort City</td>
+                    <td>Granada</td>
+                    <td>apartamento</td>
+                    <td>apartamento</td>
+                    <td>68%</td>
+                    <td>440.382&nbsp;€</td>
+                    <td>91 / 100</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Sevilla Space</td>
+                    <td>Sevilla</td>
+                    <td>4</td>
+                    <td>hotel</td>
+                    <td>67%</td>
+                    <td>449.952&nbsp;€</td>
+                    <td>90 / 100</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Torre Hogar</td>
+                    <td>Madrid</td>
+                    <td>4</td>
+                    <td>hotel</td>
+                    <td>66%</td>
+                    <td>436.614&nbsp;€</td>
+                    <td>86 / 100</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Aparthotel Carrio Sol</td>
+                    <td>Calpe</td>
+                    <td>aparthotel</td>
+                    <td>aparthotel</td>
+                    <td>66%</td>
+                    <td>432.896&nbsp;€</td>
+                    <td>87 / 100</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
