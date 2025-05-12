@@ -1,158 +1,181 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Futurotel Stats</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-</head>
-<body>
+  </head>
+  <body>
     <header class="futuristic-header">
-        <div class="logo-glow">Futurotel <span>Stats</span></div>
+      <div class="logo-glow">Futurotel <span>Stats</span></div>
     </header>
     <main>
-        <section class="dashboard-section">
+      <section class="dashboard-section">
+        <h2>Panel General</h2>
+        <div class="kpi-cards">
+          <div class="kpi-card">
+            <span class="kpi-title">Ocupación Media</span>
+            <span class="kpi-value" id="kpi-ocupacion">--%</span>
+            <canvas class="sparkline" id="spark-ocupacion"></canvas>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Ingresos</span>
+            <span class="kpi-value" id="kpi-ingresos">-- €</span>
+            <canvas class="sparkline" id="spark-ingresos"></canvas>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">ADR</span>
+            <span class="kpi-value" id="kpi-adr">-- €</span>
+            <canvas class="sparkline" id="spark-adr"></canvas>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">RevPAR</span>
+            <span class="kpi-value" id="kpi-revpar">-- €</span>
+            <canvas class="sparkline" id="spark-revpar"></canvas>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Reservas</span>
+            <span class="kpi-value" id="kpi-reservas">--</span>
+            <canvas class="sparkline" id="spark-reservas"></canvas>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-title">Cancelaciones</span>
+            <span class="kpi-value" id="kpi-cancelaciones">--</span>
+            <canvas class="sparkline" id="spark-cancelaciones"></canvas>
+          </div>
+        </div>
+      </section>
 
-            <h2>Panel General</h2>
-            <div class="kpi-cards">
-                <div class="kpi-card">
-                    <span class="kpi-title">Ocupación Media</span>
-                    <span class="kpi-value" id="kpi-ocupacion">--%</span>
-                    <canvas class="sparkline" id="spark-ocupacion"></canvas>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">Ingresos</span>
-                    <span class="kpi-value" id="kpi-ingresos">-- €</span>
-                    <canvas class="sparkline" id="spark-ingresos"></canvas>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">ADR</span>
-                    <span class="kpi-value" id="kpi-adr">-- €</span>
-                    <canvas class="sparkline" id="spark-adr"></canvas>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">RevPAR</span>
-                    <span class="kpi-value" id="kpi-revpar">-- €</span>
-                    <canvas class="sparkline" id="spark-revpar"></canvas>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">Reservas</span>
-                    <span class="kpi-value" id="kpi-reservas">--</span>
-                    <canvas class="sparkline" id="spark-reservas"></canvas>
-                </div>
-                <div class="kpi-card">
-                    <span class="kpi-title">Cancelaciones</span>
-                    <span class="kpi-value" id="kpi-cancelaciones">--</span>
-                    <canvas class="sparkline" id="spark-cancelaciones"></canvas>
-                </div>
-            </div>
-        </section>
-        
-        <section class="ranking-section">
-            <h2>Ranking de Hoteles</h2>
-            <div class="ranking-filters">
-               
-                    <option value="">Todas las ciudades</option>
-                    <option value="Guardamar">Guardamar</option>
-                    <option value="Calpe">Calpe</option>
-                    <option value="Malaga">Malaga</option>
-                    <option value="Granada">Granada</option>
-                    <option value="Cambrils">Cambrils</option>
-                    <option value="Sevilla">Sevilla</option>
-                    <option value="Madrid">Madrid</option>
-                
-                <select id="filter-categoria">
-                    <option value="">Todas las categorías</option>
-                    <option value="4">4 estrellas</option>
-                    <option value="3">3 estrellas</option>
-                    <option value="aparthotel">Aparthotel</option>
-                    <option value="apartamento">Apartamento</option>
-                    <option value="spa">Spa</option>
-                </select>
-                <select id="filter-tipo">
-                    <option value="">Todos los tipos</option>
-                    <option value="hotel">Hotel</option>
-                    <option value="apartamento">Apartamento</option>
-                    <option value="aparthotel">Aparthotel</option>
-                    <option value="spa">Spa</option>
-                </select>
-            </div>
-            <div class="ranking-table-container">
-                <table class="ranking-table">
-                    <thead>
-                        <tr>
-                            <th>Posición</th>
-                            <th>Hotel</th>
-                            <th>Ciudad</th>
-                            <th>Categoría</th>
-                            <th>Tipo</th>
-                            <th>Ocupación</th>
-                            <th>Ingresos</th>
-                            <th>Satisfacción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ranking-tbody">
-                        <!-- Hoteles renderizados por JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
+      <section class="ranking-section">
+        <h2>Ranking de Hoteles</h2>
+        <div class="ranking-filters">
+          <select id="filter-ciudad">
+            <option value="">Todas las ciudades</option>
+            <option value="Guardamar">Guardamar</option>
+            <option value="Calpe">Calpe</option>
+            <option value="Malaga">Malaga</option>
+            <option value="Granada">Granada</option>
+            <option value="Cambrils">Cambrils</option>
+            <option value="Sevilla">Sevilla</option>
+            <option value="Madrid">Madrid</option>
+          </select>
+          <select id="filter-categoria">
+            <option value="">Todas las categorías</option>
+            <option value="4">4 estrellas</option>
+            <option value="3">3 estrellas</option>
+            <option value="aparthotel">Aparthotel</option>
+            <option value="apartamento">Apartamento</option>
+            <option value="spa">Spa</option>
+          </select>
+          <select id="filter-tipo">
+            <option value="">Todos los tipos</option>
+            <option value="hotel">Hotel</option>
+            <option value="apartamento">Apartamento</option>
+            <option value="aparthotel">Aparthotel</option>
+            <option value="spa">Spa</option>
+          </select>
+        </div>
+        <div class="ranking-table-container">
+          <table class="ranking-table">
+            <thead>
+              <tr>
+                <th>Posición</th>
+                <th>Hotel</th>
+                <th>Ciudad</th>
+                <th>Categoría</th>
+                <th>Tipo</th>
+                <th>Ocupación</th>
+                <th>Ingresos</th>
+                <th>Satisfacción</th>
+              </tr>
+            </thead>
+            <tbody id="ranking-tbody">
+              <!-- Hoteles renderizados por JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-        <section class="events-section">
-            <h2>Eventos recientes</h2>
-            <form id="add-event-form" class="add-event-form">
-                <input type="date" name="fecha" required>
-                <input type="text" name="evento" placeholder="Nombre del evento" required>
-                <input type="text" name="descripcion" placeholder="Descripción">
-                <input type="text" name="tipo" placeholder="Tipo de evento" required>
-                <input type="number" name="asistentes" placeholder="Asistentes">
-                <input type="text" name="ciudad" placeholder="Ciudad" required>
-                <button type="submit">Añadir</button>
-            </form>
-            <div class="table-container">
-                <table id="events-table" class="futuristic-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Fecha</th>
-                            <th>Evento</th>
-                            <th>Descripción</th>
-                            <th>Tipo</th>
-                            <th>Asistentes</th>
-                            <th>Ciudad</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="events-tbody">
-                        <!-- Eventos renderizados por JS -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="chart-section">
-                <h3>Demanda de la Ciudad (últimos 30 días)</h3>
-                <canvas id="demand-chart"></canvas>
-            </div>
-        </section>
-        <section class="map-section">
-            <h2>Mapa Interactivo de Hoteles</h2>
-            <div id="hotel-map" style="width:100%;height:450px;border-radius:18px;box-shadow:0 0 24px #00eaff55;"></div>
-        </section>
-        <section class="compare-section">
-            <h2>Comparativa de Hoteles</h2>
-            <div class="compare-graph-container">
-                <canvas id="compare-chart" style="max-width:700px;width:100%;height:340px;"></canvas>
-            </div>
-        </section>
+      <section class="events-section">
+        <h2>Eventos recientes</h2>
+        <form id="add-event-form" class="add-event-form">
+          <input type="date" name="fecha" required />
+          <input
+            type="text"
+            name="evento"
+            placeholder="Nombre del evento"
+            required
+          />
+          <input type="text" name="descripcion" placeholder="Descripción" />
+          <input
+            type="text"
+            name="tipo"
+            placeholder="Tipo de evento"
+            required
+          />
+          <input type="number" name="asistentes" placeholder="Asistentes" />
+          <input type="text" name="ciudad" placeholder="Ciudad" required />
+          <button type="submit">Añadir</button>
+        </form>
+        <div class="table-container">
+          <table id="events-table" class="futuristic-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Fecha</th>
+                <th>Evento</th>
+                <th>Descripción</th>
+                <th>Tipo</th>
+                <th>Asistentes</th>
+                <th>Ciudad</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody id="events-tbody">
+              <!-- Eventos renderizados por JS -->
+            </tbody>
+          </table>
+        </div>
+        <div class="chart-section">
+          <h3>Demanda de la Ciudad (últimos 30 días)</h3>
+          <canvas id="demand-chart"></canvas>
+        </div>
+      </section>
+      <section class="map-section">
+        <h2>Mapa Interactivo de Hoteles</h2>
+        <div
+          id="hotel-map"
+          style="
+            width: 100%;
+            height: 450px;
+            border-radius: 18px;
+            box-shadow: 0 0 24px #00eaff55;
+          "
+        ></div>
+      </section>
+      <section class="compare-section">
+        <h2>Comparativa de Hoteles</h2>
+        <div class="compare-graph-container">
+          <canvas
+            id="compare-chart"
+            style="max-width: 700px; width: 100%; height: 340px"
+          ></canvas>
+        </div>
+      </section>
     </main>
     <footer class="futuristic-footer">
-        <span>&copy; 2025 Futurotel Insights. All rights reserved.</span>
+      <span>&copy; 2025 Futurotel Insights. All rights reserved.</span>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>
