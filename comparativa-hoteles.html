@@ -17,12 +17,6 @@
             position: relative;
             font-family: 'Orbitron', Arial, sans-serif;
         }
-        #particles-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-        }
         .chart-container {
             position: absolute;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -51,7 +45,6 @@
     </style>
 </head>
 <body>
-    <canvas id="particles-bg"></canvas>
     <h2 class="compare-title">Comparativa de Hoteles</h2>
     <div class="chart-container">
         <canvas id="compare-chart"></canvas>
@@ -69,79 +62,6 @@
     }
     window.addEventListener('resize', resizeRadarCanvas);
     resizeRadarCanvas();
-    </script>
-    <script>
-    // --- PARTICULAS FONDO ---
-    const canvas = document.getElementById('particles-bg');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    const PARTICLE_COUNT = 80;
-    const PARTICLE_RADIUS = 2.2;
-    const LINK_DIST = 120;
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    function randomPos() {
-        return {
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random()-0.5)*0.7,
-            vy: (Math.random()-0.5)*0.7
-        };
-    }
-    function initParticles() {
-        particles = [];
-        for(let i=0;i<PARTICLE_COUNT;i++) {
-            particles.push(randomPos());
-        }
-    }
-    function moveParticles() {
-        for(const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-            if(p.x<0||p.x>canvas.width) p.vx *= -1;
-            if(p.y<0||p.y>canvas.height) p.vy *= -1;
-        }
-    }
-    function drawParticles() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        // Draw links
-        for(let i=0;i<PARTICLE_COUNT;i++){
-            for(let j=i+1;j<PARTICLE_COUNT;j++){
-                let dx = particles[i].x-particles[j].x;
-                let dy = particles[i].y-particles[j].y;
-                let dist = Math.sqrt(dx*dx+dy*dy);
-                if(dist<LINK_DIST){
-                    ctx.strokeStyle = `rgba(0,234,255,${1-dist/LINK_DIST})`;
-                    ctx.lineWidth = 1.1;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x,particles[i].y);
-                    ctx.lineTo(particles[j].x,particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-        // Draw particles
-        for(const p of particles){
-            ctx.beginPath();
-            ctx.arc(p.x,p.y,PARTICLE_RADIUS,0,2*Math.PI);
-            ctx.fillStyle = '#00eaff';
-            ctx.shadowColor = '#00eaff';
-            ctx.shadowBlur = 8;
-            ctx.fill();
-        }
-        ctx.shadowBlur = 0;
-    }
-    function animateParticles(){
-        moveParticles();
-        drawParticles();
-        requestAnimationFrame(animateParticles);
-    }
-    initParticles();
-    animateParticles();
     </script>
     <script>
     // --- GRAFICA RADAR ---
