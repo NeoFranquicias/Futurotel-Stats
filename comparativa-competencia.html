@@ -23,15 +23,6 @@
             flex-direction: column;
             align-items: center;
         }
-        #particles-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.3;
-        }
         .chart-container {
             position: relative;
             width: 96vw;
@@ -41,10 +32,11 @@
             align-items: center;
             z-index: 1;
             margin-top: 12vh;
-            background: #0F1522;
+            
             border-radius: 16px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
             padding: 30px;
+            backdrop-filter: blur(5px);
         }
         #compare-chart { 
             display: block;
@@ -122,7 +114,6 @@
     </style>
 </head>
 <body>
-    <canvas id="particles-bg"></canvas>
     <h2 class="compare-title">Comparativa de Precios</h2>
     <div class="price-stats">
         <div class="current-price">150€</div>
@@ -279,80 +270,6 @@
     }
     
     updatePriceStats();
-
-    // --- PARTICULAS FONDO ---
-    const canvas = document.getElementById('particles-bg');
-    const ctxBg = canvas.getContext('2d');
-    let particles = [];
-    const PARTICLE_COUNT = 40; // Reducido para mejor rendimiento
-    const PARTICLE_RADIUS = 1.5;
-    const LINK_DIST = 150;
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    function randomPos() {
-        return {
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random()-0.5)*0.3, // Movimiento más lento
-            vy: (Math.random()-0.5)*0.3  // Movimiento más lento
-        };
-    }
-
-    function initParticles() {
-        particles = [];
-        for(let i=0; i<PARTICLE_COUNT; i++) {
-            particles.push(randomPos());
-        }
-    }
-
-    function moveParticles() {
-        for(const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-            if(p.x<0 || p.x>canvas.width) p.vx *= -1;
-            if(p.y<0 || p.y>canvas.height) p.vy *= -1;
-        }
-    }
-
-    function drawParticles() {
-        ctxBg.clearRect(0, 0, canvas.width, canvas.height);
-        for(let i=0; i<PARTICLE_COUNT; i++) {
-            for(let j=i+1; j<PARTICLE_COUNT; j++) {
-                let dx = particles[i].x - particles[j].x;
-                let dy = particles[i].y - particles[j].y;
-                let dist = Math.sqrt(dx*dx + dy*dy);
-                if(dist < LINK_DIST) {
-                    ctxBg.strokeStyle = `rgba(0,234,255,${0.3*(1-dist/LINK_DIST)})`;
-                    ctxBg.lineWidth = 0.8;
-                    ctxBg.beginPath();
-                    ctxBg.moveTo(particles[i].x, particles[i].y);
-                    ctxBg.lineTo(particles[j].x, particles[j].y);
-                    ctxBg.stroke();
-                }
-            }
-        }
-        for(const p of particles) {
-            ctxBg.beginPath();
-            ctxBg.arc(p.x, p.y, PARTICLE_RADIUS, 0, 2*Math.PI);
-            ctxBg.fillStyle = 'rgba(0, 234, 255, 0.4)';
-            ctxBg.fill();
-        }
-    }
-
-    function animateParticles() {
-        moveParticles();
-        drawParticles();
-        requestAnimationFrame(animateParticles);
-    }
-
-    initParticles();
-    animateParticles();
     </script>
     <script src="particles-bg.js"></script>
 </body>
