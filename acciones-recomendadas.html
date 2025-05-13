@@ -238,7 +238,7 @@
 <body>
   <div class="acciones-zoom-wrapper">
     <div class="acciones-panel">
-      <div class="acciones-title">Acciones Recomendadas</div>
+      <div class="acciones-title">Acciones Recomendadas</div><br>
       <div class="acciones-grid" id="accionesGrid">
         <!-- Las tarjetas se rellenan por JS -->
       </div>
@@ -360,7 +360,7 @@ if (grid.children.length > 0) {
         rotarInterval = setInterval(() => {
           currentIdx = (currentIdx + 1) % Math.min(acciones.length, 3);
           renderAccion(currentIdx);
-        }, 5000);
+        }, 10000);
       }
     }
     // Refresca datos cada 60s
