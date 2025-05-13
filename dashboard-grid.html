@@ -17,6 +17,8 @@
         }
 
         .grid-container {
+    user-select: none;
+
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-template-rows: 1fr 1fr;
@@ -29,6 +31,8 @@
         }
 
         .grid-item {
+    user-select: none;
+
             background: rgba(15, 21, 34, 0.7);
             border-radius: 24px;
             padding: 30px;
@@ -222,10 +226,28 @@
             width: 100% !important;
             height: 100% !important;
         }
+
+        .dashboard-zoom-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .grid-container {
+            max-width: 3840px;
+            height: 100vh;
+            transform-origin: top left;
+        }
     </style>
+<!-- SortableJS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
-    <div class="grid-container">
+    <div class="dashboard-zoom-wrapper" style="width:100vw; height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+      <div class="grid-container">
         <!-- Panel General -->
         <div class="grid-item">
             <h2>Panel General</h2>
@@ -611,4 +633,37 @@
     </script>
     <script src="particles-bg.js"></script>
 </body>
+<script>
+// Autoescalado tipo "foto" para grid-container
+function scaleDashboardGrid() {
+  const wrapper = document.querySelector('.dashboard-zoom-wrapper');
+  const grid = document.querySelector('.grid-container');
+  if (!wrapper || !grid) return;
+  // Tamaño base del grid
+  const baseWidth = grid.offsetWidth;
+  const baseHeight = grid.offsetHeight;
+  const scaleW = window.innerWidth / baseWidth;
+  const scaleH = window.innerHeight / baseHeight;
+  const scale = Math.min(scaleW, scaleH, 1.2); // Limita el máximo
+  grid.style.zoom = scale;
+}
+window.addEventListener('resize', scaleDashboardGrid);
+window.addEventListener('DOMContentLoaded', scaleDashboardGrid);
+scaleDashboardGrid();
+</script>
+<script>
+  // Inicializa SortableJS en el grid
+  document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.querySelector('.grid-container');
+    if (grid) {
+      Sortable.create(grid, {
+        animation: 180,
+        ghostClass: 'sortable-ghost',
+        dragClass: 'sortable-drag',
+        chosenClass: 'sortable-chosen',
+        forceFallback: true
+      });
+    }
+  });
+</script>
 </html> 
