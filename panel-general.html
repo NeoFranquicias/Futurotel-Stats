@@ -28,15 +28,18 @@
       justify-content: center;
     }
     main {
-      width: 1248px;
-      height: 572px;
-      min-height: 572px;
-      min-width: 1248px;
+      width: 1232px;
+      height: 570px;
+      min-height: 520px;
+      min-width: 1232px;
       padding: 0;
       margin: 0;
       display: flex;
       align-items: flex-start;
-      justify-content: stretch;
+      justify-content: flex-start;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
     }
     .dashboard-section {
       width: 1248px;
@@ -45,7 +48,7 @@
       min-width: 1248px;
       background: rgba(17, 34, 64, 0.85);
       border-radius: 0;
-      padding: 1vh 2vw 2vh 2vw;
+      padding: 0;
       box-shadow: 0 0 40px rgba(0, 234, 255, 0.15),
                   0 0 80px rgba(0, 234, 255, 0.1),
                   inset 0 0 20px rgba(0, 234, 255, 0.1);
@@ -60,6 +63,8 @@
       justify-content: flex-start;
       box-sizing: border-box;
       margin: 0;
+      position: relative;
+      overflow: hidden;
     }
     .dashboard-section h2 {
       color: #00eaff;
@@ -225,14 +230,16 @@
     .kpi-cards {
       display: flex;
       flex-direction: column;
-      gap: 1.5vh;
+      gap: 1vh;
       width: 100%;
+      height: calc(100% - 60px);
       margin: 0;
       box-sizing: border-box;
-      padding: 1vh 0 0 0;
+      padding: 1vh 2vw;
       align-items: center;
       position: relative;
       z-index: 1;
+      overflow: hidden;
     }
     .kpi-cards-row {
       display: flex;
@@ -240,6 +247,8 @@
       justify-content: center;
       gap: 1.5vw;
       width: 100%;
+      height: calc(50% - 0.5vh);
+      position: relative;
     }
     .kpi-card {
       flex: 1 1 260px;
@@ -250,6 +259,8 @@
       min-height: 14vh;
       max-height: 24vh;
       padding: 1.5vh 1.5vw;
+      position: relative;
+      transform-origin: center center;
     }
     .kpi-title {
       font-size: 1.5rem;
@@ -264,26 +275,18 @@
       height: 45px !important;
       margin-top: 1vh;
     }
-    @media (max-width: 1200px) {
-      .kpi-cards-row {
-        gap: 1.2vw;
-      }
+    @media (max-width: 1248px) {
       .kpi-card {
         flex: 1 1 45%;
-        max-width: 48%;
+        max-width: 45%;
         min-width: 200px;
       }
     }
-    @media (max-width: 700px) {
-      .kpi-cards-row {
-        flex-direction: column;
-        align-items: center;
-        gap: 1vh;
-      }
+    @media (max-width: 900px) {
       .kpi-card {
         flex: 1 1 100%;
-        max-width: 95vw;
-        min-width: 140px;
+        max-width: 100%;
+        min-width: 180px;
       }
     }
     @media (max-width: 1200px) {
@@ -321,9 +324,9 @@
       <div class="logo-glow">Futurotel <span>Stats</span></div>
     </header>
     <main id="main-dashboard" style="width: 1248px; height: 572px; margin: 0; padding: 0; display: flex; align-items: flex-start; justify-content: flex-start; box-sizing: border-box; overflow: hidden;">
-      <section class="dashboard-section" style="width: 100%; height: 100%; margin: 0; padding: 1vh 2vw; box-sizing: border-box;">
-        <h2 style="margin: 1vh 0 2vh 0;">Panel General</h2>
-        <div class="kpi-cards">
+      <section class="dashboard-section" style="width: 1248px; height: 572px; margin: 0; padding: 0; box-sizing: border-box;">
+        <h2 style="margin: 0; padding: 1vh 0; width: 100%; text-align: center; background: rgba(17, 34, 64, 0.95); border-bottom: 1px solid rgba(0, 234, 255, 0.2);">Panel General</h2>
+        <div class="kpi-cards" style="height: calc(100% - 60px);">
           <div class="kpi-cards-row">
             <div class="kpi-card kpi-ocupacion"><span class="kpi-title">Ocupación Media</span><span class="kpi-value" id="kpi-ocupacion">--%</span><canvas class="sparkline" id="spark-ocupacion"></canvas></div>
             <div class="kpi-card kpi-revpar"><span class="kpi-title">RevPAR</span><span class="kpi-value" id="kpi-revpar">-- €</span><canvas class="sparkline" id="spark-revpar"></canvas></div>
@@ -533,22 +536,41 @@
       });
     </script>
     <script>
-      // Escalado automático del dashboard usando solo zoom
       function scaleDashboard() {
         const main = document.getElementById('main-dashboard');
         if (!main) return;
+        
         const baseWidth = 1248;
         const baseHeight = 572;
         const targetWidth = 1248;
         const targetHeight = 572;
+        
+        // Calcular el factor de escala
         const scaleW = targetWidth / baseWidth;
         const scaleH = targetHeight / baseHeight;
-        const scale = Math.min(scaleW, scaleH); // Usamos el factor más pequeño para mantener proporciones
-        main.style.zoom = scale;
+        const scale = Math.min(scaleW, scaleH);
+        
+        // Aplicar la transformación con un límite mínimo de escala
+        const minScale = 0.7; // 70% de zoom mínimo
+        const finalScale = Math.max(scale, minScale);
+        
+        main.style.transform = `scale(${finalScale})`;
+        main.style.transformOrigin = 'top left';
+        
+        // Ajustar el contenedor para mantener las proporciones
+        const container = main.parentElement;
+        container.style.width = `${targetWidth}px`;
+        container.style.height = `${targetHeight}px`;
+        container.style.overflow = 'hidden';
+        container.style.position = 'relative';
       }
+
+      // Aplicar el escalado al cargar y al redimensionar
+      window.addEventListener('load', scaleDashboard);
       window.addEventListener('resize', scaleDashboard);
-      window.addEventListener('DOMContentLoaded', scaleDashboard);
-      scaleDashboard();
+      
+      // Aplicar el escalado inicial
+      document.addEventListener('DOMContentLoaded', scaleDashboard);
     </script>
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
