@@ -67,12 +67,14 @@
     .acciones-card {
       opacity: 0;
       transform: translateY(30px) scale(0.98);
-      animation: cardFadeIn 0.7s cubic-bezier(.4,0,.2,1) forwards, cardGlow 2.5s infinite alternate;
+      animation: cardFadeIn 0.7s cubic-bezier(.4,0,.2,1) forwards;
 
-      background: rgba(10, 30, 60, 0.92);
-      border: 1.5px solid #00eaff88;
-      border-radius: 7px;
-      box-shadow: 0 0 10px #00eaff33;
+      background: rgba(18, 35, 46, 0.3);
+      border: 1px solid rgba(0, 234, 255, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.1),
+        inset 0 0 15px rgba(0, 234, 255, 0.05);
+      backdrop-filter: blur(5px);
       padding: 8px 8px 7px 8px;
       display: flex;
       flex-direction: column;
@@ -110,7 +112,7 @@
       box-shadow: 0 0 14px #00eaff55;
       color: #e0f7fa;
       align-items: flex-start;
-      font-size: 0.85rem;
+      font-size: 1.05rem;
       min-width: 0;
       min-height: 0;
       max-width: 390px;
@@ -120,7 +122,7 @@
     }
     .acciones-card .acciones-label {
       color: #00eaff;
-      font-size: 0.93rem;
+      font-size: 1.05rem;
       font-weight: bold;
       margin-bottom: 2px;
       letter-spacing: 0.06em;
@@ -130,7 +132,7 @@
       text-overflow: ellipsis;
     }
     .acciones-card .acciones-fecha {
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       color: #fff;
       margin-bottom: 1px;
       white-space: nowrap;
@@ -138,7 +140,7 @@
       text-overflow: ellipsis;
     }
     .acciones-card .acciones-precio {
-      font-size: 0.93rem;
+      font-size: 0.95rem;
       color: #00eaff;
       margin-bottom: 2px;
       white-space: nowrap;
@@ -147,7 +149,7 @@
     }
     .acciones-card .acciones-precio span {
       color: #fff;
-      font-size: 0.89rem;
+      font-size: 0.8rem;
       font-weight: normal;
     }
     .acciones-card .acciones-table {
@@ -160,7 +162,7 @@
       border: 1px solid #00eaff55;
       padding: 1px 4px;
       text-align: left;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       color: #e0f7fa;
       white-space: nowrap;
       overflow: hidden;
@@ -176,7 +178,7 @@
     .acciones-card .acciones-reflexion {
       margin-top: 5px;
       color: #fff;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       background: rgba(0,234,255,0.06);
       border-left: 2px solid #00eaff99;
       padding: 6px 8px 6px 12px;
@@ -199,7 +201,7 @@
     }
     .acciones-card .acciones-derivacion {
       margin-top: 2px;
-      font-size: 0.81rem;
+      font-size: 0.8rem;
       color: #fff;
       white-space: normal;
       line-height: 1.18;
@@ -210,11 +212,19 @@
     .acciones-card.verde {
       color: #00ffae;
       border-color: #00ffae;
+      background: rgba(18, 35, 46, 0.3);
+      box-shadow: 0 0 30px rgba(0, 255, 174, 0.12),
+        inset 0 0 15px rgba(0, 255, 174, 0.07);
+      backdrop-filter: blur(5px);
     }
     .acciones-card.rojo .acciones-label,
     .acciones-card.rojo {
       color: #ff2d55;
       border-color: #ff2d55;
+      background: rgba(18, 35, 46, 0.3);
+      box-shadow: 0 0 30px rgba(255, 45, 85, 0.14),
+        inset 0 0 15px rgba(255, 45, 85, 0.09);
+      backdrop-filter: blur(5px);
     }
     
   @keyframes cardFadeIn {
@@ -225,10 +235,7 @@
   from { opacity: 1; transform: translateY(0) scale(1); }
   to { opacity: 0; transform: translateY(-30px) scale(0.98); }
 }
-@keyframes cardGlow {
-  0% { box-shadow: 0 0 10px #00eaff33, 0 0 0 #00eaff00; }
-  100% { box-shadow: 0 0 24px #00eaff66, 0 0 8px #00eaff33; }
-}
+
 @keyframes titleGlow {
   0% { text-shadow: 0 0 8px #00eaff88, 0 0 0 #00eaff00; }
   100% { text-shadow: 0 0 18px #00eaffcc, 0 0 8px #00eaff55; }
