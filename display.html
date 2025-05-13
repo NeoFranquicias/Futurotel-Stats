@@ -18,7 +18,7 @@
 
         .display-container {
             width: 1232px;
-            height: 562px;
+            height: 564px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -130,16 +130,16 @@
         // Ajustar cuando cambia el tamaño de la ventana
         window.addEventListener('resize', adjustIframes);
     </script>
-  <div id="android-version-indicator" style="position:fixed;right:10px;bottom:8px;font-size:1.5rem;color:#00eaff99;z-index:9999;pointer-events:none;font-family:monospace;opacity:0.7;"></div>
-  <script>
-    function getAndroidVersion() {
-      var ua = navigator.userAgent || navigator.vendor || window.opera;
-      var match = ua.match(/Android\s([0-9\.]+)/i);
-      return match ? match[1] : null;
-    }
-    var el = document.getElementById('android-version-indicator');
-    var version = getAndroidVersion();
-    el.textContent = version ? ("Android: " + version) : "Android: no detectado";
-  </script>
+    <div id="android-version-indicator" style="position:fixed;right:10px;bottom:8px;font-size:1.5rem;color:#00eaff99;z-index:9999;pointer-events:none;font-family:monospace;opacity:0.7;"></div>
+    <script>
+        function getAndroidVersion() {
+        var ua = navigator.userAgent || navigator.vendor || window.opera;
+        var match = ua.match(/Android\s([0-9\.]+)/i);
+        return match ? match[1] : null;
+        }
+        var el = document.getElementById('android-version-indicator');
+        var version = getAndroidVersion();
+        el.textContent = version ? ("Android: " + version) : "Android: no detectado";
+    </script>
 </body>
 </html> 
