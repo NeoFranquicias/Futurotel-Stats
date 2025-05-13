@@ -15,7 +15,12 @@
     "mensaje": "No recomendable - 12% en precio"
   },
   "mini_propuestas": [
-    {"titulo": "Bajada 2€", "precio": 55.72, "habitaciones": 3},
-    {"titulo": "Bajada 4€", "precio": 53.72, "habitaciones": 6}
+    {"titulo": "", "precio": 54.25, "habitaciones": 6},
+    {"titulo": "", "precio": 55.29, "habitaciones": 5},
+    {"titulo": "", "precio": 56.77, "habitaciones": 4},
+    {"titulo": "", "precio": 57.72, "habitaciones": 3},
+    {"titulo": "", "precio": 59.25, "habitaciones": 2},
+    {"titulo": "", "precio": 62.23, "habitaciones": 1},
+    {"titulo": "+", "precio": 62.24, "habitaciones": 0}
   ]
 }

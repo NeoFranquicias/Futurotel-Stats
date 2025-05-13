@@ -306,18 +306,9 @@
             <div class="proposal-section">
                 <div class="proposal-title" id="propuestaPrincipal"></div>
                 <br>
-                <div class="proposal-cards-row" style="justify-content: center;">
-                    <div class="proposal-card-mini"><div class="price">54,25€</div><div class="rooms">6 Habitaciones</div></div>
-                    <div class="proposal-card-mini"><div class="price">55,29€</div><div class="rooms">5 Habitaciones</div></div>
-                    <div class="proposal-card-mini"><div class="price">56,77€</div><div class="rooms">4 Habitaciones</div></div>
-                </div>
+                <div class="proposal-cards-row" id="miniPropuestasRow1" style="justify-content: center;"></div>
                 <br>
-                <div class="proposal-cards-row" style="justify-content: center;">
-                    <div class="proposal-card-mini"><div class="price">57,72€</div><div class="rooms">3 Habitaciones</div></div>
-                    <div class="proposal-card-mini"><div class="price">59,25€</div><div class="rooms">2 Habitaciones</div></div>
-                    <div class="proposal-card-mini"><div class="price">62,23€</div><div class="rooms">1 Habitación</div></div>
-                    <div class="proposal-card-mini"><div class="price">+62,24€</div><div class="rooms">0 Habitaciones</div></div>
-                </div>
+                <div class="proposal-cards-row" id="miniPropuestasRow2" style="justify-content: center;"></div>
             </div>
         </section>
     </main>
@@ -342,14 +333,20 @@ async function cargarDatosPantalla1() {
     document.getElementById('posicionBooking').textContent = data.posicion_booking;
     document.getElementById('propuestaTitulo').textContent = data.propuesta.titulo;
     document.getElementById('propuestaMensaje').textContent = data.propuesta.mensaje;
-    // Mini propuestas
-    const miniRow = document.getElementById('miniPropuestasRow');
-    miniRow.innerHTML = '';
-    (data.mini_propuestas||[]).forEach(mp => {
+    // Mini propuestas en dos filas
+    const miniRow1 = document.getElementById('miniPropuestasRow1');
+    const miniRow2 = document.getElementById('miniPropuestasRow2');
+    miniRow1.innerHTML = '';
+    miniRow2.innerHTML = '';
+    (data.mini_propuestas||[]).forEach((mp, idx) => {
       const el = document.createElement('div');
       el.className = 'proposal-card-mini';
-      el.innerHTML = `<div class='proposal-title'>${mp.titulo}</div><div class='price'>${mp.precio.toFixed(2)}€</div><div class='rooms'>${mp.habitaciones} hab.</div>`;
-      miniRow.appendChild(el);
+      let precioTxt = mp.titulo === '+' ? '+' + mp.precio.toFixed(2) + '€' : mp.precio.toFixed(2) + '€';
+      let roomsTxt = mp.habitaciones === 1 ? '1 Habitación' : mp.habitaciones + ' Habitaciones';
+      if(mp.habitaciones === 0) roomsTxt = '0 Habitaciones';
+      el.innerHTML = `<div class='price'>${precioTxt}</div><div class='rooms'>${roomsTxt}</div>`;
+      if (idx < 3) miniRow1.appendChild(el);
+      else miniRow2.appendChild(el);
     });
   } catch (e) {
     // Si hay error, no hace nada
