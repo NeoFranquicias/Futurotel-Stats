@@ -28,10 +28,10 @@
       justify-content: center;
     }
     main {
-      width: 100vw;
-      height: 100vh;
-      min-height: 100vh;
-      min-width: 100vw;
+      width: 1248px;
+      height: 572px;
+      min-height: 572px;
+      min-width: 1248px;
       padding: 0;
       margin: 0;
       display: flex;
@@ -39,10 +39,10 @@
       justify-content: stretch;
     }
     .dashboard-section {
-      width: 100vw;
-      height: auto;
-      min-height: auto;
-      min-width: 100vw;
+      width: 1248px;
+      height: 572px;
+      min-height: 572px;
+      min-width: 1248px;
       background: rgba(17, 34, 64, 0.85);
       border-radius: 0;
       padding: 1vh 2vw 2vh 2vw;
@@ -64,21 +64,16 @@
     .dashboard-section h2 {
       color: #00eaff;
       font-size: 2.2rem;
-      margin: 1vh 0 2vh 0;
+      margin: 0;
+      padding: 1vh 0;
       letter-spacing: 0.1em;
       text-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
       position: relative;
-    }
-    .dashboard-section h2::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #00eaff, transparent);
-      border-radius: 3px;
+      z-index: 10;
+      background: rgba(17, 34, 64, 0.95);
+      width: 100%;
+      text-align: center;
+      border-bottom: 1px solid rgba(0, 234, 255, 0.2);
     }
     .kpi-cards-grid {
       display: grid;
@@ -230,32 +225,48 @@
     .kpi-cards {
       display: flex;
       flex-direction: column;
-      gap: 2.2rem;
+      gap: 1.5vh;
       width: 100%;
-      margin: 0 auto;
+      margin: 0;
       box-sizing: border-box;
-      padding: 0;
+      padding: 1vh 0 0 0;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
     .kpi-cards-row {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 2.2rem;
+      gap: 1.5vw;
       width: 100%;
     }
     .kpi-card {
       flex: 1 1 260px;
-      max-width: 350px;
+      max-width: 280px;
       min-width: 220px;
       box-sizing: border-box;
       margin: 0;
+      min-height: 14vh;
+      max-height: 24vh;
+      padding: 1.5vh 1.5vw;
+    }
+    .kpi-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5vh;
+    }
+    .kpi-value {
+      font-size: 2rem;
+      margin-bottom: 0.5vh;
+    }
+    .sparkline {
+      width: 180px !important;
+      height: 45px !important;
+      margin-top: 1vh;
     }
     @media (max-width: 1200px) {
       .kpi-cards-row {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1.5rem;
+        gap: 1.2vw;
       }
       .kpi-card {
         flex: 1 1 45%;
@@ -267,7 +278,7 @@
       .kpi-cards-row {
         flex-direction: column;
         align-items: center;
-        gap: 1.2rem;
+        gap: 1vh;
       }
       .kpi-card {
         flex: 1 1 100%;
@@ -309,27 +320,19 @@
     <header class="futuristic-header" hidden>
       <div class="logo-glow">Futurotel <span>Stats</span></div>
     </header>
-    <main id="main-dashboard"
-      style="width: 1400px; height: 900px; margin: 0 auto; padding: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box; overflow: hidden;">
-      <section class="dashboard-section" style="width: 100%; margin: 0 auto; padding: 2vw 0; box-sizing: border-box;">
-        <h2 style="z-index: 15;">Panel General</h2>
+    <main id="main-dashboard" style="width: 1248px; height: 572px; margin: 0; padding: 0; display: flex; align-items: flex-start; justify-content: flex-start; box-sizing: border-box; overflow: hidden;">
+      <section class="dashboard-section" style="width: 100%; height: 100%; margin: 0; padding: 1vh 2vw; box-sizing: border-box;">
+        <h2 style="margin: 1vh 0 2vh 0;">Panel General</h2>
         <div class="kpi-cards">
           <div class="kpi-cards-row">
-            <div class="kpi-card kpi-ocupacion"><span class="kpi-title">Ocupación Media</span><span class="kpi-value"
-                id="kpi-ocupacion">--%</span><canvas class="sparkline" id="spark-ocupacion"></canvas></div>
-            <div class="kpi-card kpi-revpar"><span class="kpi-title">RevPAR</span><span class="kpi-value" id="kpi-revpar">--
-                €</span><canvas class="sparkline" id="spark-revpar"></canvas></div>
-            <div class="kpi-card kpi-adr"><span class="kpi-title">ADR</span><span class="kpi-value" id="kpi-adr">--
-                €</span><canvas class="sparkline" id="spark-adr"></canvas></div>
-            <div class="kpi-card kpi-cancelaciones"><span class="kpi-title">Cancelaciones</span><span class="kpi-value"
-                id="kpi-cancelaciones">--</span><canvas class="sparkline" id="spark-cancelaciones"></canvas></div>
+            <div class="kpi-card kpi-ocupacion"><span class="kpi-title">Ocupación Media</span><span class="kpi-value" id="kpi-ocupacion">--%</span><canvas class="sparkline" id="spark-ocupacion"></canvas></div>
+            <div class="kpi-card kpi-revpar"><span class="kpi-title">RevPAR</span><span class="kpi-value" id="kpi-revpar">-- €</span><canvas class="sparkline" id="spark-revpar"></canvas></div>
+            <div class="kpi-card kpi-adr"><span class="kpi-title">ADR</span><span class="kpi-value" id="kpi-adr">-- €</span><canvas class="sparkline" id="spark-adr"></canvas></div>
+            <div class="kpi-card kpi-cancelaciones"><span class="kpi-title">Cancelaciones</span><span class="kpi-value" id="kpi-cancelaciones">--</span><canvas class="sparkline" id="spark-cancelaciones"></canvas></div>
           </div>
           <div class="kpi-cards-row">
-            <div class="kpi-card kpi-ingresos"><span class="kpi-title">Ingresos</span><span
-                class="kpi-value kpi-value-ingresos" id="kpi-ingresos">-- €</span><canvas class="sparkline"
-                id="spark-ingresos"></canvas></div>
-            <div class="kpi-card kpi-reservas"><span class="kpi-title">Reservas</span><span class="kpi-value"
-                id="kpi-reservas">--</span><canvas class="sparkline" id="spark-reservas"></canvas></div>
+            <div class="kpi-card kpi-ingresos"><span class="kpi-title">Ingresos</span><span class="kpi-value kpi-value-ingresos" id="kpi-ingresos">-- €</span><canvas class="sparkline" id="spark-ingresos"></canvas></div>
+            <div class="kpi-card kpi-reservas"><span class="kpi-title">Reservas</span><span class="kpi-value" id="kpi-reservas">--</span><canvas class="sparkline" id="spark-reservas"></canvas></div>
           </div>
         </div>
       </section>
@@ -534,10 +537,10 @@
       function scaleDashboard() {
         const main = document.getElementById('main-dashboard');
         if (!main) return;
-        const baseWidth = 1400;
-        const baseHeight = 900;
-        const targetWidth = 1376;
-        const targetHeight = 768;
+        const baseWidth = 1248;
+        const baseHeight = 572;
+        const targetWidth = 1248;
+        const targetHeight = 572;
         const scaleW = targetWidth / baseWidth;
         const scaleH = targetHeight / baseHeight;
         const scale = Math.min(scaleW, scaleH); // Usamos el factor más pequeño para mantener proporciones
