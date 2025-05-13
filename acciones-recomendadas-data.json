@@ -1,0 +1,38 @@
+[
+  {
+    "id": 326,
+    "fecha": "2025-06-02",
+    "precio_inicial": 67.22,
+    "precio_accion": 55.49,
+    "facturacion_objetivo": 2179,
+    "facturacion_conseguida": 2549,
+    "habitaciones_por_vender": 7,
+    "justificacion_id": "j1",
+    "si_aplica": "Llenaremos HOY las 7 habitaciones",
+    "no_aplica": "Tendremos que en un plazo de 72 horas situar el precio en una media entre 43.72€ a 49.23€ para poder llenar las habitaciones"
+  },
+  {
+    "id": 325,
+    "fecha": "2025-06-01",
+    "precio_inicial": 70.00,
+    "precio_accion": 60.00,
+    "facturacion_objetivo": 2100,
+    "facturacion_conseguida": 2200,
+    "habitaciones_por_vender": 5,
+    "justificacion_id": "j2",
+    "si_aplica": "Se venderán todas las habitaciones en el mismo día",
+    "no_aplica": "Será necesario bajar precios aún más al día siguiente"
+  },
+  {
+    "id": 324,
+    "fecha": "2025-05-31",
+    "precio_inicial": 69.00,
+    "precio_accion": 59.00,
+    "facturacion_objetivo": 2000,
+    "facturacion_conseguida": 2100,
+    "habitaciones_por_vender": 4,
+    "justificacion_id": "j3",
+    "si_aplica": "Ocupación completa prevista",
+    "no_aplica": "Precios por debajo de mercado serán necesarios"
+  }
+]

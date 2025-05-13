@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acciones Recomendadas - Futurotel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #12232e;
+      font-family: 'Orbitron', Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .acciones-zoom-wrapper {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      /* align-items: center; */
+      justify-content: center;
+      overflow: hidden;
+    }
+    .acciones-panel {
+      width: 1232px;
+      background: none;
+      border-radius: 10px;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+    .acciones-title {
+      animation: titleGlow 2.2s infinite alternate;
+
+      color: #00eaff;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 7px;
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 8px #00eaff88;
+      text-align: center;
+    }
+    .acciones-grid {
+      display: grid;
+      grid-template-columns: 300px 390px 300px;
+      grid-template-rows: 170px 170px;
+      gap: 12px 16px;
+      width: 1020px;
+      height: 352px;
+      margin: 0 auto;
+    }
+    .acciones-card {
+      opacity: 0;
+      transform: translateY(30px) scale(0.98);
+      animation: cardFadeIn 0.7s cubic-bezier(.4,0,.2,1) forwards, cardGlow 2.5s infinite alternate;
+
+      background: rgba(10, 30, 60, 0.92);
+      border: 1.5px solid #00eaff88;
+      border-radius: 7px;
+      box-shadow: 0 0 10px #00eaff33;
+      padding: 8px 8px 7px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      font-size: 0.85rem;
+      color: #e0f7fa;
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      z-index: 2;
+      transition: border-color 0.3s;
+      height: 100%;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .acciones-card.cian {
+      border-color: #00eaff;
+      box-shadow: 0 0 24px #00eaff55;
+    }
+    .acciones-card.verde {
+      border-color: #00ffae;
+      box-shadow: 0 0 18px #00ffae55;
+      color: #00ffae;
+    }
+    .acciones-card.rojo {
+      border-color: #ff2d55;
+      box-shadow: 0 0 18px #ff2d5555;
+      color: #ff2d55;
+    }
+    .acciones-card.justificacion {
+      grid-column: 2 / span 1;
+      grid-row: 1 / span 2;
+      border-color: #00eaff;
+      box-shadow: 0 0 14px #00eaff55;
+      color: #e0f7fa;
+      align-items: flex-start;
+      font-size: 0.85rem;
+      min-width: 0;
+      min-height: 0;
+      max-width: 390px;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .acciones-card .acciones-label {
+      color: #00eaff;
+      font-size: 0.93rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 4px #00eaff77;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .acciones-card .acciones-fecha {
+      font-size: 0.85rem;
+      color: #fff;
+      margin-bottom: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .acciones-card .acciones-precio {
+      font-size: 0.93rem;
+      color: #00eaff;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .acciones-card .acciones-precio span {
+      color: #fff;
+      font-size: 0.89rem;
+      font-weight: normal;
+    }
+    .acciones-card .acciones-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1px;
+      margin-bottom: 1px;
+    }
+    .acciones-card .acciones-table td, .acciones-card .acciones-table th {
+      border: 1px solid #00eaff55;
+      padding: 1px 4px;
+      text-align: left;
+      font-size: 0.78rem;
+      color: #e0f7fa;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .acciones-card .acciones-table th {
+      color: #00eaff;
+      font-weight: 700;
+      background: rgba(0, 234, 255, 0.09);
+      text-shadow: 0 0 2px #00eaff55;
+    }
+    
+    .acciones-card .acciones-reflexion {
+      margin-top: 5px;
+      color: #fff;
+      font-size: 0.75rem;
+      background: rgba(0,234,255,0.06);
+      border-left: 2px solid #00eaff99;
+      padding: 6px 8px 6px 12px;
+      border-radius: 4px;
+      margin-bottom: 0;
+      box-shadow: 0 0 3px #00eaff33;
+      white-space: normal;
+      line-height: 1.25;
+    }
+    .acciones-arrow {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      transform: translate(-50%, -50%);
+      font-size: 1.6rem;
+      color: #00eaff99;
+      z-index: 3;
+      pointer-events: none;
+      text-shadow: 0 0 10px #00eaff88;
+    }
+    .acciones-card .acciones-derivacion {
+      margin-top: 2px;
+      font-size: 0.81rem;
+      color: #fff;
+      white-space: normal;
+      line-height: 1.18;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .acciones-card.verde .acciones-label,
+    .acciones-card.verde {
+      color: #00ffae;
+      border-color: #00ffae;
+    }
+    .acciones-card.rojo .acciones-label,
+    .acciones-card.rojo {
+      color: #ff2d55;
+      border-color: #ff2d55;
+    }
+    
+  @keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cardFadeOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-30px) scale(0.98); }
+}
+@keyframes cardGlow {
+  0% { box-shadow: 0 0 10px #00eaff33, 0 0 0 #00eaff00; }
+  100% { box-shadow: 0 0 24px #00eaff66, 0 0 8px #00eaff33; }
+}
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 8px #00eaff88, 0 0 0 #00eaff00; }
+  100% { text-shadow: 0 0 18px #00eaffcc, 0 0 8px #00eaff55; }
+}
+</style>
+</head>
+<body>
+  <div class="acciones-zoom-wrapper">
+    <div class="acciones-panel">
+      <div class="acciones-title">Acciones Recomendadas</div>
+      <div class="acciones-grid" id="accionesGrid">
+        <!-- Las tarjetas se rellenan por JS -->
+      </div>
+    </div>
+  </div>
+  <script src="particles-bg.js"></script>
+  <script>
+    // Autoescalado tipo foto
+    function scaleAccionesPanel() {
+      const wrapper = document.querySelector('.acciones-zoom-wrapper');
+      const panel = document.querySelector('.acciones-panel');
+      if (!wrapper || !panel) return;
+      const baseWidth = 1232;
+      const baseHeight = 520;
+      const scaleW = window.innerWidth / baseWidth;
+      const scaleH = window.innerHeight / baseHeight;
+      const scale = Math.min(scaleW, scaleH, 1.3);
+      panel.style.zoom = scale;
+    }
+    window.addEventListener('resize', scaleAccionesPanel);
+    window.addEventListener('DOMContentLoaded', scaleAccionesPanel);
+    scaleAccionesPanel();
+  </script>
+  <script>
+    // Variables globales para rotación y fetch
+    let acciones = [];
+    let justificaciones = {};
+    let currentIdx = 0;
+    let rotarInterval = null;
+
+    async function fetchAcciones() {
+      try {
+        const resp = await fetch('acciones-recomendadas-data.json?_=' + Date.now());
+        acciones = await resp.json();
+      } catch (e) { acciones = []; }
+    }
+    async function fetchJustificaciones() {
+      try {
+        const resp = await fetch('acciones-justificaciones.json?_=' + Date.now());
+        justificaciones = await resp.json();
+      } catch (e) { justificaciones = {}; }
+    }
+    function formatEuros(val) {
+      return (Math.round(val * 100) / 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '€';
+    }
+    function renderAccion(idx) {
+      if (!acciones.length) return;
+      const accion = acciones[idx];
+      const just = justificaciones[accion.justificacion_id] || { titulo: '', texto: [], reflexion: [] };
+      // Tarjeta Acción
+      const cardAccion = `
+        <div class="acciones-card cian" style="grid-column:1;grid-row:1;justify-content:center;align-items:center;">
+          <div class="acciones-label">Acción #${accion.id}</div>
+          <div class="acciones-fecha">${accion.fecha}</div>
+          <div class="acciones-precio">Precio<br><span>${formatEuros(accion.precio_inicial)} → ${formatEuros(accion.precio_accion)}</span></div>
+        </div>
+      `;
+      // Tarjeta Reflexión
+      const cardReflexion = `
+        <div class="acciones-card cian" style="grid-column:1;grid-row:2;">
+          <div class="acciones-label">Reflexión</div>
+          <div class="acciones-fecha">Para el día ${accion.fecha}</div>
+          <table class="acciones-table">
+            <tr><th>Facturación Objetivo</th><td>${formatEuros(accion.facturacion_objetivo)}</td></tr>
+            <tr><th>Facturación Conseguida</th><td>${formatEuros(accion.facturacion_conseguida)}</td></tr>
+            <tr><th>Habitaciones por Vender</th><td>${accion.habitaciones_por_vender}</td></tr>
+          </table>
+        </div>
+      `;
+      // Tarjeta Justificación
+      const cardJust = `
+        <div class="acciones-card justificacion">
+          <div class="acciones-label">${just.titulo || 'Justificación'}</div>
+          <ul style="margin: 0 0 10px 18px; padding: 0; color: #e0f7fa;">
+            ${(just.texto||[]).map(t=>`<li>${t}</li>`).join('')}
+          </ul>
+          <div class="acciones-reflexion">
+            ${(just.reflexion||[]).map(t=>`<div>${t}</div>`).join('')}
+          </div>
+        </div>
+      `;
+      // Tarjeta Si aplica
+      const cardSi = `
+        <div class="acciones-card verde" style="grid-column:3;grid-row:1;">
+          <div class="acciones-label">Si se aplica la acción</div>
+          <div class="acciones-derivacion">${accion.si_aplica}</div>
+        </div>
+      `;
+      // Tarjeta No aplica
+      const cardNo = `
+        <div class="acciones-card rojo" style="grid-column:3;grid-row:2;">
+          <div class="acciones-label">Si no se aplica la acción</div>
+          <div class="acciones-derivacion">${accion.no_aplica}</div>
+        </div>
+      `;
+      const grid = document.getElementById('accionesGrid');
+// Si ya hay contenido, animar fade out y luego fade in
+if (grid.children.length > 0) {
+  Array.from(grid.children).forEach(el => {
+    el.style.animation = 'cardFadeOut 0.5s cubic-bezier(.4,0,.2,1) forwards';
+  });
+  setTimeout(() => {
+    grid.innerHTML = cardAccion + cardReflexion + cardJust + cardSi + cardNo;
+    // Forzar reflow para reiniciar animaciones
+    Array.from(grid.children).forEach(el => { void el.offsetWidth; });
+  }, 450);
+} else {
+  grid.innerHTML = cardAccion + cardReflexion + cardJust + cardSi + cardNo;
+  Array.from(grid.children).forEach(el => { void el.offsetWidth; });
+}
+    }
+    async function updateDataAndRender() {
+      await Promise.all([fetchAcciones(), fetchJustificaciones()]);
+      if (!acciones.length) return;
+      currentIdx = 0;
+      renderAccion(currentIdx);
+      if (rotarInterval) clearInterval(rotarInterval);
+      if (acciones.length > 1) {
+        rotarInterval = setInterval(() => {
+          currentIdx = (currentIdx + 1) % Math.min(acciones.length, 3);
+          renderAccion(currentIdx);
+        }, 5000);
+      }
+    }
+    // Refresca datos cada 60s
+    setInterval(updateDataAndRender, 60000);
+    window.addEventListener('DOMContentLoaded', updateDataAndRender);
+  </script>
+</body>
+</html>
