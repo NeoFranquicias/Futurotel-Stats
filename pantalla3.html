@@ -63,7 +63,7 @@
         }
         .legend-container {
             display: flex;
-            gap: 15px;
+            gap: 25px;
             margin-bottom: 10px;
             padding: 6px 12px;
             background: rgba(10, 14, 23, 0.5);
@@ -76,7 +76,7 @@
             align-items: center;
             gap: 5px;
             color: rgba(255, 255, 255, 0.9);
-            font-size: 0.75rem;
+            font-size: 1.05rem;
             font-weight: 500;
         }
         .legend-color {
@@ -200,14 +200,17 @@
                             color: 'rgba(0, 234, 255, 0.8)',
                             font: {
                                 family: 'Orbitron',
-                                size: 9,
+                                size: 14,
                                 weight: '500'
                             },
                             padding: 3
                         },
                         border: {
                             display: false
-                        }
+                        },
+                        min: 0,
+                        max: 100,
+                        stepSize: 10
                     },
                     x: {
                         grid: {
@@ -218,7 +221,7 @@
                             color: 'rgba(0, 234, 255, 0.8)',
                             font: {
                                 family: 'Orbitron',
-                                size: 9,
+                                size: 14,
                                 weight: '500'
                             },
                             padding: 3
