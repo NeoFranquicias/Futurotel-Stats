@@ -71,7 +71,7 @@
 
         .dashboard-section h2 {
             color: #00eaff;
-            font-size: 1.5rem;
+            font-size: 2rem;
             margin-top: 0;
             margin-bottom: 2px;
             letter-spacing: 0.08em;
@@ -109,7 +109,7 @@
 
         .booking-position, .warning-card {
             width: 100%;
-            min-height: 70px;
+            min-height: 77px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -138,14 +138,14 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            font-size: 1.05rem;
+            font-size: 1.25rem;
             color: #fff;
         }
 
         .value-number {
             font-weight: bold;
             text-shadow: 0 0 10px #00eaff99;
-            font-size: 1.05rem;
+            font-size: 1.25rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -175,7 +175,7 @@
 
         .warning-message {
             color: #ff6b6b;
-            font-size: 1.05rem;
+            font-size: 1.25rem;
         }
 
         .proposal-section {
@@ -200,25 +200,25 @@
         }
         .proposal-card-mini {
             background: linear-gradient(135deg, #142850cc 60%, #203a43cc 100%);
-            border: 2px solid #00eaff;
-            border-radius: 8px;
+            border: 2px solid #00eaff !important;
+            border-radius: 12px !important;
             padding: 2px 6px;
             min-width: 90px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 1.05rem;
+            font-size: 1.25rem;
             color: #e0f7fa;
             box-shadow: 0 0 4px rgba(0, 234, 255, 0.1);
         }
         .proposal-card-mini .price {
             color: #00eaff;
             font-weight: bold;
-            font-size: 1.05rem;
+            font-size: 1.25rem;
             margin-bottom: 1px;
         }
         .proposal-card-mini .rooms {
-            font-size: 1.05rem;
+            font-size: 1.25rem;
         }
 
         @keyframes subtleGlow {
@@ -306,10 +306,12 @@
             <div class="proposal-section">
                 <div class="proposal-title">Propuesta para vender las 6 habitaciones</div>
                 <br>
-                <div class="proposal-cards-row">
+                <div class="proposal-cards-row" style="justify-content: center;">
                     <div class="proposal-card-mini"><div class="price">54,25€</div><div class="rooms">6 Habitaciones</div></div>
                     <div class="proposal-card-mini"><div class="price">55,29€</div><div class="rooms">5 Habitaciones</div></div>
                     <div class="proposal-card-mini"><div class="price">56,77€</div><div class="rooms">4 Habitaciones</div></div>
+                </div>
+                <div class="proposal-cards-row" style="justify-content: center;">
                     <div class="proposal-card-mini"><div class="price">57,72€</div><div class="rooms">3 Habitaciones</div></div>
                     <div class="proposal-card-mini"><div class="price">59,25€</div><div class="rooms">2 Habitaciones</div></div>
                     <div class="proposal-card-mini"><div class="price">62,23€</div><div class="rooms">1 Habitación</div></div>
