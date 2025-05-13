@@ -139,7 +139,17 @@
         }
         var el = document.getElementById('android-version-indicator');
         var version = getAndroidVersion();
-        el.textContent = version ? ("Android: " + version) : "Android: no detectado";
+        function getBrowserName() {
+            var ua = navigator.userAgent;
+            if (ua.match(/edg/i)) return "Edge";
+            if (ua.match(/chrome|crios/i) && !ua.match(/edg/i)) return "Chrome";
+            if (ua.match(/firefox|fxios/i)) return "Firefox";
+            if (ua.match(/safari/i) && !ua.match(/chrome|crios|edg/i)) return "Safari";
+            if (ua.match(/opera|opr/i)) return "Opera";
+            return "Otro";
+        }
+        var browser = getBrowserName();
+        el.textContent = version ? ("Android: " + version + " | " + browser) : browser;
     </script>
 </body>
 </html> 
