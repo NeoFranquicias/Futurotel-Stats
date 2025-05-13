@@ -149,7 +149,21 @@
             return "Otro";
         }
         var browser = getBrowserName();
-        el.textContent = version ? ("Android: " + version + " | " + browser) : browser;
+        function getChromeVersion() {
+            var ua = navigator.userAgent;
+            var match = ua.match(/Chrome\/([0-9.]+)/i);
+            return match ? match[1] : null;
+        }
+        var chromeVersion = browser === "Chrome" ? getChromeVersion() : null;
+        if (version && browser === "Chrome" && chromeVersion) {
+            el.textContent = "Android: " + version + " | Chrome " + chromeVersion;
+        } else if (browser === "Chrome" && chromeVersion) {
+            el.textContent = "Chrome " + chromeVersion;
+        } else if (version) {
+            el.textContent = "Android: " + version + " | " + browser;
+        } else {
+            el.textContent = browser;
+        }
     </script>
 </body>
 </html> 
