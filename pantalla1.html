@@ -258,7 +258,7 @@
         <section class="dashboard-section">
             <h2 style="margin-top:0;">Optimización de Estancias</h2>
             <br>
-            <div class="hotel-name">Futurotel Malagueta Beach</div>
+            <div class="hotel-name" id="hotelName"></div>
             <br>
 
             <div class="comparison-grid">
@@ -268,17 +268,17 @@
                         <div class="comparison-values">
                             <div class="value">
                                 <div class="value-label">Futurotel</div>
-                                <div class="value-number">85,00%</div>
+                                <div class="value-number" id="ocupacionFuturotel"></div>
                             </div>
                             <div class="value">
                                 <div class="value-label">Competencia</div>
-                                <div class="value-number">55,23%</div>
+                                <div class="value-number" id="ocupacionCompetencia"></div>
                             </div>
                         </div>
                     </div>
                     <div class="booking-position">
                         <div class="comparison-title">Posicionamiento en Booking.com</div>
-                        <div class="value-number">4/4422</div>
+                        <div class="value-number" id="posicionBooking"></div>
                     </div>
                 </div>
 
@@ -288,23 +288,23 @@
                         <div class="comparison-values">
                             <div class="value">
                                 <div class="value-label">Futurotel</div>
-                                <div class="value-number">57,72€</div>
+                                <div class="value-number" id="precioFuturotel"></div>
                             </div>
                             <div class="value">
                                 <div class="value-label">Competencia</div>
-                                <div class="value-number">54,11€</div>
+                                <div class="value-number" id="precioCompetencia"></div>
                             </div>
                         </div>
                     </div>
                     <div class="warning-card">
-                        <div class="warning-title">Propuesta subir al top 1</div>
-                        <div class="warning-message">No recomendable - 12% en precio</div>
+                        <div class="warning-title" id="propuestaTitulo"></div>
+                        <div class="warning-message" id="propuestaMensaje"></div>
                     </div>
                 </div>
             </div>
             <br>
             <div class="proposal-section">
-                <div class="proposal-title">Propuesta para vender las 6 habitaciones</div>
+                <div class="proposal-title" id="propuestaPrincipal"></div>
                 <br>
                 <div class="proposal-cards-row" style="justify-content: center;">
                     <div class="proposal-card-mini"><div class="price">54,25€</div><div class="rooms">6 Habitaciones</div></div>
@@ -329,5 +329,33 @@
         });
     </script>
     <script src="particles-bg.js"></script>
+<script>
+async function cargarDatosPantalla1() {
+  try {
+    const resp = await fetch('pantalla1-data.json?_=' + Date.now());
+    const data = await resp.json();
+    document.getElementById('hotelName').textContent = data.hotel;
+    document.getElementById('ocupacionFuturotel').textContent = data.ocupacion.futurotel.toFixed(2) + '%';
+    document.getElementById('ocupacionCompetencia').textContent = data.ocupacion.competencia.toFixed(2) + '%';
+    document.getElementById('precioFuturotel').textContent = data.precio_medio.futurotel.toFixed(2) + '€';
+    document.getElementById('precioCompetencia').textContent = data.precio_medio.competencia.toFixed(2) + '€';
+    document.getElementById('posicionBooking').textContent = data.posicion_booking;
+    document.getElementById('propuestaTitulo').textContent = data.propuesta.titulo;
+    document.getElementById('propuestaMensaje').textContent = data.propuesta.mensaje;
+    // Mini propuestas
+    const miniRow = document.getElementById('miniPropuestasRow');
+    miniRow.innerHTML = '';
+    (data.mini_propuestas||[]).forEach(mp => {
+      const el = document.createElement('div');
+      el.className = 'proposal-card-mini';
+      el.innerHTML = `<div class='proposal-title'>${mp.titulo}</div><div class='price'>${mp.precio.toFixed(2)}€</div><div class='rooms'>${mp.habitaciones} hab.</div>`;
+      miniRow.appendChild(el);
+    });
+  } catch (e) {
+    // Si hay error, no hace nada
+  }
+}
+document.addEventListener('DOMContentLoaded', cargarDatosPantalla1);
+</script>
 </body>
 </html> 

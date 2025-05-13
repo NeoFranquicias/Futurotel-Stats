@@ -1,0 +1,21 @@
+
+{
+  "hotel": "Futurotel Malagueta Beach",
+  "ocupacion": {
+    "futurotel": 85.00,
+    "competencia": 55.23
+  },
+  "precio_medio": {
+    "futurotel": 57.72,
+    "competencia": 54.11
+  },
+  "posicion_booking": "4/4422",
+  "propuesta": {
+    "titulo": "Propuesta subir al top 1",
+    "mensaje": "No recomendable - 12% en precio"
+  },
+  "mini_propuestas": [
+    {"titulo": "Bajada 2€", "precio": 55.72, "habitaciones": 3},
+    {"titulo": "Bajada 4€", "precio": 53.72, "habitaciones": 6}
+  ]
+}
