@@ -1,0 +1,40 @@
+{
+  "j1": {
+    "titulo": "Justificación",
+    "texto": [
+      "Se ha conseguido más de un 17% más de la facturación objetivo.",
+      "La ocupación en la zona es de un 22%",
+      "La ocupación que se esperaría a estas alturas de la zona es un 57%",
+      "La climatología para esa fecha es: 47% de probabilidad de lluvia"
+    ],
+    "reflexion": [
+      "El público está esperando ofertas de última hora",
+      "La competencia por el histórico con otras fechas similares comenzará a 'alarmarse' en un plazo de 72h",
+      "Si efectuamos ahora una oferta agresiva por debajo del precio de mercado como oferta"
+    ]
+  },
+  "j2": {
+    "titulo": "Justificación",
+    "texto": [
+      "La demanda está por encima de lo habitual en estas fechas.",
+      "Competencia mantiene precios altos.",
+      "Previsión meteorológica favorable."
+    ],
+    "reflexion": [
+      "Reservas de última hora han aumentado un 15% respecto al año anterior.",
+      "Reducir precio ahora evitará bajadas más drásticas después."
+    ]
+  },
+  "j3": {
+    "titulo": "Justificación",
+    "texto": [
+      "El ritmo de reservas es lento.",
+      "Competencia ha bajado precios recientemente.",
+      "Previsión de baja demanda para el fin de semana."
+    ],
+    "reflexion": [
+      "Si no se actúa, quedarán habitaciones sin vender.",
+      "La elasticidad del precio es alta en este periodo."
+    ]
+  }
+}
