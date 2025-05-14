@@ -322,35 +322,36 @@
     <script src="particles-bg.js"></script>
 <script>
 async function cargarDatosPantalla1() {
-  try {
-    const resp = await fetch('pantalla1-data.json?_=' + Date.now());
-    const data = await resp.json();
-    document.getElementById('hotelName').textContent = data.hotel;
-    document.getElementById('ocupacionFuturotel').textContent = data.ocupacion.futurotel.toFixed(2) + '%';
-    document.getElementById('ocupacionCompetencia').textContent = data.ocupacion.competencia.toFixed(2) + '%';
-    document.getElementById('precioFuturotel').textContent = data.precio_medio.futurotel.toFixed(2) + '€';
-    document.getElementById('precioCompetencia').textContent = data.precio_medio.competencia.toFixed(2) + '€';
-    document.getElementById('posicionBooking').textContent = data.posicion_booking;
-    document.getElementById('propuestaTitulo').textContent = data.propuesta.titulo;
-    document.getElementById('propuestaMensaje').textContent = data.propuesta.mensaje;
-    // Mini propuestas en dos filas
-    const miniRow1 = document.getElementById('miniPropuestasRow1');
-    const miniRow2 = document.getElementById('miniPropuestasRow2');
-    miniRow1.innerHTML = '';
-    miniRow2.innerHTML = '';
-    (data.mini_propuestas||[]).forEach((mp, idx) => {
-      const el = document.createElement('div');
-      el.className = 'proposal-card-mini';
-      let precioTxt = mp.titulo === '+' ? '+' + mp.precio.toFixed(2) + '€' : mp.precio.toFixed(2) + '€';
-      let roomsTxt = mp.habitaciones === 1 ? '1 Habitación' : mp.habitaciones + ' Habitaciones';
-      if(mp.habitaciones === 0) roomsTxt = '0 Habitaciones';
-      el.innerHTML = `<div class='price'>${precioTxt}</div><div class='rooms'>${roomsTxt}</div>`;
-      if (idx < 3) miniRow1.appendChild(el);
-      else miniRow2.appendChild(el);
-    });
-  } catch (e) {
-    // Si hay error, no hace nada
-  }
+    try {
+        const resp = await fetch('pantalla1-data.json?_=' + Date.now());
+        const data = await resp.json();
+        document.getElementById('hotelName').textContent = data.hotel;
+        document.getElementById('ocupacionFuturotel').textContent = data.ocupacion.futurotel.toFixed(2) + '%';
+        document.getElementById('ocupacionCompetencia').textContent = data.ocupacion.competencia.toFixed(2) + '%';
+        document.getElementById('precioFuturotel').textContent = data.precio_medio.futurotel.toFixed(2) + '€';
+        document.getElementById('precioCompetencia').textContent = data.precio_medio.competencia.toFixed(2) + '€';
+        document.getElementById('posicionBooking').textContent = data.posicion_booking;
+        document.getElementById('propuestaTitulo').textContent = data.propuesta.titulo;
+        document.getElementById('propuestaMensaje').textContent = data.propuesta.mensaje;
+        document.getElementById('propuestaPrincipal').textContent = (data.propuesta_principal || '') + ' (Precio Medio)';
+        // Mini propuestas en dos filas
+        const miniRow1 = document.getElementById('miniPropuestasRow1');
+        const miniRow2 = document.getElementById('miniPropuestasRow2');
+        miniRow1.innerHTML = '';
+        miniRow2.innerHTML = '';
+        (data.mini_propuestas||[]).forEach((mp, idx) => {
+            const el = document.createElement('div');
+            el.className = 'proposal-card-mini';
+            let precioTxt = mp.titulo === '+' ? '+' + mp.precio.toFixed(2) + '€' : mp.precio.toFixed(2) + '€';
+            let roomsTxt = mp.habitaciones === 1 ? '1 Habitación' : mp.habitaciones + ' Habitaciones';
+            if(mp.habitaciones === 0) roomsTxt = '0 Habitaciones';
+            el.innerHTML = `<div class='price'>${precioTxt}</div><div class='rooms'>${roomsTxt}</div>`;
+            if (idx < 3) miniRow1.appendChild(el);
+            else miniRow2.appendChild(el);
+        });
+    } catch (e) {
+        // Si hay error, no hace nada
+    }
 }
 document.addEventListener('DOMContentLoaded', cargarDatosPantalla1);
 </script>
