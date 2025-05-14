@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica de Ocupación - Futurotel Stats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background: #12232e;
+            color: #e0f7fa;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .graph-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem;
+            width: calc(100% - 4rem);
+            height: calc(100% - 4rem);
+            position: relative;
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .event-marker {
+            position: absolute;
+            background: rgba(0, 234, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+        .event-legend {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 10px;
+            color: white;
+        }
+        .event-legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .event-legend-color {
+            width: 12px;
+            height: 12px;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="graph-container">
+        <canvas id="ocupacionChart"></canvas>
+        <div class="event-legend">
+            <div class="event-legend-item">
+                <div class="event-legend-color" style="background: rgba(0, 234, 255, 0.2)"></div>
+                <span>Eventos Especiales</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const eventos = [
+            {
+                nombre: "Día del Trabajador",
+                fechaInicio: "2024-05-01",
+                fechaFin: "2024-05-04",
+                ocupacionInicial: 70,
+                ocupacionFinal: 90
+            },
+            {
+                nombre: "Concierto Manú Carrasco",
+                fechaInicio: "2024-05-15",
+                fechaFin: "2024-05-16",
+                ocupacionInicial: 85,
+                ocupacionFinal: 95
+            },
+            {
+                nombre: "Festival de Málaga",
+                fechaInicio: "2024-05-24",
+                fechaFin: "2024-05-26",
+                ocupacionInicial: 80,
+                ocupacionFinal: 98
+            }
+        ];
+
+        function initChart() {
+            const ctx = document.getElementById('ocupacionChart').getContext('2d');
+            
+            // Crear datos para el mes completo
+            const labels = Array.from({length: 31}, (_, i) => `${i + 1} Mayo`);
+            const ocupacionData = new Array(31).fill(75); // Base de ocupación
+
+            // Aplicar eventos a los datos
+            eventos.forEach(evento => {
+                const inicio = parseInt(evento.fechaInicio.split('-')[2]) - 1;
+                const fin = parseInt(evento.fechaFin.split('-')[2]) - 1;
+                const dias = fin - inicio + 1;
+                
+                for(let i = 0; i <= dias; i++) {
+                    const progress = i / dias;
+                    ocupacionData[inicio + i] = evento.ocupacionInicial + 
+                        (evento.ocupacionFinal - evento.ocupacionInicial) * progress;
+                }
+            });
+
+            const chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Ocupación (%)',
+                        data: ocupacionData,
+                        borderColor: '#00eaff',
+                        backgroundColor: 'rgba(0, 234, 255, 0.1)',
+                        tension: 0.4,
+                        fill: false,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#fff',
+                                font: {
+                                    family: 'Orbitron'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    const evento = eventos.find(e => {
+                                        const dia = parseInt(context.label.split(' ')[0]);
+                                        const inicio = parseInt(e.fechaInicio.split('-')[2]);
+                                        const fin = parseInt(e.fechaFin.split('-')[2]);
+                                        return dia >= inicio && dia <= fin;
+                                    });
+                                    let label = `Ocupación: ${context.parsed.y.toFixed(1)}%`;
+                                    if (evento) {
+                                        label += `\n${evento.nombre}`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: eventos.map(evento => ({
+                                type: 'box',
+                                xMin: parseInt(evento.fechaInicio.split('-')[2]) - 0.5,
+                                xMax: parseInt(evento.fechaFin.split('-')[2]) + 0.5,
+                                yMin: 0,
+                                yMax: 100,
+                                backgroundColor: 'rgba(0, 234, 255, 0.1)',
+                                borderColor: 'rgba(0, 234, 255, 0.3)',
+                                label: {
+                                    content: evento.nombre,
+                                    enabled: true,
+                                    position: 'top',
+                                    color: 'white',
+                                    font: {
+                                        family: 'Orbitron',
+                                        size: 12
+                                    }
+                                }
+                            }))
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#fff',
+                                font: {
+                                    family: 'Orbitron'
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#fff',
+                                font: {
+                                    family: 'Orbitron'
+                                }
+                            },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        initChart();
+    </script>
+    <script src="particles-bg.js"></script>
+</body>
+</html> 
