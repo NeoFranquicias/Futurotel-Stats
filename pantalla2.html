@@ -417,10 +417,10 @@
               ><span class="kpi-value" id="kpi-adr">-- €</span
               ><canvas class="sparkline" id="spark-adr"></canvas>
             </div>
-            <div class="kpi-card kpi-cancelaciones">
-              <span class="kpi-title">Cancelaciones</span
-              ><span class="kpi-value" id="kpi-cancelaciones">--</span
-              ><canvas class="sparkline" id="spark-cancelaciones"></canvas>
+            <div class="kpi-card kpi-noShowEstimado">
+              <span class="kpi-title">No Show Estimado</span
+              ><span class="kpi-value" id="kpi-noShowEstimado">--</span
+              ><canvas class="sparkline" id="spark-noShowEstimado"></canvas>
             </div>
           </div>
           <div class="kpi-cards-row">
@@ -444,20 +444,29 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+      // Para activar o desactivar los cambios aleatorios de valores, abrir la consola del navegador y escribir:
+      // cambioDeValor = true;  // Para activar los cambios aleatorios
+      // cambioDeValor = false; // Para desactivar los cambios aleatorios
+
       // Configuración de KPIs (solo metadatos, no valores)
       const kpiTargets = {
         "kpi-ocupacion": { suffix: "%", decimals: 0 },
-        "kpi-ingresos": { suffix: " €", decimals: 0, thousand: true },
-        "kpi-adr": { suffix: " €", decimals: 0 },
-        "kpi-revpar": { suffix: " €", decimals: 0 },
-        "kpi-reservas": { suffix: "", decimals: 0, thousand: true },
-        "kpi-cancelaciones": { suffix: "", decimals: 0, thousand: true },
+        "kpi-ingresos": { suffix: " €", decimals: 2, thousand: true },
+        "kpi-adr": { suffix: " €", decimals: 2 },
+        "kpi-revpar": { suffix: " €", decimals: 2 },
+        "kpi-reservas": {
+          suffix: " Habitaciones",
+          decimals: 0,
+          thousand: true,
+        },
+        "kpi-noShowEstimado": { suffix: "", decimals: 0, thousand: true },
       };
       // Sparkline data y charts
       const sparkData = {};
       const sparkCharts = {};
       const SPARK_LENGTH = 20;
       let kpiValues = {};
+      let cambioDeValor = false; // Variable para controlar si los valores cambian aleatoriamente
       // Inicializa con valores por defecto
       Object.keys(kpiTargets).forEach((id) => {
         kpiValues[id] = 0;
@@ -479,21 +488,36 @@
                 backgroundColor: "rgba(0,234,255,0.08)",
                 borderWidth: 2,
                 pointRadius: 0,
-                tension: 0.4,
+                tension: 0.5,
                 fill: true,
               },
             ],
           },
           options: {
             responsive: false,
-            animation: { duration: 400 },
+            animation: { duration: 800 },
             plugins: {
               legend: { display: false },
               tooltip: { enabled: false },
             },
             scales: {
               x: { display: false },
-              y: { display: false },
+              y: {
+                display: false,
+                // Ajuste para que las variaciones se vean pero no sean demasiado extremas
+                min: function (context) {
+                  const values = context.chart.data.datasets[0].data;
+                  const min = Math.min(...values);
+                  // Establecer el mínimo a un 5-10% menos que el mínimo real
+                  return Math.floor(min * 0.95);
+                },
+                max: function (context) {
+                  const values = context.chart.data.datasets[0].data;
+                  const max = Math.max(...values);
+                  // Establecer el máximo a un 5-10% más que el máximo real
+                  return Math.ceil(max * 1.05);
+                },
+              },
             },
           },
         });
@@ -507,7 +531,7 @@
           chart.update();
         }
       }
-      function animateKPI(id, target, duration = 1700) {
+      function animateKPI(id, target, duration = 2500) {
         const el = document.getElementById(id);
         if (!el) return;
         let start = 0;
@@ -515,23 +539,45 @@
         const step = (timestamp) => {
           if (!startTimestamp) startTimestamp = timestamp;
           const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-          let current = start + (target.value - start) * progress;
+          // Función de suavizado para hacer que la animación sea más gradual
+          const easedProgress = ease(progress);
+          let current = start + (target.value - start) * easedProgress;
           if (target.decimals === 0) current = Math.round(current);
-          else current = current.toFixed(target.decimals);
+          else current = parseFloat(current.toFixed(target.decimals));
           let text = current;
-          if (target.thousand) text = current.toLocaleString("es-ES");
+          if (target.thousand) {
+            text = current.toLocaleString("es-ES", {
+              minimumFractionDigits: target.decimals,
+              maximumFractionDigits: target.decimals,
+            });
+          } else if (target.decimals > 0) {
+            text = current.toFixed(target.decimals);
+          }
           el.textContent = text + target.suffix;
           if (progress < 1) {
             window.requestAnimationFrame(step);
           } else {
             // Asegura valor final exacto
             let finalText = target.value;
-            if (target.thousand)
-              finalText = target.value.toLocaleString("es-ES");
+            if (target.thousand) {
+              finalText = target.value.toLocaleString("es-ES", {
+                minimumFractionDigits: target.decimals,
+                maximumFractionDigits: target.decimals,
+              });
+            } else if (target.decimals > 0) {
+              finalText = parseFloat(target.value).toFixed(target.decimals);
+            }
             el.textContent = finalText + target.suffix;
             updateSparkline(id, target.value);
           }
         };
+
+        // Función de suavizado (easing) para hacer la animación más natural
+        function ease(t) {
+          // Función ease-out-cubic
+          return 1 - Math.pow(1 - t, 3);
+        }
+
         window.requestAnimationFrame(step);
       }
       // Función para actualizar KPIs y sparklines desde un objeto data
@@ -607,6 +653,9 @@
 
             // Simulación de movimiento cada 5s
             setInterval(() => {
+              // Solo ejecutar si cambioDeValor es true
+              if (!cambioDeValor) return;
+
               const kpiIds = Object.keys(kpiTargets);
               const shuffled = kpiIds.sort(() => 0.5 - Math.random());
               // Probabilidad sesgada: 1 (35%), 2 (25%), 3 (15%), 4 (12%), 5 (8%), 6 (5%)
@@ -635,26 +684,28 @@
                 else delta = (Math.random() - 0.5) * 2;
                 let nuevo = base + delta;
                 if (kpiTargets[id].decimals === 0) nuevo = Math.round(nuevo);
-                else nuevo = nuevo.toFixed(kpiTargets[id].decimals);
+                else nuevo = parseFloat(nuevo.toFixed(kpiTargets[id].decimals));
+
+                // Actualizar el valor en kpiValues para mantenerlo
+                kpiValues[id] = nuevo;
+
+                // Formatear el valor para mostrarlo
                 let texto = nuevo;
-                if (kpiTargets[id].thousand)
-                  texto = nuevo.toLocaleString("es-ES");
+                if (kpiTargets[id].thousand) {
+                  texto = nuevo.toLocaleString("es-ES", {
+                    minimumFractionDigits: kpiTargets[id].decimals,
+                    maximumFractionDigits: kpiTargets[id].decimals,
+                  });
+                } else if (kpiTargets[id].decimals > 0) {
+                  texto = nuevo.toFixed(kpiTargets[id].decimals);
+                }
+
                 texto += kpiTargets[id].suffix;
                 el.classList.remove("flip");
                 void el.offsetWidth;
                 el.classList.add("flip");
                 el.textContent = texto;
                 updateSparkline(id, nuevo);
-                setTimeout(() => {
-                  el.classList.remove("flip");
-                  void el.offsetWidth;
-                  el.classList.add("flip");
-                  let finalText = kpiValues[id];
-                  if (kpiTargets[id].thousand)
-                    finalText = kpiValues[id].toLocaleString("es-ES");
-                  el.textContent = finalText + kpiTargets[id].suffix;
-                  updateSparkline(id, kpiValues[id]);
-                }, 2500);
               });
             }, 5000); // 5 segundos
           });
