@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfica Ocupación - Eventos Málaga</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Orbitron', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #e0f7fa;
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: hidden;
+        }
+
+        main {
+            width: 1150px;
+            max-width: 1150px;
+            min-height: 564px;
+            height: 564px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        .dashboard-section {
+            background: transparent;
+            padding: 8px;
+            animation: fadein 1.2s forwards;
+            opacity: none;
+            visibility: visible;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+            box-shadow: none;
+        }
+        .dashboard-section h2 {
+            color: #00eaff;
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 2px;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 10px #00eaff88;
+            text-align: center;
+            animation: subtleGlow 3s infinite;
+        }
+        .event-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 24px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .event-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.08rem;
+        }
+        .event-color {
+            width: 18px;
+            height: 6px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .chart-container {
+            background: linear-gradient(135deg, #142850cc 60%, #203a43cc 100%);
+            border: 1px solid #00eaff88;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #00eaff22;
+            padding: 18px 18px 8px 18px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 980px;
+            min-height: 390px;
+            height: 390px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes subtleGlow {
+            0%, 100% {
+                text-shadow: 0 0 14px #00eaff88;
+            }
+            50% {
+                text-shadow: 0 0 18px #00eaff;
+            }
+        }
+        @keyframes fadein {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="dashboard-section">
+            <h2 style="margin-top:20px;">Ocupación por Eventos en Málaga</h2>
+            <div class="event-legend">
+                <div style="display: flex; flex-wrap: wrap; gap: 14px 32px; justify-content: center;">
+                    <div style="width:100%; display:flex; justify-content:center; gap:32px; margin-bottom:2px;">
+                        <span class="event-legend-item"><span class="event-color" style="background:#00eaff;"></span>Día del Trabajador</span>
+                        <span class="event-legend-item"><span class="event-color" style="background:#f44336;"></span>Disobey</span>
+                        <span class="event-legend-item"><span class="event-color" style="background:#4caf50;"></span>Blake</span>
+                        <span class="event-legend-item"><span class="event-color" style="background:#607d8b;"></span>Kidd Keo</span>
+                    </div>
+                    <div style="width:100%; display:flex; justify-content:center; gap:32px;">
+                        <span class="event-legend-item"><span class="event-color" style="background:#ffb300;"></span>Alameda Festival</span>
+                        <span class="event-legend-item"><span class="event-color" style="background:#00bcd4;"></span>Festival Oh See</span>
+                        <span class="event-legend-item"><span class="event-color" style="background:#e91e63;"></span>Myke Towers</span>
+                        <span class="event-legend-item"><span class="event-color" style="background:#9c27b0;"></span>Chayanne</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="chart-container">
+                <canvas id="ocupacionChart" width="900" height="340" style="display:block;margin:0 auto;"></canvas>
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Generar los datos de ocupación para mayo
+        const labels = Array.from({length: 31}, (_, i) => i+1);
+        // Base: ocupación "normal" baja
+        let base = labels.map(() => 60 + Math.random()*7);
+
+        // Día del trabajador: 1-4 mayo, sube del 70 al 90
+        for(let d=1; d<=4; d++) base[d-1] = 70 + (d-1)*(20/3);
+
+        // Eventos: subidas puntuales
+        const eventos = [
+            {nombre: 'Día del Trabajador', dias: [1,2,3,4], color:'#00eaff'},
+            {nombre: 'Alameda Festival', dias: [22,23,24], color:'#ffb300'},
+            {nombre: 'Myke Towers', dias: [24], color:'#e91e63'},
+            {nombre: 'Chayanne', dias: [25], color:'#9c27b0'},
+            {nombre: 'Blake', dias: [16], color:'#4caf50'},
+            {nombre: 'Festival Oh See', dias: [23,24], color:'#00bcd4'},
+            {nombre: 'Disobey', dias: [15], color:'#f44336'},
+            {nombre: 'Kidd Keo', dias: [17], color:'#607d8b'},
+        ];
+        // Sube la ocupación en los días de evento, evitando tramos planos en el máximo
+        let eventoBoost = Array(labels.length).fill(0);
+        // Agrupa eventos por día
+        let eventosPorDia = {};
+        eventos.forEach(ev => {
+            ev.dias.forEach(dia => {
+                if (!eventosPorDia[dia-1]) eventosPorDia[dia-1] = [];
+                eventosPorDia[dia-1].push(ev);
+            });
+        });
+        // Aplica boosts decrecientes según cuántos eventos haya ese día
+        Object.entries(eventosPorDia).forEach(([idx, arr]) => {
+            let boosts = [25, 15, 10, 7, 5];
+            arr.forEach((ev, i) => {
+                eventoBoost[idx] += boosts[i] || 3;
+            });
+        });
+        // Limita a 103 pero nunca deja varios días seguidos en el máximo
+        base = base.map((v, i, arr) => {
+            let raw = v + eventoBoost[i];
+            if (raw > 103) {
+                // Si el anterior ya era 103, baja un poco este
+                if (i > 0 && arr[i-1] >= 102.5) return 102 - Math.random();
+                // Si el siguiente también sería 103, baja un poco el siguiente
+                if (i < arr.length-1 && (v + eventoBoost[i+1]) > 102.5) return 102 - Math.random();
+                return 103;
+            }
+            return raw;
+        });
+        // Día del trabajador: 1-4 mayo, valores exactos requeridos
+        base[0] = 70;
+        base[1] = 87;
+        base[2] = 90;
+        base[3] = 88;
+        // Dataset de ocupación general
+        let datasets = [
+            {
+                label: 'Ocupación General',
+                data: base,
+                borderColor: '#e0f7fa',
+                backgroundColor: '#e0f7fa55',
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.25,
+                fill: false,
+                order: 1,
+                type: 'line'
+            }
+        ];
+
+        // Plugin para bandas verticales de eventos
+        const eventBandsPlugin = {
+            id: 'eventBands',
+            beforeDatasetsDraw(chart, args, options) {
+                const {ctx, chartArea, scales} = chart;
+                if (!chartArea) return;
+                // Agrupa eventos por día
+                let eventosPorDia = {};
+                eventos.forEach(ev => {
+                    ev.dias.forEach(dia => {
+                        if (!eventosPorDia[dia-1]) eventosPorDia[dia-1] = [];
+                        eventosPorDia[dia-1].push(ev);
+                    });
+                });
+                Object.entries(eventosPorDia).forEach(([diaIdx, eventosDia]) => {
+                    let xLabel = labels[diaIdx] + ' mayo';
+                    let x = chart.scales.x.getPixelForValue(xLabel);
+                    let bandWidth = 18;
+                    if (eventosDia.length > 1) {
+                        bandWidth = 18 / eventosDia.length;
+                    }
+                    eventosDia.forEach((ev, i) => {
+                        let x0 = x - 9 + i*bandWidth;
+                        let x1 = x0 + bandWidth;
+                        ctx.save();
+                        ctx.globalAlpha = 0.45;
+                        ctx.fillStyle = ev.color;
+                        ctx.fillRect(x0, chartArea.top, bandWidth, chartArea.bottom - chartArea.top);
+                        ctx.globalAlpha = 1;
+
+                        ctx.restore();
+                    });
+                });
+            }
+        };
+
+
+        // Custom plugin para los bocadillos de eventos
+        const eventLabelsPlugin = {
+            id: 'eventLabels',
+            afterDatasetsDraw(chart, args, options) {
+                const {ctx} = chart;
+                // Agrupa los puntos de eventos por día para apilar bocadillos
+                let map = {};
+                eventoPuntos.forEach(ev => {
+                    if(!map[ev.x]) map[ev.x] = [];
+                    map[ev.x].push(ev);
+                });
+                Object.entries(map).forEach(([labelX, arr]) => {
+                    // Busca el punto scatter correspondiente
+                    let scatterIdx = datasets.findIndex(ds => ds.type === 'scatter' && ds.data[0].x == labelX);
+                    if(scatterIdx === -1) return;
+                    let meta = chart.getDatasetMeta(scatterIdx);
+                    if(!meta || !meta.data || !meta.data[0]) return;
+                    let point = meta.data[0];
+                    arr.forEach((ev, idx) => {
+                        ctx.save();
+                        // --- Bocadillo tipo etiqueta flotante, spread ---
+                        const maxWidth = 110;
+                        ctx.font = '600 12px Orbitron, Arial, sans-serif';
+                        ctx.textAlign = 'center';
+                        let x = point.x;
+                        let y = point.y - 18;
+                        // spread: alterna ángulo por idx, y cambia arriba/abajo según ocupación
+                        let spread, s;
+                        if (ev.y > 80) {
+                            // Bocadillo por debajo
+                            spread = [
+                                {dx: 0, dy: 38}, // centro-abajo
+                                {dx: -60, dy: 26}, // izq-abajo
+                                {dx: 60, dy: 26}, // der-abajo
+                                {dx: -48, dy: 60}, // izq-abajo más bajo
+                                {dx: 48, dy: 60}  // der-abajo más bajo
+                            ];
+                            ctx.textBaseline = 'top';
+                        } else {
+                            // Bocadillo por arriba (como antes)
+                            spread = [
+                                {dx: 0, dy: -38}, // centro-arriba
+                                {dx: -60, dy: -26}, // izq-arriba
+                                {dx: 60, dy: -26}, // der-arriba
+                                {dx: -48, dy: -60}, // izq-arriba más alto
+                                {dx: 48, dy: -60}  // der-arriba más alto
+                            ];
+                            ctx.textBaseline = 'bottom';
+                        }
+                        s = spread[idx % spread.length];
+                        x += s.dx;
+                        y += s.dy;
+                        // Prepara texto y ocupación
+                        let nombre = ev.nombre;
+                        let ocupacion = (ev.y).toFixed(1) + '%';
+                        // Divide el texto si es muy largo
+                        let nombreLines = [];
+                        if (ctx.measureText(nombre).width > maxWidth-16) {
+                            let words = nombre.split(' ');
+                            let line = '';
+                            for (let word of words) {
+                                let testLine = line ? line + ' ' + word : word;
+                                if (ctx.measureText(testLine).width > maxWidth-16) {
+                                    if (line) nombreLines.push(line);
+                                    line = word;
+                                } else {
+                                    line = testLine;
+                                }
+                            }
+                            if (line) nombreLines.push(line);
+                        } else {
+                            nombreLines = [nombre];
+                        }
+                        let bocadilloHeight = 22 + (nombreLines.length-1)*13 + 15;
+                        let bocadilloWidth = Math.max(...nombreLines.map(l => ctx.measureText(l).width), ctx.measureText(ocupacion).width) + 18;
+                        bocadilloWidth = Math.min(bocadilloWidth, maxWidth);
+                        // Etiqueta rectangular
+                        ctx.beginPath();
+                        ctx.moveTo(x-bocadilloWidth/2, y-bocadilloHeight);
+                        ctx.lineTo(x+bocadilloWidth/2, y-bocadilloHeight);
+                        ctx.arcTo(x+bocadilloWidth/2+8, y-bocadilloHeight, x+bocadilloWidth/2+8, y-8, 8);
+                        ctx.lineTo(x+bocadilloWidth/2+8, y-8);
+                        ctx.arcTo(x+bocadilloWidth/2+8, y, x, y, 8);
+                        ctx.arcTo(x-bocadilloWidth/2-8, y, x-bocadilloWidth/2-8, y-8, 8);
+                        ctx.lineTo(x-bocadilloWidth/2-8, y-8);
+                        ctx.arcTo(x-bocadilloWidth/2-8, y-bocadilloHeight, x-bocadilloWidth/2, y-bocadilloHeight, 8);
+                        ctx.closePath();
+                        ctx.globalAlpha = 0.95;
+                        ctx.fillStyle = ev.color+'ee';
+                        ctx.shadowColor = ev.color;
+                        ctx.shadowBlur = 5;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        ctx.globalAlpha = 1;
+                        // Flecha
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(point.x, point.y-8);
+                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = ev.color;
+                        ctx.stroke();
+                        ctx.restore();
+                        // Texto del nombre
+                        ctx.fillStyle = '#fff';
+                        ctx.font = '600 12px Orbitron, Arial, sans-serif';
+                        nombreLines.forEach((line, j) => {
+                            ctx.fillText(line, x, y-bocadilloHeight+15+j*13);
+                        });
+                        // Porcentaje de ocupación
+                        ctx.font = '500 10px Orbitron, Arial, sans-serif';
+                        ctx.fillStyle = '#e0f7fa';
+                        ctx.fillText(ocupacion, x, y-bocadilloHeight+15+nombreLines.length*13);
+                        ctx.restore();
+                        // Marca vertical sobre la línea de ocupación
+                        ctx.save();
+                        ctx.strokeStyle = ev.color;
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(point.x, point.y+6);
+                        ctx.lineTo(point.x, point.y-10);
+                        ctx.stroke();
+                        ctx.restore();
+                    });
+                });
+            }
+        };
+
+        const ctx = document.getElementById('ocupacionChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            plugins: [eventBandsPlugin],
+            data: {
+                labels: labels.map(d => d+" mayo"),
+                datasets
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                if(context.parsed.y != null) {
+                                    return context.dataset.label+': '+context.parsed.y.toFixed(1)+'%';
+                                }
+                                return '';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        min: 50,
+                        max: 105,
+                        title: {
+                            display: true,
+                            text: 'Ocupación (%)',
+                            color: '#00eaff',
+                            font: { size: 16 }
+                        },
+                        grid: {
+                            color: '#00eaff22'
+                        },
+                        ticks: {
+                            color: '#e0f7fa',
+                            font: { size: 14 }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Día de Mayo',
+                            color: '#00eaff',
+                            font: { size: 16 }
+                        },
+                        grid: {
+                            color: '#00eaff11'
+                        },
+                        ticks: {
+                            color: '#e0f7fa',
+                            font: { size: 14 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="particles-bg.js"></script>
+</body>
+</html>
