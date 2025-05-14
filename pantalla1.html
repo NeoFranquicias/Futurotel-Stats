@@ -333,7 +333,7 @@ async function cargarDatosPantalla1() {
         document.getElementById('posicionBooking').textContent = data.posicion_booking;
         document.getElementById('propuestaTitulo').textContent = data.propuesta.titulo;
         document.getElementById('propuestaMensaje').textContent = data.propuesta.mensaje;
-        document.getElementById('propuestaPrincipal').textContent = data.propuesta_principal || '';
+        document.getElementById('propuestaPrincipal').textContent = (data.propuesta_principal || '') + ' (Precio Medio)';
         // Mini propuestas en dos filas
         const miniRow1 = document.getElementById('miniPropuestasRow1');
         const miniRow2 = document.getElementById('miniPropuestasRow2');
