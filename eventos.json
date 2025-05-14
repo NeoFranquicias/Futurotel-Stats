@@ -1,34 +1,28 @@
 {
   "eventos": [
     {
-      "id": 1,
-      "fecha": "2025-05-01",
-      "evento": "Congreso IA",
-      "descripcion": "Congreso internacional sobre IA aplicada al turismo",
-      "tipo": "Congreso",
-      "asistentes": 350,
-      "ciudad": "Madrid",
-      "visible": true
+      "nombre": "Día del Trabajador",
+      "fechaInicio": "2024-05-01",
+      "fechaFin": "2024-05-04",
+      "ocupacionInicial": 70,
+      "ocupacionFinal": 90,
+      "descripcion": "Puente del Día del Trabajador"
     },
     {
-      "id": 2,
-      "fecha": "2025-04-22",
-      "evento": "Fiesta de Primavera",
-      "descripcion": "",
-      "tipo": "Fiesta",
-      "asistentes": "",
-      "ciudad": "Barcelona",
-      "visible": true
+      "nombre": "Concierto Manú Carrasco",
+      "fechaInicio": "2024-05-15",
+      "fechaFin": "2024-05-16",
+      "ocupacionInicial": 85,
+      "ocupacionFinal": 95,
+      "descripcion": "Concierto en el Auditorio Municipal"
     },
     {
-      "id": 3,
-      "fecha": "2025-04-15",
-      "evento": "Seminario Blockchain",
-      "descripcion": "Aplicaciones de blockchain en hoteles",
-      "tipo": "Seminario",
-      "asistentes": 120,
-      "ciudad": "Valencia",
-      "visible": true
+      "nombre": "Festival de Málaga",
+      "fechaInicio": "2024-05-20",
+      "fechaFin": "2024-05-25",
+      "ocupacionInicial": 80,
+      "ocupacionFinal": 98,
+      "descripcion": "Festival de Cine de Málaga"
     }
   ],
   "demandaPorCiudad": {

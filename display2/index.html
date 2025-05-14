@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futurotel Stats - Display 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background: #12232e;
+            color: #e0f7fa;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+        iframe {
+            border: none;
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            transform: scale(1.1);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+        iframe.active {
+            opacity: 1;
+            z-index: 2;
+            transform: scale(1);
+        }
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            color: #00eaff;
+            text-shadow: 0 0 15px rgba(0, 234, 255, 0.7);
+            z-index: 1;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+            100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">Cargando estadísticas...</div>
+    <iframe id="frame1" src="optimizacion.html"></iframe>
+    <iframe id="frame2" src="comparativa.html"></iframe>
+
+    <script>
+        const frames = document.querySelectorAll('iframe');
+        let currentFrame = 0;
+        const rotationTime = 20000; // 20 segundos por pantalla
+
+        function rotateFrames() {
+            frames.forEach(frame => frame.classList.remove('active'));
+            frames[currentFrame].classList.add('active');
+            currentFrame = (currentFrame + 1) % frames.length;
+        }
+
+        // Asegurarse de que todos los iframes estén cargados antes de comenzar
+        let loadedFrames = 0;
+        frames.forEach(frame => {
+            frame.addEventListener('load', () => {
+                loadedFrames++;
+                if (loadedFrames === frames.length) {
+                    document.querySelector('.loading').style.display = 'none';
+                    rotateFrames();
+                    setInterval(rotateFrames, rotationTime);
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

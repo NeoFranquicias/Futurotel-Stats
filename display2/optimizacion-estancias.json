@@ -1,0 +1,30 @@
+{
+    "ocupacion": {
+        "futurotel": {
+            "real": 92.73,
+            "prevista": 103.73
+        },
+        "competencia": {
+            "real": 57.22,
+            "prevista": 65.17
+        }
+    },
+    "precioMedio": {
+        "real": {
+            "futurotel": 67.10,
+            "competencia": 45.12
+        },
+        "previsto": {
+            "futurotel": 69.71,
+            "competencia": 47.20
+        }
+    },
+    "posicionamiento": {
+        "booking": {
+            "posicion": 7,
+            "total": 4422
+        },
+        "propuesta": "Subir al top 1",
+        "diferenciaPrecio": -14.20
+    }
+} 
