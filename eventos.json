@@ -2,32 +2,70 @@
   "eventos": [
     {
       "nombre": "Día del Trabajador",
-      "fechaInicio": "2024-05-01",
-      "fechaFin": "2024-05-04",
-      "ocupacionInicial": 70,
-      "ocupacionFinal": 90,
-      "descripcion": "Puente del Día del Trabajador"
+      "fechaInicio": 1,
+      "fechaFin": 4,
+      "color": "rgba(255, 99, 132, 0.3)",
+      "borderColor": "rgb(255, 99, 132)"
+    },
+    {
+      "nombre": "Festival de Cine de Málaga",
+      "fechaInicio": 8,
+      "fechaFin": 14,
+      "color": "rgba(54, 162, 235, 0.3)",
+      "borderColor": "rgb(54, 162, 235)"
+    },
+    {
+      "nombre": "Disobey",
+      "fechaInicio": 15,
+      "fechaFin": 15,
+      "color": "rgba(75, 192, 192, 0.3)",
+      "borderColor": "rgb(75, 192, 192)"
+    },
+    {
+      "nombre": "Blake",
+      "fechaInicio": 16,
+      "fechaFin": 16,
+      "color": "rgba(153, 102, 255, 0.3)",
+      "borderColor": "rgb(153, 102, 255)"
+    },
+    {
+      "nombre": "Alameda Festival",
+      "fechaInicio": 22,
+      "fechaFin": 24,
+      "color": "rgba(201, 203, 107, 0.3)",
+      "borderColor": "rgb(201, 203, 107)"
+    },
+    {
+      "nombre": "Chayanne",
+      "fechaInicio": 25,
+      "fechaFin": 25,
+      "color": "rgba(255, 99, 71, 0.3)",
+      "borderColor": "rgb(255, 99, 71)"
     },
     {
       "nombre": "Concierto Manú Carrasco",
-      "fechaInicio": "2024-05-15",
-      "fechaFin": "2024-05-16",
-      "ocupacionInicial": 85,
-      "ocupacionFinal": 95,
-      "descripcion": "Concierto en el Auditorio Municipal"
-    },
-    {
-      "nombre": "Festival de Málaga",
-      "fechaInicio": "2024-05-20",
-      "fechaFin": "2024-05-25",
-      "ocupacionInicial": 80,
-      "ocupacionFinal": 98,
-      "descripcion": "Festival de Cine de Málaga"
+      "fechaInicio": 26,
+      "fechaFin": 26,
+      "color": "rgba(255, 206, 86, 0.3)",
+      "borderColor": "rgb(255, 206, 86)"
     }
   ],
+  "ocupacion": [
+    65, 68, 70, 85, 90, 82, 75, 72, 70, 73, 77, 80, 95, 98, 92, 88, 83, 85, 78,
+    75, 72, 70, 73, 78, 85, 95, 99, 98, 96, 90, 85
+  ],
   "demandaPorCiudad": {
-    "Madrid": [36, 37, 35, 36, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35],
-    "Barcelona": [29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30],
-    "Valencia": [21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22]
+    "Madrid": [
+      36, 37, 35, 36, 34, 35, 36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35,
+      36, 37, 36, 35, 34, 35, 36, 37, 36, 35, 34, 35
+    ],
+    "Barcelona": [
+      29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30,
+      29, 28, 30, 29, 28, 30, 29, 28, 30, 29, 28, 30
+    ],
+    "Valencia": [
+      21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22,
+      23, 22, 21, 22, 23, 22, 21, 22, 23, 22, 21, 22
+    ]
   }
 }
