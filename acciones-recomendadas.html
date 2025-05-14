@@ -474,7 +474,7 @@ for (let i = 0; i < 4; i++) {
       }
     }
     // Cambia este valor para elegir la pantalla inicial (0 = primera, 1 = segunda, etc)
-    let pantallaInicial = 2;
+    let pantallaInicial = 0;
     async function updateDataAndRender() {
       await Promise.all([fetchAcciones(), fetchJustificaciones()]);
       if (!acciones.length) return;
