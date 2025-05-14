@@ -1,0 +1,22 @@
+{
+  "hotel": "Futurotel",
+  "ocupacion": {
+    "futurotel": 92.73,
+    "futurotel_prevista": 103.73,
+    "competencia": 57.22,
+    "competencia_prevista": 65.17
+  },
+  "precio_medio": {
+    "futurotel": 67.10,
+    "futurotel_previsto": 69.71,
+    "competencia": 45.12,
+    "competencia_previsto": 47.20
+  },
+  "posicion_booking": "7/4422",
+  "propuesta": {
+    "titulo": "Propuesta subir al top 1",
+    "mensaje": "No recomendable – 14,20% en precio"
+  },
+  "propuesta_principal": "Algoritmo utilizado actualmente",
+  "mini_propuestas": []
+} 

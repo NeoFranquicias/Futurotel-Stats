@@ -74,14 +74,24 @@
             border-radius: 10px;
             animation: slideUp 0.5s ease-out;
         }
-        .price-recommendation {
-            color: #00eaff;
-            margin-top: 1rem;
+        .algorithm-section {
+            grid-column: span 2;
             text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 234, 255, 0.1);
+            border-radius: 10px;
+        }
+        .algorithm-formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            color: #00eaff;
+        }
+        .not-recommended {
+            color: #ff4444;
+            margin-top: 1rem;
             font-weight: bold;
-            animation: fadeIn 0.5s ease-out;
-            animation-delay: 0.3s;
-            animation-fill-mode: both;
         }
         @keyframes fadeIn {
             from {
@@ -112,19 +122,19 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-label">Futurotel Real</div>
-                    <div class="stat-value" id="futurotel-real">92,73%</div>
+                    <div class="stat-value">92,73%</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Futurotel Prevista</div>
-                    <div class="stat-value" id="futurotel-prevista">103,73%</div>
+                    <div class="stat-value">103,73%</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Competencia Real</div>
-                    <div class="stat-value" id="competencia-real">57,22%</div>
+                    <div class="stat-value">57,22%</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Competencia Prevista</div>
-                    <div class="stat-value" id="competencia-prevista">65,17%</div>
+                    <div class="stat-value">65,17%</div>
                 </div>
             </div>
         </div>
@@ -134,60 +144,42 @@
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-label">Real Futurotel</div>
-                    <div class="stat-value" id="precio-real-futurotel">67,10€</div>
+                    <div class="stat-value">67,10€</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Real Competencia</div>
-                    <div class="stat-value" id="precio-real-competencia">45,12€</div>
+                    <div class="stat-value">45,12€</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Previsto Futurotel</div>
-                    <div class="stat-value" id="precio-previsto-futurotel">69,71€</div>
+                    <div class="stat-value">69,71€</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-label">Previsto Competencia</div>
-                    <div class="stat-value" id="precio-previsto-competencia">47,20€</div>
+                    <div class="stat-value">47,20€</div>
                 </div>
             </div>
         </div>
 
-        <div class="stats-card" style="grid-column: span 2;">
+        <div class="stats-card">
             <div class="booking-position">
                 <div class="stat-label">Posicionamiento en Booking.com</div>
-                <div class="stat-value" id="booking-position">7/4422</div>
+                <div class="stat-value">7/4422</div>
             </div>
             <div class="stat-label" style="text-align: center; margin-top: 1rem;">Propuesta</div>
             <div class="stat-value" style="text-align: center;">Subir al top 1</div>
-            <div class="price-recommendation">
-                Objetivo: Alcanzar Top 1
+            <div class="not-recommended">
+                No recomendable – 14,20% en precio
+            </div>
+        </div>
+
+        <div class="algorithm-section">
+            <h3 class="stats-title">Algoritmo utilizado actualmente</h3>
+            <div class="algorithm-formula">
+                P<sub>opt</sub> = W<sub>o</sub>⋅f(O<sub>c</sub>) + W<sub>p</sub>⋅P<sub>h</sub> + W<sub>c</sub>⋅((P<sub>cmin</sub> + P<sub>cmax</sub>)/2) + W<sub>oc</sub>⋅g(O<sub>c*</sub>)
             </div>
         </div>
     </div>
-
-    <script>
-        async function loadData() {
-            const response = await fetch('optimizacion-estancias.json');
-            const data = await response.json();
-            
-            // Actualizar ocupación
-            document.getElementById('futurotel-real').textContent = data.ocupacion.futurotel.real + '%';
-            document.getElementById('futurotel-prevista').textContent = data.ocupacion.futurotel.prevista + '%';
-            document.getElementById('competencia-real').textContent = data.ocupacion.competencia.real + '%';
-            document.getElementById('competencia-prevista').textContent = data.ocupacion.competencia.prevista + '%';
-            
-            // Actualizar precios medios
-            document.getElementById('precio-real-futurotel').textContent = data.precioMedio.real.futurotel + '€';
-            document.getElementById('precio-real-competencia').textContent = data.precioMedio.real.competencia + '€';
-            document.getElementById('precio-previsto-futurotel').textContent = data.precioMedio.previsto.futurotel + '€';
-            document.getElementById('precio-previsto-competencia').textContent = data.precioMedio.previsto.competencia + '€';
-            
-            // Actualizar posicionamiento
-            document.getElementById('booking-position').textContent = 
-                `${data.posicionamiento.booking.posicion}/${data.posicionamiento.booking.total}`;
-        }
-
-        loadData();
-    </script>
     <script src="particles-bg.js"></script>
 </body>
 </html> 
