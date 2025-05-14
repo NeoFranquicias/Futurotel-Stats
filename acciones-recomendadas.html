@@ -432,7 +432,12 @@ for (let i = 0; i < 4; i++) {
             try {
               if (window.Chart) {
                 const ctx = document.getElementById('graficaBarras').getContext('2d');
-                new Chart(ctx, {
+                // Destruye la gráfica anterior si existe
+                if (window.chartBarras) {
+                  window.chartBarras.destroy();
+                  window.chartBarras = null;
+                }
+                window.chartBarras = new Chart(ctx, {
                   type: 'bar',
                   data: {
                     labels: pantalla.nombres,
