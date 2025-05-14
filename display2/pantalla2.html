@@ -75,14 +75,31 @@
     </div>
 
     <script>
-        async function loadEventos() {
-            const response = await fetch('../eventos.json');
-            const data = await response.json();
-            return data.eventos;
-        }
+        const eventos = [
+            {
+                nombre: "Día del Trabajador",
+                fechaInicio: "2024-05-01",
+                fechaFin: "2024-05-04",
+                ocupacionInicial: 70,
+                ocupacionFinal: 90
+            },
+            {
+                nombre: "Concierto Manú Carrasco",
+                fechaInicio: "2024-05-15",
+                fechaFin: "2024-05-16",
+                ocupacionInicial: 85,
+                ocupacionFinal: 95
+            },
+            {
+                nombre: "Festival de Málaga",
+                fechaInicio: "2024-05-24",
+                fechaFin: "2024-05-26",
+                ocupacionInicial: 80,
+                ocupacionFinal: 98
+            }
+        ];
 
-        async function initChart() {
-            const eventos = await loadEventos();
+        function initChart() {
             const ctx = document.getElementById('ocupacionChart').getContext('2d');
             
             // Crear datos para el mes completo
@@ -112,7 +129,8 @@
                         borderColor: '#00eaff',
                         backgroundColor: 'rgba(0, 234, 255, 0.1)',
                         tension: 0.4,
-                        fill: true
+                        fill: false,
+                        borderWidth: 2
                     }]
                 },
                 options: {

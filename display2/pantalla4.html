@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmo y Comparativas - Futurotel Stats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background: #12232e;
+            color: #e0f7fa;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .algorithm-container {
+            padding: 2rem;
+            margin: 2rem;
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .algorithm-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+        .algorithm-title {
+            color: #00eaff;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 234, 255, 0.5);
+        }
+        .algorithm-section {
+            margin-bottom: 2rem;
+        }
+        .algorithm-formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.4rem;
+            margin: 1.5rem 0;
+            color: #00eaff;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 234, 255, 0.1);
+            border-radius: 10px;
+        }
+        .formula-explanation {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .variable-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .variable-item {
+            padding: 0.8rem;
+            background: rgba(0, 234, 255, 0.1);
+            border-radius: 8px;
+        }
+        .variable-name {
+            color: #00eaff;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .comparison-section {
+            margin-top: 2rem;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .comparison-item {
+            background: rgba(0, 234, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .comparison-label {
+            color: #00eaff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .comparison-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="algorithm-container">
+        <div class="algorithm-card">
+            <h2 class="algorithm-title">Algoritmo de Optimización</h2>
+            
+            <div class="algorithm-section">
+                <div class="algorithm-formula">
+                    P<sub>opt</sub> = W<sub>o</sub>⋅f(O<sub>c</sub>) + W<sub>p</sub>⋅P<sub>h</sub> + W<sub>c</sub>⋅((P<sub>cmin</sub> + P<sub>cmax</sub>)/2) + W<sub>oc</sub>⋅g(O<sub>c*</sub>)
+                </div>
+                
+                <div class="formula-explanation">
+                    <div class="variable-list">
+                        <div class="variable-item">
+                            <div class="variable-name">P<sub>opt</sub></div>
+                            <div>Precio óptimo calculado</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">W<sub>o</sub></div>
+                            <div>Peso del factor ocupación (0.4)</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">f(O<sub>c</sub>)</div>
+                            <div>Función de ocupación actual</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">W<sub>p</sub></div>
+                            <div>Peso del histórico de precios (0.3)</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">P<sub>h</sub></div>
+                            <div>Precio histórico ajustado</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">W<sub>c</sub></div>
+                            <div>Peso de la competencia (0.2)</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">P<sub>cmin</sub>, P<sub>cmax</sub></div>
+                            <div>Rango de precios competencia</div>
+                        </div>
+                        <div class="variable-item">
+                            <div class="variable-name">W<sub>oc</sub></div>
+                            <div>Peso ocupación competencia (0.1)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-section">
+                <h3 class="algorithm-title">Comparativa de Rendimiento</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <div class="comparison-label">Precisión del Algoritmo</div>
+                        <div class="comparison-value">94.8%</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-label">Mejora en RevPAR</div>
+                        <div class="comparison-value">+15.3%</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-label">Optimización de Precios</div>
+                        <div class="comparison-value">+8.7%</div>
+                    </div>
+                    <div class="comparison-item">
+                        <div class="comparison-label">Reducción Overbooking</div>
+                        <div class="comparison-value">-42.5%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="particles-bg.js"></script>
+</body>
+</html> 
