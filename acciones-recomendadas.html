@@ -249,6 +249,7 @@
     </div>
   </div>
   <script src="particles-bg.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // Autoescalado tipo foto
     function scaleAccionesPanel() {
@@ -270,7 +271,8 @@
     // Variables globales para rotación y fetch
     let acciones = [];
     let justificaciones = {};
-    let currentIdx = 0;
+    let currentPantalla = 0;
+    let totalPantallas = 1;
     let rotarInterval = null;
 
     async function fetchAcciones() {
@@ -288,82 +290,203 @@
     function formatEuros(val) {
       return (Math.round(val * 100) / 100).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '€';
     }
-    function renderAccion(idx) {
+    function renderPantalla(pantallaIdx) {
       if (!acciones.length) return;
-      const accion = acciones[idx];
-      const just = justificaciones[accion.justificacion_id] || { titulo: '', texto: [], reflexion: [] };
-      // Tarjeta Acción
-      const cardAccion = `
-        <div class="acciones-card cian" style="grid-column:1;grid-row:1;justify-content:center;align-items:center;">
-          <div class="acciones-label">Acción #${accion.id}</div>
-          <div class="acciones-fecha">${accion.fecha}</div>
-          <div class="acciones-precio">Precio<br><span>${formatEuros(accion.precio_inicial)} → ${formatEuros(accion.precio_accion)}</span></div>
-        </div>
-      `;
-      // Tarjeta Reflexión
-      const cardReflexion = `
-        <div class="acciones-card cian" style="grid-column:1;grid-row:2;">
-          <div class="acciones-label">Reflexión</div>
-          <div class="acciones-fecha">Para el día ${accion.fecha}</div>
-          <table class="acciones-table">
-            <tr><th>Facturación Objetivo</th><td>${formatEuros(accion.facturacion_objetivo)}</td></tr>
-            <tr><th>Facturación Conseguida</th><td>${formatEuros(accion.facturacion_conseguida)}</td></tr>
-            <tr><th>Habitaciones por Vender</th><td>${accion.habitaciones_por_vender}</td></tr>
-          </table>
-        </div>
-      `;
-      // Tarjeta Justificación
-      const cardJust = `
-        <div class="acciones-card justificacion">
-          <div class="acciones-label">${just.titulo || 'Justificación'}</div>
-          <ul style="margin: 0 0 10px 18px; padding: 0; color: #e0f7fa;">
-            ${(just.texto||[]).map(t=>`<li>${t}</li>`).join('')}
-          </ul>
-          <div class="acciones-reflexion">
-            ${(just.reflexion||[]).map(t=>`<div>${t}</div>`).join('')}
-          </div>
-        </div>
-      `;
-      // Tarjeta Si aplica
-      const cardSi = `
-        <div class="acciones-card verde" style="grid-column:3;grid-row:1;">
-          <div class="acciones-label">Si se aplica la acción</div>
-          <div class="acciones-derivacion">${accion.si_aplica}</div>
-        </div>
-      `;
-      // Tarjeta No aplica
-      const cardNo = `
-        <div class="acciones-card rojo" style="grid-column:3;grid-row:2;">
-          <div class="acciones-label">Si no se aplica la acción</div>
-          <div class="acciones-derivacion">${accion.no_aplica}</div>
-        </div>
-      `;
+      const accion = acciones[0]; // Solo una acción
+      const pantallas = accion.pantallas || [];
+      const pantalla = pantallas[pantallaIdx % pantallas.length];
       const grid = document.getElementById('accionesGrid');
-// Si ya hay contenido, animar fade out y luego fade in
-if (grid.children.length > 0) {
-  Array.from(grid.children).forEach(el => {
-    el.style.animation = 'cardFadeOut 0.5s cubic-bezier(.4,0,.2,1) forwards';
-  });
-  setTimeout(() => {
-    grid.innerHTML = cardAccion + cardReflexion + cardJust + cardSi + cardNo;
-    // Forzar reflow para reiniciar animaciones
-    Array.from(grid.children).forEach(el => { void el.offsetWidth; });
-  }, 450);
-} else {
-  grid.innerHTML = cardAccion + cardReflexion + cardJust + cardSi + cardNo;
-  Array.from(grid.children).forEach(el => { void el.offsetWidth; });
-}
+      // Animar fade out de todos los hijos antes de cambiar el contenido
+      const fadeOut = () => {
+        Array.from(grid.children).forEach(el => {
+          el.style.animation = 'cardFadeOut 0.5s cubic-bezier(.4,0,.2,1) forwards';
+        });
+        grid.style.opacity = 0.5;
+      };
+      if (grid.children.length > 0) {
+        fadeOut();
+        setTimeout(renderPantallaContent, 500);
+      } else {
+        renderPantallaContent();
+      }
+      function renderPantallaContent() {
+        let html = '';
+        if (pantalla.tipo === 'accion') {
+          const just = justificaciones[pantalla.justificacion_id] || { titulo: '', texto: [], reflexion: [] };
+          // Tarjeta Acción
+          html += `
+            <div class="acciones-card cian" style="grid-column:1;grid-row:1;justify-content:center;align-items:center;">
+              <div class="acciones-label">Acción #${accion.id}</div>
+              <div class="acciones-fecha">${pantalla.fecha}</div>
+              <div class="acciones-precio">Precio<br><span>${formatEuros(pantalla.precio_inicial)} → ${formatEuros(pantalla.precio_accion)}</span></div>
+            </div>
+          `;
+          // Tarjeta Reflexión
+          html += `
+            <div class="acciones-card cian" style="grid-column:1;grid-row:2;">
+              <div class="acciones-label">Reflexión</div>
+              <div class="acciones-fecha">Para el día ${pantalla.fecha}</div>
+              <table class="acciones-table">
+                <tr><th>Facturación Objetivo</th><td>${formatEuros(pantalla.facturacion_objetivo)}</td></tr>
+                <tr><th>Facturación Conseguida</th><td>${formatEuros(pantalla.facturacion_conseguida)}</td></tr>
+                <tr><th>Habitaciones por Vender</th><td>${pantalla.habitaciones_por_vender}</td></tr>
+              </table>
+            </div>
+          `;
+          // Tarjeta Justificación
+          html += `
+            <div class="acciones-card justificacion">
+              <div class="acciones-label">${just.titulo || 'Justificación'}</div>
+              <ul style="margin: 0 0 10px 18px; padding: 0; color: #e0f7fa;">
+                ${(just.texto||[]).map(t=>`<li>${t}</li>`).join('')}
+              </ul>
+              <div class="acciones-reflexion">
+                ${(just.reflexion||[]).map(t=>`<div>${t}</div>`).join('')}
+              </div>
+            </div>
+          `;
+          // Tarjeta Si aplica (verde)
+          html += `
+            <div class="acciones-card verde" style="grid-column:3;grid-row:1;">
+              <div class="acciones-label">Si se aplica la acción</div>
+              <div class="acciones-derivacion">${pantalla.si_aplica || ''}</div>
+            </div>
+          `;
+          // Tarjeta No aplica (rojo)
+          html += `
+            <div class="acciones-card rojo" style="grid-column:3;grid-row:2;">
+              <div class="acciones-label">Si no se aplica la acción</div>
+              <div class="acciones-derivacion">${pantalla.no_aplica || ''}</div>
+            </div>
+          `;
+        } else if (pantalla.tipo === 'grafica') {
+          // Grid de 3 columnas y 2 filas: gráfica en columna 1 (2 filas), texto en columnas 2-3 (2 filas)
+          html += `
+            <div class='acciones-card cian' style='grid-column:1;grid-row:1/span 2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 10px 10px 10px;box-sizing:border-box;min-width:260px;'>
+              <div class='acciones-label' style='margin-bottom:12px;'>Ventas por empleado</div>
+              <canvas id='graficaBarras' width='320' height='390' style='display:block;margin:auto;width:100%;max-width:340px;background:rgba(0,0,0,0.12);border-radius:14px;'></canvas>
+            </div>
+            <div style='grid-column:2/span 2;grid-row:1/span 2;display:grid;grid-template-rows:auto;gap:18px;align-items:flex-start;justify-content:flex-start;min-width:420px;'>
+              ${(Array.isArray(pantalla.texto) ? pantalla.texto : []).map(seccion => `
+                <div class='acciones-card cian' style='padding:20px 18px 10px 18px;box-sizing:border-box;'>
+                  <div class='acciones-label' style='margin-bottom:10px;'>${seccion.titulo}</div>
+                  <div style='font-size:1.08em;line-height:1.6;width:100%;color:#e0f7fa;'>${seccion.texto}</div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+        } else if (pantalla.tipo === 'info') {
+          const bloques = pantalla.contenido || [];
+const titulos = [
+  "Estrategia de Precio",
+  "Recomendación Principal",
+  "Opción 1",
+  "Opción 2"
+];
+// Sin iconos
+const gridStyles = [
+  // Estrategia de Precio: columna 1, filas 1-2
+  "grid-column:1;grid-row:1/span 2;max-width:380px;",
+  // Recomendación Principal: columnas 2-3, fila 1
+  "grid-column:2/span 2;grid-row:1;max-width:690px;",
+  // Opción 1: columna 2, fila 2 (columna central, más ancha)
+  "grid-column:2;grid-row:2;max-width:390px;min-height:130px;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;",
+  // Opción 2: columna 3, fila 2 (columna derecha, más estrecha)
+  "grid-column:3;grid-row:2;max-width:300px;min-height:130px;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;"
+];
+for (let i = 0; i < 4; i++) {
+  if (bloques[i] && bloques[i].trim() !== "") {
+    let contenido = bloques[i];
+    let contenidoHtml = '';
+    // Si es un objeto JSON, usar campos titulo/texto/icono
+    let titulo = titulos[i];
+    if (typeof contenido === 'object' && contenido !== null) {
+      titulo = contenido.titulo || titulos[i];
+      contenido = contenido.texto || '';
     }
+    // Si es tipo lista (título + opciones)
+    if (contenido.includes(':') && contenido.split(':').length > 1) {
+      const [cabecera, ...resto] = contenido.split(':');
+      contenidoHtml += `<div style='margin-bottom:6px;'>${cabecera}:</div>`;
+      contenidoHtml += `<ul style='margin-top:0;margin-bottom:0;padding-left:18px;'>`;
+      resto.join(':').split(/\.|\n|•/).map(t => t.trim()).filter(t => t.length > 0).forEach(t => {
+        contenidoHtml += `<li>${t}</li>`;
+      });
+      contenidoHtml += `</ul>`;
+    } else {
+      // Separar por punto y seguido en varios <p>
+      contenidoHtml = contenido.split(/\.( |$)/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p style='margin:0 0 10px 0;'>${p}.</p>`).join('');
+    }
+    html += `<div class='acciones-card cian' style='${gridStyles[i]}padding: 18px 20px 10px 20px; display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;'>`+
+      `<div class='acciones-label' style='margin-bottom:12px;font-size:1.18em;'>${titulo}</div>`+
+      `<div style='font-size:1.13em;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${contenidoHtml}</div>`+
+      `</div>`;
+  }
+}
+        }
+        grid.innerHTML = html;
+        grid.style.opacity = 1;
+        // Renderizar gráfica si aplica
+        if (pantalla.tipo === 'grafica') {
+          setTimeout(()=>{
+            try {
+              if (window.Chart) {
+                const ctx = document.getElementById('graficaBarras').getContext('2d');
+                new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                    labels: pantalla.nombres,
+                    datasets: [{
+                      label: 'Ventas parking',
+                      data: pantalla.valores,
+                      backgroundColor: pantalla.valores.map(v=>v>50?'#00eaff':'#0cf'),
+                      borderRadius: 8,
+                      barThickness: 20
+                    }]
+                  },
+                  options: {
+                    indexAxis: 'y', // Barras horizontales
+                    responsive: false,
+                    plugins: { legend: { display: false } },
+                    layout: { padding: { left: 10, right: 10, top: 10, bottom: 10 } },
+                    scales: {
+                      x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {color:'#00eaff22'},
+                        ticks: { color: '#e0f7fa', font: { size: 14 } }
+                      },
+                      y: {
+                        grid: {color:'#00eaff22'},
+                        ticks: { color: '#e0f7fa', font: { size: 15 } }
+                      }
+                    }
+                  }
+                });
+              } else {
+                document.getElementById('graficaBarras').replaceWith("<div style='color:#ff7070;text-align:center;font-size:1.2em;'>Error: Chart.js no está cargado</div>");
+              }
+            } catch(e) {
+              document.getElementById('graficaBarras').replaceWith("<div style='color:#ff7070;text-align:center;font-size:1.2em;'>Error al mostrar la gráfica</div>");
+            }
+          }, 0);
+        }
+      }
+    }
+    // Cambia este valor para elegir la pantalla inicial (0 = primera, 1 = segunda, etc)
+    let pantallaInicial = 0;
     async function updateDataAndRender() {
       await Promise.all([fetchAcciones(), fetchJustificaciones()]);
       if (!acciones.length) return;
-      currentIdx = 0;
-      renderAccion(currentIdx);
+      totalPantallas = (acciones[0].pantallas||[]).length || 1;
+      // Si el valor es inválido, muestra la primera
+      currentPantalla = (pantallaInicial >= 0 && pantallaInicial < totalPantallas) ? pantallaInicial : 0;
+      renderPantalla(currentPantalla);
       if (rotarInterval) clearInterval(rotarInterval);
-      if (acciones.length > 1) {
+      if (totalPantallas > 1) {
         rotarInterval = setInterval(() => {
-          currentIdx = (currentIdx + 1) % Math.min(acciones.length, 3);
-          renderAccion(currentIdx);
+          currentPantalla = (currentPantalla + 1) % totalPantallas;
+          renderPantalla(currentPantalla);
         }, 10000);
       }
     }
