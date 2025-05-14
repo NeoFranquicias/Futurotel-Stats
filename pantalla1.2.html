@@ -349,7 +349,7 @@ async function cargarDatosPantalla1() {
         algoritmoEl.style.width = '100%';
         algoritmoEl.style.textAlign = 'center';
         algoritmoEl.style.fontSize = '1.1rem';
-        algoritmoEl.innerHTML = `$$P_{opt} = W_o \\cdot f(O_c) + W_p \\cdot P_h + W_c \\cdot \\frac{P_{c\\min} + P_{c\\max}}{2} + W_{oc} \\cdot g(O_c^*)$$`;
+        algoritmoEl.innerHTML = `$$P_{opt} = W_o \\cdot f(O_c) + W_p \\cdot P_h + W_c \\cdot \\frac{P_{c_{min}} + P_{c_{max}}}{2} + W_{oc} \\cdot g(O_c^*)$$`;
         miniRow1.appendChild(algoritmoEl);
         if(window.MathJax) MathJax.typesetPromise();
     } catch (e) {
