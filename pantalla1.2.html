@@ -369,7 +369,7 @@ async function cargarDatosPantalla1() {
         algoritmoDiv.style.fontSize = '1.5rem';
         algoritmoDiv.innerHTML = `
             <div style='font-weight:bold;color:#00eaff;margin-bottom:0;'>Algoritmo utilizado actualmente</div>
-            <div style='margin-top:-8px;'>$$P_{opt} = W_o \\cdot f(O_c) + W_p \\cdot P_h + W_c \\cdot \\frac{P_{c\\min} + P_{c\\max}}{2} + W_{oc} \\cdot g(O_c^*)$$</div>
+            <div style='margin-top:-8px;'>$$P_{opt} = W_o \\cdot f(O_c) + W_p \\cdot P_h + W_c \\cdot \\frac{P_{c_{min}} + P_{c_{max}}}{2} + W_{oc} \\cdot g(O_c^*)$$</div>
         `;
         if(window.MathJax) MathJax.typesetPromise();
     } catch (e) {
