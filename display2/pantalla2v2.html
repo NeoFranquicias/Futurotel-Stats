@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Futurotel Stats</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Orbitron", Arial, sans-serif;
+      background: #12232e;
+      color: #e0f7fa;
+      width: 100vw;
+      height: 100vh;
+      min-height: 100vh;
+      min-width: 100vw;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    main {
+      width: 1200px;
+      height: 520px;
+      min-height: 520px;
+      min-width: 1200px;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+    }
+    .dashboard-section {
+      width: 1200px;
+      height: 520px;
+      min-height: 520px;
+      min-width: 1200px;
+      background: transparent;
+      border-radius: 0;
+      padding: 0;
+      box-shadow: none;
+      border: none;
+      animation: fadein 1.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      box-sizing: border-box;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .dashboard-section h2 {
+      color: #00eaff;
+      font-size: 2rem;
+      margin: 0;
+      padding: 1vh 0;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 10px #00eaff88;
+      position: relative;
+      z-index: 10;
+      background: transparent;
+      width: 100%;
+      text-align: center;
+      animation: subtleGlow 3s infinite;
+    }
+    .kpi-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      height: calc(100% - 60px);
+      margin: 0;
+      box-sizing: border-box;
+      padding: 20px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .kpi-cards-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      height: calc(50% - 10px);
+      position: relative;
+    }
+    .kpi-card {
+      flex: 0 0 calc(25% - 15px);
+      max-width: calc(25% - 15px);
+      min-width: 220px;
+      box-sizing: border-box;
+      margin: 0;
+      height: 200px;
+      padding: 1.5vh 1.5vw;
+      position: relative;
+      transform-origin: center center;
+      background: rgba(18, 35, 46, 0.3);
+      border: 1px solid rgba(0, 234, 255, 0.3);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.1),
+        inset 0 0 15px rgba(0, 234, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      cursor: pointer;
+      animation: kpi-pop 1.1s;
+    }
+    .kpi-card.kpi-ingresos,
+    .kpi-card.kpi-reservas {
+      flex: 0 0 calc(50% - 10px);
+      max-width: calc(50% - 10px);
+      min-width: 400px;
+    }
+    .kpi-title {
+      color: #00eaff;
+      font-size: 1.5rem;
+      margin-bottom: 2px;
+      text-align: center;
+      letter-spacing: 0.07em;
+      text-shadow: 0 0 10px #00eaff88;
+      position: relative;
+    }
+    .kpi-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 2px;
+      text-shadow: 0 0 10px #00eaff99;
+      letter-spacing: 0.02em;
+      transition: all 0.3s ease;
+    }
+    .kpi-value-ingresos {
+      font-size: 2.2rem;
+      letter-spacing: 0.01em;
+      word-break: break-all;
+      white-space: normal;
+    }
+    .sparkline {
+      width: 180px !important;
+      height: 45px !important;
+      margin-top: 1vh;
+      background: transparent;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(0, 234, 255, 0.2));
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+    .kpi-card:hover .sparkline {
+      opacity: 1;
+    }
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 234, 255, 0.5),
+        transparent
+      );
+    }
+    .kpi-card:hover {
+      background: rgba(18, 35, 46, 0.5);
+      box-shadow: 0 0 40px rgba(0, 234, 255, 0.2),
+        inset 0 0 20px rgba(0, 234, 255, 0.1);
+    }
+    @keyframes kpi-pop {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes subtleGlow {
+      0%,
+      100% {
+        text-shadow: 0 0 14px #00eaff88;
+      }
+      50% {
+        text-shadow: 0 0 18px #00eaff;
+      }
+    }
+    .flip {
+      animation: flip 0.4s ease;
+    }
+    @keyframes flip {
+      0% {
+        opacity: 1;
+        transform: perspective(400px) rotateX(0);
+      }
+      50% {
+        opacity: 0.6;
+        transform: perspective(400px) rotateX(-10deg);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(400px) rotateX(0);
+      }
+    }
+    @media (max-width: 1248px) {
+      .kpi-card {
+        flex: 0 0 calc(25% - 15px);
+        max-width: calc(25% - 15px);
+        min-width: 200px;
+      }
+      .kpi-card.kpi-ingresos,
+      .kpi-card.kpi-reservas {
+        flex: 0 0 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+        min-width: 400px;
+      }
+    }
+    @media (max-width: 900px) {
+      .kpi-card,
+      .kpi-card.kpi-ingresos,
+      .kpi-card.kpi-reservas {
+        flex: 0 0 100%;
+        max-width: 100%;
+        min-width: 180px;
+      }
+    }
+  </style>
+  <body>
+    <header class="futuristic-header" hidden>
+      <div class="logo-glow">Futurotel <span>Stats</span></div>
+    </header>
+    <main
+      id="main-dashboard"
+      style="
+        width: 1200px;
+        height: 520px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        overflow: hidden;
+      "
+    >
+      <section
+        class="dashboard-section"
+        style="
+          width: 1200px;
+          height: 520px;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        "
+      >
+        <h2 style="margin: 0; padding: 1vh 0; width: 100%; text-align: center">
+          Panel General
+        </h2>
+        <div class="kpi-cards" style="height: calc(100% - 60px)">
+          <div class="kpi-cards-row">
+            <div class="kpi-card kpi-ocupacion">
+              <span class="kpi-title">Ocupación Media</span>
+              <span class="kpi-value" id="kpi-ocupacion">--%</span>
+              <canvas class="sparkline" id="spark-ocupacion"></canvas>
+            </div>
+            <div class="kpi-card kpi-revpar">
+              <span class="kpi-title">RevPAR</span>
+              <span class="kpi-value" id="kpi-revpar">-- €</span>
+              <canvas class="sparkline" id="spark-revpar"></canvas>
+            </div>
+            <div class="kpi-card kpi-adr">
+              <span class="kpi-title">ADR</span>
+              <span class="kpi-value" id="kpi-adr">-- €</span>
+              <canvas class="sparkline" id="spark-adr"></canvas>
+            </div>
+            <div class="kpi-card kpi-overbooking">
+              <span class="kpi-title">Overbooking</span>
+              <span class="kpi-value" id="kpi-overbooking">--</span>
+              <canvas class="sparkline" id="spark-overbooking"></canvas>
+            </div>
+          </div>
+          <div class="kpi-cards-row">
+            <div class="kpi-card kpi-ingresos">
+              <span class="kpi-title">Ingresos</span>
+              <span class="kpi-value kpi-value-ingresos" id="kpi-ingresos"
+                >-- €</span
+              >
+              <canvas class="sparkline" id="spark-ingresos"></canvas>
+            </div>
+            <div class="kpi-card kpi-reservas">
+              <span class="kpi-title">Reservas</span>
+              <span class="kpi-value" id="kpi-reservas">--</span>
+              <canvas class="sparkline" id="spark-reservas"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="futuristic-footer" hidden>
+      <span>&copy; 2025 Futurotel Insights. All rights reserved.</span>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Para activar o desactivar los cambios aleatorios de valores, abrir la consola del navegador y escribir:
+      // cambioDeValor = true;  // Para activar los cambios aleatorios
+      // cambioDeValor = false; // Para desactivar los cambios aleatorios
+
+      // Configuración de KPIs (solo metadatos, no valores)
+      const kpiTargets = {
+        "kpi-ocupacion": { suffix: "%", decimals: 2 },
+        "kpi-ingresos": { suffix: " €", decimals: 2, thousand: true },
+        "kpi-adr": { suffix: " €", decimals: 2 },
+        "kpi-revpar": { suffix: " €", decimals: 2 },
+        "kpi-reservas": { suffix: "", decimals: 0, thousand: true },
+        "kpi-overbooking": { suffix: " / 46", decimals: 0, thousand: false },
+      };
+
+      const SPARK_LENGTH = 20;
+      let kpiValues = {};
+      let cambioDeValor = false; // Variable para controlar si los valores cambian aleatoriamente
+
+      // Sparkline data y charts
+      const sparkData = {};
+      const sparkCharts = {};
+
+      // Inicializa con valores por defecto
+      Object.keys(kpiTargets).forEach((id) => {
+        kpiValues[id] = 0;
+        sparkData[id] = Array(SPARK_LENGTH).fill(0);
+      });
+
+      function createSparkline(id) {
+        const ctx = document
+          .getElementById("spark-" + id.split("-")[1])
+          .getContext("2d");
+        sparkCharts[id] = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: Array(SPARK_LENGTH).fill(""),
+            datasets: [
+              {
+                data: sparkData[id],
+                borderColor: "#00eaff",
+                backgroundColor: "rgba(0,234,255,0.08)",
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.5,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: false,
+            animation: { duration: 800 },
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false },
+            },
+            scales: {
+              x: { display: false },
+              y: {
+                display: false,
+                min: function (context) {
+                  const values = context.chart.data.datasets[0].data;
+                  const min = Math.min(...values);
+                  return Math.floor(min * 0.95);
+                },
+                max: function (context) {
+                  const values = context.chart.data.datasets[0].data;
+                  const max = Math.max(...values);
+                  return Math.ceil(max * 1.05);
+                },
+              },
+            },
+          },
+        });
+      }
+
+      function updateSparkline(id, newValue) {
+        sparkData[id].push(newValue);
+        if (sparkData[id].length > SPARK_LENGTH) sparkData[id].shift();
+        const chart = sparkCharts[id];
+        if (chart) {
+          chart.data.datasets[0].data = sparkData[id];
+          chart.update();
+        }
+      }
+
+      function animateKPI(id, target, duration = 2500) {
+        const el = document.getElementById(id);
+        if (!el) return;
+
+        // Ya no necesitamos el caso especial para overbooking porque ahora es numérico
+        let start = 0;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          // Función de suavizado para hacer que la animación sea más gradual
+          const easedProgress = ease(progress);
+          let current = start + (target.value - start) * easedProgress;
+          if (target.decimals === 0) current = Math.round(current);
+          else current = parseFloat(current.toFixed(target.decimals));
+          let text = current;
+          if (target.thousand) {
+            text = current.toLocaleString("es-ES", {
+              minimumFractionDigits: target.decimals,
+              maximumFractionDigits: target.decimals,
+            });
+          } else if (target.decimals > 0) {
+            text = current.toFixed(target.decimals);
+          }
+
+          el.textContent = text + target.suffix;
+
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            // Asegura valor final exacto
+            let finalText = target.value;
+
+            if (target.thousand) {
+              finalText = target.value.toLocaleString("es-ES", {
+                minimumFractionDigits: target.decimals,
+                maximumFractionDigits: target.decimals,
+              });
+            } else if (target.decimals > 0) {
+              finalText = parseFloat(target.value).toFixed(target.decimals);
+            }
+
+            el.textContent = finalText + target.suffix;
+            updateSparkline(id, target.value);
+          }
+        };
+
+        // Función de suavizado (easing) para hacer la animación más natural
+        function ease(t) {
+          // Función ease-out-cubic
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        window.requestAnimationFrame(step);
+      }
+
+      function updateFromData(data) {
+        Object.entries(kpiTargets).forEach(([id, meta]) => {
+          const clave = id.replace("kpi-", "");
+          if (data[clave]) {
+            // Si cambia el valor, animar
+            if (kpiValues[id] !== data[clave].actual) {
+              animateKPI(id, { ...meta, value: data[clave].actual });
+              updateSparkline(id, data[clave].actual);
+              kpiValues[id] = data[clave].actual;
+            }
+            // Si hay historial, refrescar sparkline entero
+            if (
+              Array.isArray(data[clave].historial) &&
+              data[clave].historial.length
+            ) {
+              sparkData[id] = data[clave].historial.slice(-SPARK_LENGTH);
+              while (sparkData[id].length < SPARK_LENGTH)
+                sparkData[id].unshift(data[clave].actual);
+              if (sparkCharts[id]) {
+                sparkCharts[id].data.datasets[0].data = sparkData[id];
+                sparkCharts[id].update();
+              }
+            }
+          }
+        });
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        // Carga datos desde JSON
+        fetch("kpisv2.json")
+          .then((resp) => resp.json())
+          .then((data) => {
+            // Mapear datos del JSON a los KPIs y sparklines
+            Object.entries(kpiTargets).forEach(([id, meta]) => {
+              const clave = id.replace("kpi-", "");
+              if (data[clave]) {
+                kpiValues[id] = data[clave].actual;
+                sparkData[id] =
+                  Array.isArray(data[clave].historial) &&
+                  data[clave].historial.length
+                    ? data[clave].historial.slice(-SPARK_LENGTH)
+                    : Array(SPARK_LENGTH).fill(data[clave].actual);
+                while (sparkData[id].length < SPARK_LENGTH)
+                  sparkData[id].unshift(data[clave].actual);
+              } else {
+                kpiValues[id] = 0;
+                sparkData[id] = Array(SPARK_LENGTH).fill(0);
+              }
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading kpisv2.json:", error);
+            Object.keys(kpiTargets).forEach((id) => {
+              kpiValues[id] = 0;
+              sparkData[id] = Array(SPARK_LENGTH).fill(0);
+            });
+          })
+          .finally(() => {
+            // Inicializa sparklines y valores
+            Object.keys(kpiTargets).forEach((id) => {
+              createSparkline(id);
+            });
+
+            // Iniciar animación para cada KPI
+            Object.entries(kpiTargets).forEach(([id, target]) => {
+              animateKPI(id, { ...target, value: kpiValues[id] });
+            });
+
+            // Refresco real de datos cada 60s (cambiar la URL para usar API real)
+            setInterval(() => {
+              console.log("Refrescando datos...");
+              fetch("kpisv2.json") // Cambia aquí por tu endpoint API real
+                .then((resp) => resp.json())
+                .then((data) => updateFromData(data))
+                .catch((error) =>
+                  console.error("Error refreshing data:", error)
+                );
+            }, 60000); // 60 segundos
+
+            // Simulación de movimiento cada 5s
+            setInterval(() => {
+              // Solo ejecutar si cambioDeValor es true
+              if (!cambioDeValor) return;
+
+              const kpiIds = Object.keys(kpiTargets);
+              const shuffled = kpiIds.sort(() => 0.5 - Math.random());
+              // Probabilidad sesgada: 1 (35%), 2 (25%), 3 (15%), 4 (12%), 5 (8%), 6 (5%)
+              const chances = [
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4,
+                5, 6,
+              ];
+              const numToChange =
+                chances[Math.floor(Math.random() * chances.length)];
+              const selected = shuffled.slice(0, numToChange);
+              selected.forEach((id) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                const base = kpiValues[id];
+                let delta = 0;
+                if (base > 1000000)
+                  delta = Math.floor((Math.random() - 0.5) * 60000);
+                else if (base > 10000)
+                  delta = Math.floor((Math.random() - 0.5) * 600);
+                else if (base > 1000)
+                  delta = Math.floor((Math.random() - 0.5) * 50);
+                else if (base > 100)
+                  delta = Math.floor((Math.random() - 0.5) * 6);
+                else if (id === "kpi-ocupacion" || id === "kpi-revpar")
+                  delta = (Math.random() - 0.5) * 2;
+                else delta = (Math.random() - 0.5) * 2;
+
+                let nuevo = base + delta;
+                if (kpiTargets[id].decimals === 0) nuevo = Math.round(nuevo);
+                else nuevo = parseFloat(nuevo.toFixed(kpiTargets[id].decimals));
+
+                // Valores límite para overbooking
+                if (id === "kpi-overbooking") {
+                  nuevo = Math.max(1, Math.min(46, nuevo)); // Asegurar que está entre 1 y 46
+                }
+
+                // Actualizar el valor en kpiValues para mantenerlo
+                kpiValues[id] = nuevo;
+
+                // Formatear el valor para mostrarlo
+                let texto = nuevo;
+                if (kpiTargets[id].thousand) {
+                  texto = nuevo.toLocaleString("es-ES", {
+                    minimumFractionDigits: kpiTargets[id].decimals,
+                    maximumFractionDigits: kpiTargets[id].decimals,
+                  });
+                } else if (kpiTargets[id].decimals > 0) {
+                  texto = nuevo.toFixed(kpiTargets[id].decimals);
+                }
+
+                texto += kpiTargets[id].suffix;
+                el.classList.remove("flip");
+                void el.offsetWidth;
+                el.classList.add("flip");
+                el.textContent = texto;
+                updateSparkline(id, nuevo);
+              });
+            }, 5000); // 5 segundos
+          });
+      });
+
+      function scaleDashboard() {
+        const main = document.getElementById("main-dashboard");
+        if (!main) return;
+
+        const baseWidth = 1200;
+        const baseHeight = 520;
+        const targetWidth = 1200;
+        const targetHeight = 520;
+
+        // Calcular el factor de escala
+        const scaleW = targetWidth / baseWidth;
+        const scaleH = targetHeight / baseHeight;
+        const scale = Math.min(scaleW, scaleH);
+
+        // Aplicar la transformación con un límite mínimo de escala
+        const minScale = 0.7; // 70% de zoom mínimo
+        const finalScale = Math.max(scale, minScale);
+
+        main.style.transform = `scale(${finalScale})`;
+        main.style.transformOrigin = "top left";
+
+        // Ajustar el contenedor para mantener las proporciones
+        const container = main.parentElement;
+        container.style.width = `${targetWidth}px`;
+        container.style.height = `${targetHeight}px`;
+        container.style.overflow = "hidden";
+        container.style.position = "relative";
+      }
+
+      // Aplicar el escalado al cargar y al redimensionar
+      window.addEventListener("load", scaleDashboard);
+      window.addEventListener("resize", scaleDashboard);
+
+      // Aplicar el escalado inicial
+      document.addEventListener("DOMContentLoaded", scaleDashboard);
+    </script>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="particles-bg.js"></script>
+  </body>
+</html>
