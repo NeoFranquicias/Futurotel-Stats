@@ -27,7 +27,7 @@
         .chart-container {
             position: relative;
             width: 1200px;
-            height: 430px;
+            height: 450px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,7 +37,7 @@
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
             padding: 15px;
             backdrop-filter: blur(2px);
-            background: rgba(10, 14, 23, 0.3);
+            background: #0A0E17;
             border: 1px solid rgba(0, 234, 255, 0.1);
             animation: gradientBorder 4s infinite;
         }
@@ -79,7 +79,7 @@
             gap: 20px;
             margin-bottom: 10px;
             padding: 6px 12px;
-            background: rgba(10, 14, 23, 0.5);
+            background: #0A0E17;
             border-radius: 8px;
             border: 1px solid rgba(0, 234, 255, 0.1);
             backdrop-filter: blur(2px);
@@ -97,6 +97,31 @@
             height: 3px;
             border-radius: 2px;
         }
+        .tooltip-event {
+            padding: 4px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tooltip-event::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .event-label {
+            position: absolute;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.9);
+            transform: rotate(-45deg);
+            transform-origin: left;
+            white-space: nowrap;
+            pointer-events: none;
+        }
         @keyframes gradientBorder {
             0% { border-color: rgba(0, 234, 255, 0.1); }
             50% { border-color: rgba(0, 234, 255, 0.3); }
@@ -111,31 +136,51 @@
         <div class="legend-container">
             <div class="legend-item">
                 <div class="legend-color" style="background: #ffffff"></div>
-                <span>Día del Trabajador</span>
+                <span>Día del Trabajador (1-4)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background: #ffd700"></div>
-                <span>Alameda Festival</span>
+                <div class="legend-color" style="background: #FF1493"></div>
+                <span>Maluma (10)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color" style="background: #ff69b4"></div>
-                <span>Myke Towers</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #9370db"></div>
-                <span>Chayanne</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background: #00eaff"></div>
-                <span>Festival Oh See</span>
+                <div class="legend-color" style="background: #4169E1"></div>
+                <span>Karol G (12)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #ff4500"></div>
-                <span>Disobey</span>
+                <span>Disobey (15)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background: #808080"></div>
-                <span>Kidd Keo</span>
+                <span>Kidd Keo (17)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #20B2AA"></div>
+                <span>Beret (19)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ffd700"></div>
+                <span>Alameda Festival (22-24)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #00eaff"></div>
+                <span>Festival Oh See (23-24)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff69b4"></div>
+                <span>Myke Towers (24)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #9370db"></div>
+                <span>Chayanne (25)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #FFA500"></div>
+                <span>Melendi (26)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #BA55D3"></div>
+                <span>Robe (31)</span>
             </div>
         </div>
         <div class="chart-wrapper">
@@ -158,27 +203,133 @@
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('occupancyChart').getContext('2d');
             
+            // Event configuration with specific dates
+            const events = {
+                trabajador: { 
+                    name: 'Día del Trabajador', 
+                    color: '#ffffff', 
+                    days: [1, 2, 3, 4],
+                    baseOccupancy: 70,
+                    label: '1-4 Mayo - Día del Trabajador'
+                },
+                disobey: { 
+                    name: 'Disobey', 
+                    color: '#ff4500', 
+                    days: [15],
+                    occupancy: 75,
+                    label: '15 Mayo - Disobey'
+                },
+                kiddKeo: { 
+                    name: 'Kidd Keo', 
+                    color: '#808080', 
+                    days: [17],
+                    occupancy: 80,
+                    label: '17 Mayo - Kidd Keo'
+                },
+                alameda: { 
+                    name: 'Alameda Festival', 
+                    color: '#ffd700', 
+                    days: [22, 23, 24],
+                    baseOccupancy: 75,
+                    label: '22-24 Mayo - Alameda Festival'
+                },
+                ohSee: { 
+                    name: 'Festival Oh See', 
+                    color: '#00eaff', 
+                    days: [23, 24],
+                    baseOccupancy: 85,
+                    label: '23-24 Mayo - Festival Oh See'
+                },
+                mykeTowers: { 
+                    name: 'Myke Towers', 
+                    color: '#ff69b4', 
+                    days: [24],
+                    occupancy: 92,
+                    label: '24 Mayo - Myke Towers'
+                },
+                chayanne: { 
+                    name: 'Chayanne', 
+                    color: '#9370db', 
+                    days: [25],
+                    occupancy: 78,
+                    label: '25 Mayo - Chayanne'
+                },
+                maluma: {
+                    name: 'Maluma',
+                    color: '#FF1493',
+                    days: [10],
+                    occupancy: 85,
+                    label: '10 Mayo - Maluma'
+                },
+                karol: {
+                    name: 'Karol G',
+                    color: '#4169E1',
+                    days: [12],
+                    occupancy: 95,
+                    label: '12 Mayo - Karol G'
+                },
+                beret: {
+                    name: 'Beret',
+                    color: '#20B2AA',
+                    days: [19],
+                    occupancy: 70,
+                    label: '19 Mayo - Beret'
+                },
+                melendi: {
+                    name: 'Melendi',
+                    color: '#FFA500',
+                    days: [26],
+                    occupancy: 65,
+                    label: '26 Mayo - Melendi'
+                },
+                robe: {
+                    name: 'Robe',
+                    color: '#BA55D3',
+                    days: [31],
+                    occupancy: 70,
+                    label: '31 Mayo - Robe'
+                }
+            };
+            
             // Generate dates for May 2025
             const dates = Array.from({length: 31}, (_, i) => `${i + 1}`);
             
-            // Base occupancy data
+            // Calculate base occupancy with event overlaps
             const baseOccupancy = new Array(31).fill(60);
             
-            // Día del trabajador (1-4 Mayo: 70-90%)
-            baseOccupancy[0] = 70;
-            baseOccupancy[1] = 75;
-            baseOccupancy[2] = 83;
-            baseOccupancy[3] = 90;
-            
-            // Set specific events occupancy
-            baseOccupancy[14] = 75; // Disobey (15)
-            baseOccupancy[16] = 80; // Kidd Keo (17)
-            
-            // Alameda Festival + Oh See + Myke Towers period
-            baseOccupancy[21] = 75; // Alameda Festival start (22)
-            baseOccupancy[22] = 92; // Alameda + Oh See (23)
-            baseOccupancy[23] = 102; // Alameda + Oh See + Myke Towers (24)
-            baseOccupancy[24] = 78; // Chayanne (25)
+            // Apply Día del Trabajador occupancy (gradual increase)
+            events.trabajador.days.forEach((day, index) => {
+                const progress = index / (events.trabajador.days.length - 1);
+                baseOccupancy[day - 1] = 70 + (progress * 20); // Increases from 70% to 90%
+            });
+
+            // Apply individual event occupancies
+            Object.values(events).forEach(event => {
+                if (event.name !== 'Día del Trabajador') { // Skip Día del Trabajador as it's already handled
+                    event.days.forEach(day => {
+                        if (event.name === 'Alameda Festival') {
+                            let occupancy = event.baseOccupancy;
+                            // Add Oh See Festival impact
+                            if (events.ohSee.days.includes(day)) {
+                                occupancy += 15;
+                            }
+                            // Add Myke Towers impact
+                            if (events.mykeTowers.days.includes(day)) {
+                                occupancy += 10;
+                            }
+                            baseOccupancy[day - 1] = occupancy;
+                        } else if (event.name !== 'Festival Oh See' || !events.alameda.days.includes(day)) {
+                            // Only set occupancy if it's not Oh See during Alameda Festival
+                            baseOccupancy[day - 1] = event.occupancy || event.baseOccupancy;
+                        }
+                    });
+                }
+            });
+
+            // Get all event days for highlighting
+            const allEventDays = [...new Set(
+                Object.values(events).flatMap(event => event.days)
+            )];
 
             const chart = new Chart(ctx, {
                 type: 'line',
@@ -192,7 +343,9 @@
                         tension: 0.4,
                         fill: false,
                         borderWidth: 2,
-                        pointRadius: 0
+                        pointRadius: 0,
+                        pointHoverRadius: 0,
+                        pointHitRadius: 0
                     }]
                 },
                 options: {
@@ -202,7 +355,7 @@
                         padding: {
                             top: 20,
                             right: 20,
-                            bottom: 10,
+                            bottom: 50,
                             left: 10
                         }
                     },
@@ -210,56 +363,176 @@
                         legend: {
                             display: false
                         },
+                        tooltip: {
+                            backgroundColor: 'rgba(10, 14, 23, 0.95)',
+                            titleColor: '#00eaff',
+                            titleFont: {
+                                family: 'Orbitron'
+                            },
+                            bodyFont: {
+                                family: 'Orbitron'
+                            },
+                            padding: 12,
+                            callbacks: {
+                                title: function(context) {
+                                    return `Día ${context[0].label} Mayo`;
+                                },
+                                label: function(context) {
+                                    const day = parseInt(context.label);
+                                    let activeEvents = [];
+                                    
+                                    Object.values(events).forEach(event => {
+                                        if (event.days.includes(day)) {
+                                            activeEvents.push({
+                                                name: event.name,
+                                                color: event.color
+                                            });
+                                        }
+                                    });
+                                    
+                                    let result = [`Ocupación: ${context.parsed.y}%`];
+                                    if (activeEvents.length > 0) {
+                                        result.push('');
+                                        result.push('Eventos activos:');
+                                        activeEvents.forEach(event => {
+                                            result.push({
+                                                text: event.name,
+                                                color: event.color
+                                            });
+                                        });
+                                    }
+                                    return result;
+                                },
+                                labelTextColor: function(context) {
+                                    return typeof context.raw === 'object' ? context.raw.color : '#ffffff';
+                                }
+                            }
+                        },
                         annotation: {
-                            drawTime: 'beforeDatasetsDraw',
+                            common: {
+                                drawTime: 'beforeDatasetsDraw'
+                            },
                             annotations: {
-                                alamedaBox: {
+                                // Event boxes with labels
+                                trabajadorBox: {
                                     type: 'box',
-                                    xMin: 21.5,
-                                    xMax: 23.5,
+                                    xMin: Math.min(...events.trabajador.days) - 0.5,
+                                    xMax: Math.max(...events.trabajador.days) + 0.5,
                                     yMin: 50,
                                     yMax: 105,
-                                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                                    borderColor: '#ffd700',
+                                    backgroundColor: `${events.trabajador.color}22`,
+                                    borderColor: events.trabajador.color,
+                                    borderWidth: 1
+                                },
+                                alamedaBox: {
+                                    type: 'box',
+                                    xMin: Math.min(...events.alameda.days) - 0.5,
+                                    xMax: Math.max(...events.alameda.days) + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.alameda.color}22`,
+                                    borderColor: events.alameda.color,
                                     borderWidth: 1
                                 },
                                 ohSeeBox: {
                                     type: 'box',
-                                    xMin: 22.5,
-                                    xMax: 23.5,
+                                    xMin: Math.min(...events.ohSee.days) - 0.5,
+                                    xMax: Math.max(...events.ohSee.days) + 0.5,
                                     yMin: 50,
                                     yMax: 105,
-                                    backgroundColor: 'rgba(0, 234, 255, 0.1)',
-                                    borderColor: '#00eaff',
+                                    backgroundColor: `${events.ohSee.color}22`,
+                                    borderColor: events.ohSee.color,
                                     borderWidth: 1
                                 },
-                                disobeyPoint: {
-                                    type: 'point',
-                                    xValue: 14,
-                                    yValue: 75,
-                                    radius: 6,
-                                    backgroundColor: '#ff4500'
+                                malumaBox: {
+                                    type: 'box',
+                                    xMin: events.maluma.days[0] - 0.5,
+                                    xMax: events.maluma.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.maluma.color}22`,
+                                    borderColor: events.maluma.color,
+                                    borderWidth: 1
                                 },
-                                kiddKeoPoint: {
-                                    type: 'point',
-                                    xValue: 16,
-                                    yValue: 80,
-                                    radius: 6,
-                                    backgroundColor: '#808080'
+                                karolBox: {
+                                    type: 'box',
+                                    xMin: events.karol.days[0] - 0.5,
+                                    xMax: events.karol.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.karol.color}22`,
+                                    borderColor: events.karol.color,
+                                    borderWidth: 1
                                 },
-                                mykeTowersPoint: {
-                                    type: 'point',
-                                    xValue: 23,
-                                    yValue: 102,
-                                    radius: 6,
-                                    backgroundColor: '#ff69b4'
+                                disobeyBox: {
+                                    type: 'box',
+                                    xMin: events.disobey.days[0] - 0.5,
+                                    xMax: events.disobey.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.disobey.color}22`,
+                                    borderColor: events.disobey.color,
+                                    borderWidth: 1
                                 },
-                                chayannePoint: {
-                                    type: 'point',
-                                    xValue: 24,
-                                    yValue: 78,
-                                    radius: 6,
-                                    backgroundColor: '#9370db'
+                                kiddKeoBox: {
+                                    type: 'box',
+                                    xMin: events.kiddKeo.days[0] - 0.5,
+                                    xMax: events.kiddKeo.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.kiddKeo.color}22`,
+                                    borderColor: events.kiddKeo.color,
+                                    borderWidth: 1
+                                },
+                                beretBox: {
+                                    type: 'box',
+                                    xMin: events.beret.days[0] - 0.5,
+                                    xMax: events.beret.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.beret.color}22`,
+                                    borderColor: events.beret.color,
+                                    borderWidth: 1
+                                },
+                                mykeTowersBox: {
+                                    type: 'box',
+                                    xMin: events.mykeTowers.days[0] - 0.5,
+                                    xMax: events.mykeTowers.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.mykeTowers.color}22`,
+                                    borderColor: events.mykeTowers.color,
+                                    borderWidth: 1
+                                },
+                                chayanneBox: {
+                                    type: 'box',
+                                    xMin: events.chayanne.days[0] - 0.5,
+                                    xMax: events.chayanne.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.chayanne.color}22`,
+                                    borderColor: events.chayanne.color,
+                                    borderWidth: 1
+                                },
+                                melendiBox: {
+                                    type: 'box',
+                                    xMin: events.melendi.days[0] - 0.5,
+                                    xMax: events.melendi.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.melendi.color}22`,
+                                    borderColor: events.melendi.color,
+                                    borderWidth: 1
+                                },
+                                robeBox: {
+                                    type: 'box',
+                                    xMin: events.robe.days[0] - 0.5,
+                                    xMax: events.robe.days[0] + 0.5,
+                                    yMin: 50,
+                                    yMax: 105,
+                                    backgroundColor: `${events.robe.color}22`,
+                                    borderColor: events.robe.color,
+                                    borderWidth: 1
                                 }
                             }
                         }
