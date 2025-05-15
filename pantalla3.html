@@ -31,9 +31,8 @@
       }
       .chart-container {
         position: relative;
-        width: 100%;
-        max-width: 1600px;
-        height: 560px;
+        width: 900px;
+        height: 400px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -89,7 +88,7 @@
         display: block;
         background: transparent !important;
         width: 100% !important;
-        height: 500px !important;
+        height: 320px !important;
       }
 
       @media (max-width: 768px) {
@@ -282,12 +281,15 @@
       function scaleChartPanel() {
         const container = document.querySelector('.chart-container');
         if (!container) return;
-        const baseWidth = 1200;
-        const baseHeight = 480;
+        const baseWidth = 900;
+        const baseHeight = 400;
         const scaleW = window.innerWidth / baseWidth;
         const scaleH = window.innerHeight / baseHeight;
-        const scale = Math.min(scaleW, scaleH, 1.8);
-        container.style.transform = `scale(${scale})`;
+        const scale = Math.min(scaleW, scaleH);
+        container.style.position = 'absolute';
+        container.style.top = '50%';
+        container.style.left = '50%';
+        container.style.transform = `translate(-50%, -50%) scale(${scale})`;
       }
       window.addEventListener('resize', scaleChartPanel);
       window.addEventListener('DOMContentLoaded', scaleChartPanel);
