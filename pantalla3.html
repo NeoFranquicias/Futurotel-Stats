@@ -282,11 +282,11 @@
       function scaleChartPanel() {
         const container = document.querySelector('.chart-container');
         if (!container) return;
-        const baseWidth = 1600;
-        const baseHeight = 560;
+        const baseWidth = 1200;
+        const baseHeight = 480;
         const scaleW = window.innerWidth / baseWidth;
         const scaleH = window.innerHeight / baseHeight;
-        const scale = Math.min(scaleW, scaleH, 1.3);
+        const scale = Math.min(scaleW, scaleH, 1.8);
         container.style.transform = `scale(${scale})`;
       }
       window.addEventListener('resize', scaleChartPanel);
