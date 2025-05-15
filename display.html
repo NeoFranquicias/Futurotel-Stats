@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Display Futurotel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: #0A0E17;
-            font-family: 'Orbitron', Arial, sans-serif;
-        }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        background: #0a0e17;
+        font-family: "Orbitron", Arial, sans-serif;
+      }
 
         .display-container {
             width: 100vw;
@@ -28,15 +32,15 @@
             box-sizing: border-box;
         }
 
-        .display-frame {
-            background: rgba(10, 14, 23, 0.3);
-            border: 1px solid rgba(0, 234, 255, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
+      .display-frame {
+        background: rgba(10, 14, 23, 0.3);
+        border: 1px solid rgba(0, 234, 255, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
 
         .display-frame iframe {
             flex: 1;
@@ -50,156 +54,198 @@
             min-height: 0;
         }
 
-        .frame-title {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 4px;
-            background: rgba(10, 14, 23, 0.8);
-            color: #00eaff;
-            font-size: 0.8rem;
-            text-align: center;
-            z-index: 1;
-            border-bottom: 1px solid rgba(0, 234, 255, 0.1);
-        }
+      .frame-title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 4px;
+        background: rgba(10, 14, 23, 0.8);
+        color: #00eaff;
+        font-size: 0.8rem;
+        text-align: center;
+        z-index: 1;
+        border-bottom: 1px solid rgba(0, 234, 255, 0.1);
+      }
 
-        @keyframes gradientBorder {
-            0% { border-color: rgba(0, 234, 255, 0.1); }
-            50% { border-color: rgba(0, 234, 255, 0.3); }
-            100% { border-color: rgba(0, 234, 255, 0.1); }
+      @keyframes gradientBorder {
+        0% {
+          border-color: rgba(0, 234, 255, 0.1);
         }
+        50% {
+          border-color: rgba(0, 234, 255, 0.3);
+        }
+        100% {
+          border-color: rgba(0, 234, 255, 0.1);
+        }
+      }
 
-        .display-frame {
-            animation: gradientBorder 4s infinite;
-        }
+      .display-frame {
+        animation: gradientBorder 4s infinite;
+      }
 
-        /* Estilos específicos para cada iframe */
-        .display-frame:nth-child(1) iframe {
-            transform: scale(0.5);
-        }
+      /* Estilos específicos para cada iframe */
+      .display-frame:nth-child(1) iframe {
+        transform: scale(0.5);
+      }
 
-        .display-frame:nth-child(2) iframe {
-            transform: scale(0.5);
-        }
+      .display-frame:nth-child(2) iframe {
+        transform: scale(0.5);
+      }
 
-        .display-frame:nth-child(3) iframe {
-            transform: scale(0.5);
-        }
+      .display-frame:nth-child(3) iframe {
+        transform: scale(0.5);
+      }
 
-        .display-frame:nth-child(4) iframe {
-            transform: scale(0.5);
-        }
+      .display-frame:nth-child(4) iframe {
+        transform: scale(0.5);
+      }
 
-        /* Ajustes para mantener la proporción y visibilidad */
-        .display-frame iframe {
-            min-width: 200%;
-            min-height: 200%;
-            width: 200%;
-            height: 200%;
-        }
+      /* Ajustes para mantener la proporción y visibilidad */
+      .display-frame iframe {
+        min-width: 200%;
+        min-height: 200%;
+        width: 200%;
+        height: 200%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="display-container">
-        <div class="display-frame">
-            <iframe src="pantalla1.html" scrolling="no"></iframe>
-        </div>
-        <div class="display-frame">
-            <iframe src="pantalla2.html" scrolling="no"></iframe>
-        </div>
-        <div class="display-frame">
-            <iframe src="pantalla3.html" scrolling="no"></iframe>
-        </div>
-        <div class="display-frame">
-            <iframe src="acciones-recomendadas.html" scrolling="no"></iframe>
-        </div>
+      <div class="display-frame">
+        <iframe src="pantalla1.html" scrolling="no"></iframe>
+      </div>
+      <div class="display-frame">
+        <iframe src="pantalla2.html" scrolling="no"></iframe>
+      </div>
+      <div class="display-frame">
+        <iframe src="pantalla3.html" scrolling="no"></iframe>
+      </div>
+      <div class="display-frame">
+        <iframe src="acciones-recomendadas.html" scrolling="no"></iframe>
+      </div>
     </div>
     <script src="particles-bg.js"></script>
     <script>
-        // Ajustar el escalado de los iframes
-        function adjustIframes() {
-            const frames = document.querySelectorAll('.display-frame iframe');
-            frames.forEach(frame => {
-                frame.style.transform = 'scale(0.5)';
-                frame.style.transformOrigin = '0 0';
-            });
-        }
+      // Ajustar el escalado de los iframes
+      function adjustIframes() {
+        const frames = document.querySelectorAll(".display-frame iframe");
+        frames.forEach((frame) => {
+          frame.style.transform = "scale(0.5)";
+          frame.style.transformOrigin = "0 0";
+        });
+      }
 
-        // Ajustar cuando se carga la página
-        window.addEventListener('load', adjustIframes);
-        
-        // Ajustar cuando cambia el tamaño de la ventana
-        window.addEventListener('resize', adjustIframes);
+      // Ajustar cuando se carga la página
+      window.addEventListener("load", adjustIframes);
+
+      // Ajustar cuando cambia el tamaño de la ventana
+      window.addEventListener("resize", adjustIframes);
     </script>
-    <div id="android-version-indicator" style="position:fixed;right:10px;bottom:8px;font-size:1.5rem;color:#00eaff99;z-index:9999;pointer-events:none;font-family:monospace;opacity:0.7;"></div>
-    <div id="os-indicator" style="position:fixed;left:10px;bottom:8px;font-size:1.5rem;color:#00eaff99;z-index:9999;pointer-events:none;font-family:monospace;opacity:0.7;"></div>
+    <div
+      id="android-version-indicator"
+      style="
+        position: fixed;
+        right: 10px;
+        bottom: 8px;
+        font-size: 1.5rem;
+        color: #00eaff99;
+        z-index: 9999;
+        pointer-events: none;
+        font-family: monospace;
+        opacity: 0.7;
+      "
+    ></div>
+    <div
+      id="os-indicator"
+      style="
+        position: fixed;
+        left: 10px;
+        bottom: 8px;
+        font-size: 1.5rem;
+        color: #00eaff99;
+        z-index: 9999;
+        pointer-events: none;
+        font-family: monospace;
+        opacity: 0.7;
+      "
+    ></div>
     <script>
-        function getOSNameAndVersion() {
-            var ua = navigator.userAgent;
-            // Windows
-            var winMatch = ua.match(/Windows NT ([0-9.]+)/i);
-            if (winMatch) {
-                var map = {"10.0": "Windows 10", "11.0": "Windows 11", "6.3": "Windows 8.1", "6.2": "Windows 8", "6.1": "Windows 7", "6.0": "Windows Vista", "5.1": "Windows XP"};
-                var ver = winMatch[1];
-                return map[ver] ? map[ver] : "Windows " + ver;
-            }
-            // macOS
-            var macMatch = ua.match(/Mac OS X ([0-9_]+)/i);
-            if (macMatch) {
-                var ver = macMatch[1].replace(/_/g, '.');
-                return "macOS " + ver;
-            }
-            // Android
-            var androidMatch = ua.match(/Android ([0-9.]+)/i);
-            if (androidMatch) {
-                return "Android " + androidMatch[1];
-            }
-            // iOS
-            var iosMatch = ua.match(/(iPhone|iPad|iPod).*OS ([0-9_]+)/i);
-            if (iosMatch) {
-                var ver = iosMatch[2].replace(/_/g, '.');
-                return "iOS " + ver;
-            }
-            // Linux
-            if (/linux/i.test(ua)) return "Linux";
-            return "Otro SO";
+      function getOSNameAndVersion() {
+        var ua = navigator.userAgent;
+        // Windows
+        var winMatch = ua.match(/Windows NT ([0-9.]+)/i);
+        if (winMatch) {
+          var map = {
+            "10.0": "Windows 10",
+            "11.0": "Windows 11",
+            6.3: "Windows 8.1",
+            6.2: "Windows 8",
+            6.1: "Windows 7",
+            "6.0": "Windows Vista",
+            5.1: "Windows XP",
+          };
+          var ver = winMatch[1];
+          return map[ver] ? map[ver] : "Windows " + ver;
         }
-        document.getElementById('os-indicator').textContent = getOSNameAndVersion();
+        // macOS
+        var macMatch = ua.match(/Mac OS X ([0-9_]+)/i);
+        if (macMatch) {
+          var ver = macMatch[1].replace(/_/g, ".");
+          return "macOS " + ver;
+        }
+        // Android
+        var androidMatch = ua.match(/Android ([0-9.]+)/i);
+        if (androidMatch) {
+          return "Android " + androidMatch[1];
+        }
+        // iOS
+        var iosMatch = ua.match(/(iPhone|iPad|iPod).*OS ([0-9_]+)/i);
+        if (iosMatch) {
+          var ver = iosMatch[2].replace(/_/g, ".");
+          return "iOS " + ver;
+        }
+        // Linux
+        if (/linux/i.test(ua)) return "Linux";
+        return "Otro SO";
+      }
+      document.getElementById("os-indicator").textContent =
+        getOSNameAndVersion();
     </script>
     <script>
-        function getAndroidVersion() {
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            var match = ua.match(/Android\s([0-9\.]+)/i);
-            return match ? match[1] : null;
-        }
-        var el = document.getElementById('android-version-indicator');
-        var version = getAndroidVersion();
-        function getBrowserName() {
-            var ua = navigator.userAgent;
-            if (ua.match(/edg/i)) return "Edge";
-            if (ua.match(/chrome|crios/i) && !ua.match(/edg/i)) return "Chrome";
-            if (ua.match(/firefox|fxios/i)) return "Firefox";
-            if (ua.match(/safari/i) && !ua.match(/chrome|crios|edg/i)) return "Safari";
-            if (ua.match(/opera|opr/i)) return "Opera";
-            return "Otro";
-        }
-        var browser = getBrowserName();
-        function getChromeVersion() {
-            var ua = navigator.userAgent;
-            var match = ua.match(/Chrome\/([0-9.]+)/i);
-            return match ? match[1] : null;
-        }
-        var chromeVersion = browser === "Chrome" ? getChromeVersion() : null;
-        if (version && browser === "Chrome" && chromeVersion) {
-            el.textContent = "Android: " + version + " | Chrome " + chromeVersion;
-        } else if (browser === "Chrome" && chromeVersion) {
-            el.textContent = "Chrome " + chromeVersion;
-        } else if (version) {
-            el.textContent = "Android: " + version + " | " + browser;
-        } else {
-            el.textContent = browser;
-        }
+      function getAndroidVersion() {
+        var ua = navigator.userAgent || navigator.vendor || window.opera;
+        var match = ua.match(/Android\s([0-9\.]+)/i);
+        return match ? match[1] : null;
+      }
+      var el = document.getElementById("android-version-indicator");
+      var version = getAndroidVersion();
+      function getBrowserName() {
+        var ua = navigator.userAgent;
+        if (ua.match(/edg/i)) return "Edge";
+        if (ua.match(/chrome|crios/i) && !ua.match(/edg/i)) return "Chrome";
+        if (ua.match(/firefox|fxios/i)) return "Firefox";
+        if (ua.match(/safari/i) && !ua.match(/chrome|crios|edg/i))
+          return "Safari";
+        if (ua.match(/opera|opr/i)) return "Opera";
+        return "Otro";
+      }
+      var browser = getBrowserName();
+      function getChromeVersion() {
+        var ua = navigator.userAgent;
+        var match = ua.match(/Chrome\/([0-9.]+)/i);
+        return match ? match[1] : null;
+      }
+      var chromeVersion = browser === "Chrome" ? getChromeVersion() : null;
+      if (version && browser === "Chrome" && chromeVersion) {
+        el.textContent = "Android: " + version + " | Chrome " + chromeVersion;
+      } else if (browser === "Chrome" && chromeVersion) {
+        el.textContent = "Chrome " + chromeVersion;
+      } else if (version) {
+        el.textContent = "Android: " + version + " | " + browser;
+      } else {
+        el.textContent = browser;
+      }
     </script>
-</body>
-</html> 
+  </body>
+</html>
