@@ -28,10 +28,10 @@
       justify-content: center;
     }
     main {
-      width: 1200px;
-      height: 700px;
-      min-height: 700px;
-      min-width: 1200px;
+      width: 1920px;
+      height: 1080px;
+      min-height: 1080px;
+      min-width: 1920px;
       padding: 0;
       margin: 0;
       display: flex;
@@ -44,10 +44,10 @@
       transform-origin: center center;
     }
     .dashboard-section {
-      width: 1200px;
-      height: 700px;
-      min-height: 700px;
-      min-width: 1200px;
+      width: 1920px;
+      height: 1080px;
+      min-height: 1080px;
+      min-width: 1920px;
       background: transparent;
       border-radius: 0;
       padding: 0;
@@ -187,7 +187,7 @@
     }
     .kpi-title {
       color: #00eaff;
-      font-size: .5rem;
+      font-size: 0.5rem;
       margin-bottom: 10px;
       text-align: center;
       letter-spacing: 0.07em;
@@ -400,11 +400,12 @@
           padding: 0;
           box-sizing: border-box;
         "
-      ><br>
+      >
+        <br />
         <h2 style="margin: 0; padding: 1vh 0; width: 100%; text-align: center">
           Panel General
         </h2>
-        <br><br>
+        <br /><br />
         <div class="kpi-cards" style="height: calc(100% - 60px)">
           <div class="kpi-cards-row">
             <div class="kpi-card kpi-ocupacion">
@@ -428,7 +429,7 @@
               ><canvas class="sparkline" id="spark-noShowEstimado"></canvas>
             </div>
           </div>
-          <br><br>
+          <br /><br />
           <div class="kpi-cards-row">
             <div class="kpi-card kpi-ingresos">
               <span class="kpi-title">Ingresos</span
@@ -737,7 +738,7 @@
         const finalScale = Math.max(scale, minScale);
 
         main.style.transform = `scale(${finalScale})`;
-        main.style.transformOrigin = "top left";
+        main.style.transformOrigin = "center center";
 
         // Ajustar el contenedor para mantener las proporciones
         const container = main.parentElement;
