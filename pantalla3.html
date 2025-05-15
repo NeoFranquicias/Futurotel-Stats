@@ -24,15 +24,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        padding-top: 20px;
         min-height: 100vh;
       }
       .chart-container {
         position: relative;
         width: 100%;
         max-width: 1600px;
-        height: calc(100vh - 80px);
-        max-height: 750px;
+        height: 560px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -46,34 +45,20 @@
         border: 1px solid rgba(0, 234, 255, 0.1);
         box-sizing: border-box;
       }
-      #combined-chart {
-        display: block;
-        background: transparent !important;
-        width: 100% !important;
-        height: calc(100% - 60px) !important;
-        margin-top: 10px;
-      }
       .chart-title {
-        position: absolute;
-        top: 5px;
-        display: block;
-        width: 100%;
-        text-align: center;
         color: #00eaff;
         font-family: "Orbitron", Arial, sans-serif;
         font-size: clamp(1.5rem, 4vw, 3rem);
         font-weight: 600;
-        margin: 0 auto;
-        padding: 8px 0;
+        margin: 0 0 10px 0;
         opacity: 0.9;
         text-shadow: 0 0 8px #00eaff77;
-        z-index: 2;
       }
       .legend-container {
         display: flex;
         flex-wrap: wrap;
         gap: clamp(20px, 4vw, 70px);
-        margin: clamp(10px, 2vh, 20px) 0;
+        margin: 5px 0 10px;
         padding: 6px 12px;
         background: rgba(10, 14, 23, 0.5);
         border-radius: 8px;
@@ -97,25 +82,17 @@
         border-radius: 50%;
         flex-shrink: 0;
       }
-      @keyframes gradientBorder {
-        0% {
-          border-color: rgba(0, 234, 255, 0.1);
-        }
-        50% {
-          border-color: rgba(0, 234, 255, 0.3);
-        }
-        100% {
-          border-color: rgba(0, 234, 255, 0.1);
-        }
-      }
-      .chart-container {
-        animation: gradientBorder 4s infinite;
+      #combined-chart { 
+        display: block;
+        background: transparent !important;
+        width: 100% !important;
+        height: 500px !important;
       }
 
       @media (max-width: 768px) {
         .chart-container {
           padding: 10px;
-          height: calc(100vh - 40px);
+          height: 520px;
           margin: 0;
           border-radius: 0;
         }
@@ -130,7 +107,7 @@
 
       @media (max-width: 480px) {
         .chart-title {
-          padding: 4px 0;
+          margin-bottom: 5px;
         }
         .legend-container {
           flex-direction: column;
@@ -143,8 +120,8 @@
     </style>
   </head>
   <body>
-    <h2 class="chart-title">Demanda de la Ciudad</h2>
     <div class="chart-container">
+      <h2 class="chart-title">Demanda de la Ciudad</h2>
       <div class="legend-container">
         <div class="legend-item">
           <div
