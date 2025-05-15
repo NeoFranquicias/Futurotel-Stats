@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Algoritmo de Precio Óptimo - Futurotel Stats</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', Arial, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0f7fa;
+      min-height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+    }
+    main {
+      width: 1150px;
+      max-width: 1150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .dashboard-section {
+      background: transparent;
+      padding: 8px;
+      animation: fadein 1.2s forwards;
+      opacity: none;
+      visibility: visible;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+      box-shadow: none;
+    }
+    .dashboard-section h2 {
+      color: #00eaff;
+      font-size: 2rem;
+      margin-top: 0;
+      margin-bottom: 2px;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 10px #00eaff88;
+      text-align: center;
+      animation: subtleGlow 3s infinite;
+    }
+    .algoritmo-box {
+      background: rgba(34, 49, 63, 0.82);
+      border-radius: 14px;
+      padding: 32px 38px 18px 38px;
+      margin: 0 auto 22px auto;
+      box-shadow: 0 0 24px 0 #00eaff22;
+      width: 880px;
+      max-width: 96vw;
+      color: #e0f7fa;
+      font-size: 1.14rem;
+      line-height: 1.6;
+      font-family: 'Orbitron', Arial, sans-serif;
+    }
+    .algoritmo-box h3 {
+      color: #00eaff;
+      margin-top: 0;
+      margin-bottom: 0.5em;
+      font-size: 1.25rem;
+      text-shadow: 0 0 8px #00eaff66;
+    }
+    .algoritmo-box ul {
+      margin-top: 0.3em;
+      margin-bottom: 0.7em;
+      padding-left: 1.2em;
+    }
+    .algoritmo-box li {
+      margin-bottom: 0.18em;
+    }
+    .formula-block {
+      background: #203a43;
+      border-radius: 8px;
+      padding: 18px 8px 10px 8px;
+      margin: 14px 0 16px 0;
+      font-size: 1.12rem;
+      color: #fff;
+      font-family: 'Orbitron', Arial, sans-serif;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: visible;
+      gap: 0.05em;
+    }
+    .latex-formula {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.13em;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      color: #fff;
+      max-width: 100%;
+      overflow-x: visible;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .alg-pagina {
+      opacity: 0;
+      transform: translateY(25px) scale(0.98);
+      pointer-events: none;
+      transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 70px;
+      min-height: 420px;
+      z-index: 2;
+    }
+    .alg-pagina.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+      z-index: 3;
+    }
+    .dashboard-section {
+      position: relative;
+      min-height: 540px;
+      height: 540px;
+      overflow: visible;
+    }
+    .ejemplo-box {
+      background: #233b4d;
+      border-radius: 8px;
+      padding: 18px 16px 10px 16px;
+      margin: 18px 0 0 0;
+      color: #e0f7fa;
+      font-size: 1.06rem;
+      font-family: 'Orbitron', Arial, sans-serif;
+    }
+    .ejemplo-box h4 {
+      color: #00eaff;
+      margin-top: 0;
+      margin-bottom: 0.4em;
+      font-size: 1.12rem;
+    }
+    .algoritmo-box strong {
+      color: #00eaff;
+    }
+    @media (max-width: 900px) {
+      .algoritmo-box, .formula-block, .ejemplo-box {
+        width: 98vw;
+        padding: 12px 2vw;
+      }
+      main {
+        width: 98vw;
+        max-width: 98vw;
+      }
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script>
+window.MathJax = {
+  options: {
+    renderActions: {
+      addMenu: [] // Desactiva el menú contextual
+    }
+  },
+  tex: {
+    tags: 'ams'
+  },
+  chtml: {
+    tooltip: { disabled: true }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <main>
+        <section class="dashboard-section">
+            <h2>Algoritmo de Precio Óptimo</h2>
+            <div class="alg-pagina active">
+                <div class='algoritmo-box'>
+                    <h3>Fórmula General</h3>
+                    <div class='formula-block'>
+                        <span class='latex-formula'>$$P_{opt} = W_o \cdot f(O_c) + W_p \cdot P_h + W_c \cdot \frac{P_{cmin} + P_{cmax}}{2} + W_{oc} \cdot g(O_c^*)$$</span>
+                    </div>
+                    <ul>
+                        <li><strong>O<sub>c</sub></strong>: Ocupación de la ciudad (en porcentaje, 0 a 1)</li>
+                        <li><strong>P<sub>h</sub></strong>: Precio medio histórico del hotel en el mismo día en años anteriores</li>
+                        <li><strong>P<sub>cmin</sub></strong>: Precio mínimo de la competencia</li>
+                        <li><strong>P<sub>cmax</sub></strong>: Precio máximo de la competencia</li>
+                        <li><strong>O<sub>c</sub><sup></sup></strong>: Ocupación de la competencia (en porcentaje, 0 a 1)</li>
+                        <li><strong>W<sub>o</sub>, W<sub>p</sub>, W<sub>c</sub>, W<sub>oc</sub></strong>: Pesos de cada variable en la fórmula (ajustables según estrategia)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alg-pagina">
+                <div class='algoritmo-box'>
+                    <h3>Explicación de la Fórmula</h3>
+                    <div class='formula-block'>
+                        <span class='latex-formula'>$$P_{opt} = W_o \cdot f(O_c) + W_p \cdot P_h + W_c \cdot \frac{P_{cmin} + P_{cmax}}{2} + W_{oc} \cdot g(O_c^*)$$</span>
+                    </div>
+                    <ul>
+                        <li><strong>f(O<sub>c</sub>) = P<sub>h</sub> · (1 + O<sub>c</sub>)</strong> &rarr; Si la ocupación de la ciudad es alta, se ajusta el precio proporcionalmente.</li>
+                        <li><strong>g(O<sub>c</sub><sup></sup>) = P<sub>h</sub> · (1 + O<sub>c</sub><sup></sup>)</strong> &rarr; Si la competencia tiene alta ocupación, se justifica un precio mayor.</li>
+                        <li><strong>W<sub>o</sub> + W<sub>p</sub> + W<sub>c</sub> + W<sub>oc</sub> = 1</strong> &rarr; Los pesos se ajustan para equilibrar la fórmula.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="alg-pagina">
+                <div class='algoritmo-box'>
+                    <h3>Ejemplo de Pesos y Aplicación</h3>
+                    <ul>
+                        <li><strong>W<sub>o</sub> = 0.3</strong> (ocupación de la ciudad)</li>
+                        <li><strong>W<sub>p</sub> = 0.3</strong> (precio histórico del hotel)</li>
+                        <li><strong>W<sub>c</sub> = 0.2</strong> (precios de la competencia)</li>
+                        <li><strong>W<sub>oc</sub> = 0.2</strong> (ocupación de la competencia)</li>
+                    </ul>
+                    <ul>
+                        <li><strong>O<sub>c</sub> = 0.85</strong> (85% de ocupación en la ciudad)</li>
+                        <li><strong>P<sub>h</sub> = 100 &euro;</strong></li>
+                        <li><strong>P<sub>cmin</sub> = 90 &euro;, P<sub>cmax</sub> = 120 &euro;</strong></li>
+                        <li><strong>O<sub>c</sub><sup>*</sup> = 0.75</strong> (75% de ocupación de la competencia)</li>
+                    </ul>
+                    <div class='formula-block'>
+  <div class='latex-formula'>
+    $$
+    P_{opt} = 0.3 \cdot (100 \cdot 1.85) + 0.3 \cdot 100 + 0.2 \cdot \frac{90 + 120}{2} + 0.2 \cdot (100 \cdot 1.75)
+    $$
+  </div>
+  <div class='latex-formula'>
+    $$
+    P_{opt} = 55.5 + 30 + 21 + 35 = \mathbf{141.5}
+    $$
+  </div>
+</div>
+                </div>
+                <div style='margin-top:6px;'>
+                    Este será el precio óptimo sugerido para maximizar ingresos teniendo en cuenta las condiciones de mercado.
+                </div>
+            </div>
+        </div>
+    </section>
+<script src="particles-bg.js"></script>
+<script>
+    // Navegación automática con animación
+    let idx = 0;
+    let paginas;
+    function mostrarPagina(i) {
+        paginas.forEach((p, j) => {
+            if (i === j) {
+                p.classList.add('active');
+            } else {
+                p.classList.remove('active');
+            }
+        });
+        if(window.MathJax) MathJax.typesetPromise();
+    }
+    function avanzarPagina() {
+        idx = (idx + 1) % paginas.length;
+        mostrarPagina(idx);
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        paginas = Array.from(document.querySelectorAll('.alg-pagina'));
+        mostrarPagina(idx);
+        setInterval(avanzarPagina, 6000);
+    });
+</script>
+</body>
+</html>
