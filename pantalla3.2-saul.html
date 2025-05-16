@@ -121,7 +121,7 @@
       justify-content: center;
       margin-bottom: 10px;
       flex-wrap: wrap;
-      padding: 5px;
+      padding: 8px;
       background: rgba(18, 35, 46, 0.7);
       border-radius: 10px;
       max-width: 95%;
@@ -133,32 +133,21 @@
     .event-item {
       display: flex;
       align-items: center;
-      margin: 2px 2px;
-      font-size: 0.75rem;
-      min-width: 160px;
-      padding: 3px;
+      margin: 2px 10px;
+      font-size: 0.8rem;
+      padding: 3px 8px;
       border-radius: 4px;
       background: rgba(0, 0, 0, 0.2);
       transition: all 0.3s;
-      overflow: hidden;
       white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    .event-item span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .event-item:hover {
       background: rgba(0, 0, 0, 0.4);
-      transform: translateY(-2px);
     }
     .event-color {
-      min-width: 12px;
-      min-height: 12px;
-      margin-right: 6px;
-      border-radius: 3px;
-      box-shadow: 0 0 5px rgba(0, 234, 255, 0.3);
+      width: 25px;
+      height: 3px;
+      margin-right: 8px;
       flex-shrink: 0;
     }
     @keyframes fadein {
@@ -258,20 +247,31 @@
             const annotations = {};
 
             eventos.forEach((evento, index) => {
-              annotations[`box${index}`] = {
-                type: "box",
-                xMin: evento.fechaInicio - 0.5,
-                xMax: evento.fechaFin + 0.5,
-                yMin: 0,
-                yMax: 100,
-                backgroundColor: evento.color,
-                borderColor: evento.borderColor,
-                borderWidth: 0,
-                borderRadius: 0,
-                // Make overlapping events visible with a little transparency
-                borderDash: index > 4 ? [5, 5] : [],
-                drawTime: "beforeDatasetsDraw",
-              };
+              if (index < 5) {
+                // Limitar a 5 eventos
+                annotations[`line${index}`] = {
+                  type: "line",
+                  yMin: 0,
+                  yMax: 100,
+                  xMin: evento.fechaInicio,
+                  xMax: evento.fechaInicio,
+                  borderColor: evento.borderColor,
+                  borderWidth: 2,
+                  drawTime: "beforeDatasetsDraw",
+                };
+
+                // Línea horizontal para el rango del evento
+                annotations[`range${index}`] = {
+                  type: "line",
+                  yMin: 85 - index * 4, // Posición vertical escalonada
+                  yMax: 85 - index * 4,
+                  xMin: evento.fechaInicio,
+                  xMax: evento.fechaFin,
+                  borderColor: evento.borderColor,
+                  borderWidth: 2,
+                  drawTime: "beforeDatasetsDraw",
+                };
+              }
             });
 
             // Crear leyenda de eventos personalizada
@@ -279,27 +279,27 @@
             legendContainer.innerHTML =
               "<div style='width:100%; text-align:center; margin-bottom:6px; color:#00eaff; font-weight:bold; font-size:0.9rem;'>Eventos de Mayo</div>";
 
-            // Crear grid de 3 columnas para mejor visualización
             const grid = document.createElement("div");
-            grid.style.display = "grid";
-            grid.style.gridTemplateColumns =
-              "repeat(auto-fill, minmax(250px, 1fr))";
+            grid.style.display = "flex";
+            grid.style.flexWrap = "wrap";
+            grid.style.justifyContent = "center";
+            grid.style.gap = "5px";
             grid.style.width = "100%";
-            grid.style.gap = "3px";
 
-            eventos.forEach((evento) => {
+            eventos.slice(0, 5).forEach((evento) => {
+              // Limitar a 5 eventos
               const item = document.createElement("div");
               item.className = "event-item";
               item.title = `${evento.nombre} (${evento.fechaInicio}-${evento.fechaFin})`;
 
-              const colorBox = document.createElement("div");
-              colorBox.className = "event-color";
-              colorBox.style.backgroundColor = evento.borderColor;
+              const colorLine = document.createElement("div");
+              colorLine.className = "event-color";
+              colorLine.style.backgroundColor = evento.borderColor;
 
               const label = document.createElement("span");
               label.textContent = `${evento.nombre} (${evento.fechaInicio}-${evento.fechaFin})`;
 
-              item.appendChild(colorBox);
+              item.appendChild(colorLine);
               item.appendChild(label);
               grid.appendChild(item);
             });
@@ -310,33 +310,91 @@
             const ctx = document
               .getElementById("ocupacionChart")
               .getContext("2d");
+
+            // Ajustar los valores de ocupación según los eventos
+            const ocupacionAjustada = ocupacionBase.map((valor, index) => {
+              const dia = index + 1;
+              let tieneEvento = false;
+
+              // Verificar si hay algún evento en este día
+              for (let i = 0; i < Math.min(eventos.length, 5); i++) {
+                const evento = eventos[i];
+                if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
+                  tieneEvento = true;
+                  break;
+                }
+              }
+
+              // Primero reducimos el valor base a un rango más bajo
+              let valorBase = valor * 0.6; // Reducir al 60% del valor original
+
+              // Ajustar el valor de ocupación
+              if (tieneEvento) {
+                // Durante eventos, aumentar la ocupación entre 10-15%
+                return Math.min(85, valorBase + Math.random() * 5 + 10);
+              } else {
+                // Sin eventos, reducir la ocupación entre 5-10%
+                return Math.max(25, valorBase - Math.random() * 5 - 5);
+              }
+            });
+
+            // Crear el dataset base con segmentos coloreados
+            const baseDataset = {
+              label: "Ocupación (%)",
+              data: ocupacionAjustada,
+              borderColor: (context) => {
+                const index = context.dataIndex;
+                const dia = index + 1;
+                // Buscar si hay un evento en este día
+                for (let i = 0; i < Math.min(eventos.length, 5); i++) {
+                  const evento = eventos[i];
+                  if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
+                    return evento.borderColor;
+                  }
+                }
+                return "#00eaff"; // Color por defecto si no hay evento
+              },
+              backgroundColor: "rgba(0, 234, 255, 0.1)",
+              borderWidth: 3,
+              pointRadius: (context) => {
+                const index = context.dataIndex;
+                return daysWithHighOccupancy[index] ? 6 : 5;
+              },
+              pointBackgroundColor: (context) => {
+                const index = context.dataIndex;
+                const dia = index + 1;
+                // Colorear el punto según el evento
+                for (let i = 0; i < Math.min(eventos.length, 5); i++) {
+                  const evento = eventos[i];
+                  if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
+                    return evento.borderColor;
+                  }
+                }
+                return daysWithHighOccupancy[index] ? "#ffcc00" : "#fff";
+              },
+              pointBorderColor: (context) => {
+                const index = context.dataIndex;
+                const dia = index + 1;
+                // Colorear el borde del punto según el evento
+                for (let i = 0; i < Math.min(eventos.length, 5); i++) {
+                  const evento = eventos[i];
+                  if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
+                    return evento.borderColor;
+                  }
+                }
+                return "#00eaff";
+              },
+              pointHoverRadius: 8,
+              pointBorderWidth: 2,
+              fill: true,
+              tension: 0.3,
+            };
+
             const chart = new Chart(ctx, {
               type: "line",
               data: {
                 labels: diasMes,
-                datasets: [
-                  {
-                    label: "Ocupación (%)",
-                    data: ocupacionBase,
-                    borderColor: "#00eaff",
-                    backgroundColor: "rgba(0, 234, 255, 0.1)",
-                    borderWidth: 3,
-                    pointRadius: (context) => {
-                      // Points for days with events are slightly bigger
-                      const index = context.dataIndex;
-                      return daysWithHighOccupancy[index] ? 6 : 5;
-                    },
-                    pointBackgroundColor: (context) => {
-                      const index = context.dataIndex;
-                      return daysWithHighOccupancy[index] ? "#ffcc00" : "#fff";
-                    },
-                    pointBorderColor: "#00eaff",
-                    pointHoverRadius: 8,
-                    pointBorderWidth: 2,
-                    fill: true,
-                    tension: 0.3,
-                  },
-                ],
+                datasets: [baseDataset],
               },
               options: {
                 responsive: true,
@@ -345,11 +403,30 @@
                   point: {
                     hitRadius: 10,
                   },
+                  line: {
+                    segment: {
+                      borderColor: (context) => {
+                        const index = context.p0DataIndex;
+                        const dia = index + 1;
+                        for (let i = 0; i < Math.min(eventos.length, 5); i++) {
+                          const evento = eventos[i];
+                          if (
+                            dia >= evento.fechaInicio &&
+                            dia <= evento.fechaFin
+                          ) {
+                            return evento.borderColor;
+                          }
+                        }
+                        return "#00eaff";
+                      },
+                    },
+                  },
                 },
                 scales: {
                   y: {
                     beginAtZero: true,
-                    max: 100,
+                    max: 90, // Reducir el máximo visible
+                    min: 20, // Establecer un mínimo visible
                     grid: {
                       color: "rgba(255, 255, 255, 0.1)",
                     },
@@ -361,6 +438,7 @@
                       callback: function (value) {
                         return value + "%";
                       },
+                      stepSize: 10, // Establecer intervalos de 10%
                     },
                   },
                   x: {
@@ -372,20 +450,28 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
-                        size: 10,
+                        size: 11,
                       },
-                      padding: 0,
+                      padding: 5,
                       align: "center",
                       autoSkip: false,
                       maxRotation: 0,
                       minRotation: 0,
+                      callback: function (value) {
+                        return value.toString();
+                      },
+                      major: {
+                        enabled: true,
+                      },
+                      stepSize: 1,
                     },
                     offset: true,
                     type: "linear",
                     min: 1,
                     max: 30,
-                    afterFit: function (scaleInstance) {
-                      scaleInstance.width = scaleInstance.width;
+                    bounds: "ticks",
+                    border: {
+                      display: false,
                     },
                   },
                 },
@@ -440,7 +526,7 @@
                     },
                   },
                   annotation: {
-                    annotations: annotations,
+                    annotations: {}, // Ya no necesitamos las anotaciones
                   },
                 },
               },
