@@ -286,6 +286,22 @@
             grid.style.gap = "5px";
             grid.style.width = "100%";
 
+            // Agregar ítem para días sin eventos
+            const baseItem = document.createElement("div");
+            baseItem.className = "event-item";
+            baseItem.title = "Días sin eventos";
+
+            const baseColorLine = document.createElement("div");
+            baseColorLine.className = "event-color";
+            baseColorLine.style.backgroundColor = "#7a8288";
+
+            const baseLabel = document.createElement("span");
+            baseLabel.textContent = "Días sin eventos";
+
+            baseItem.appendChild(baseColorLine);
+            baseItem.appendChild(baseLabel);
+            grid.appendChild(baseItem);
+
             eventos.slice(0, 5).forEach((evento) => {
               // Limitar a 5 eventos
               const item = document.createElement("div");
@@ -311,122 +327,113 @@
               .getElementById("ocupacionChart")
               .getContext("2d");
 
-            // Ajustar los valores de ocupación según los eventos
-            const ocupacionAjustada = ocupacionBase.map((valor, index) => {
-              const dia = index + 1;
-              let tieneEvento = false;
-
-              // Verificar si hay algún evento en este día
-              for (let i = 0; i < Math.min(eventos.length, 5); i++) {
-                const evento = eventos[i];
-                if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
-                  tieneEvento = true;
-                  break;
-                }
-              }
-
-              // Primero reducimos el valor base a un rango más bajo
-              let valorBase = valor * 0.6; // Reducir al 60% del valor original
-
-              // Ajustar el valor de ocupación
-              if (tieneEvento) {
-                // Durante eventos, aumentar la ocupación entre 10-15%
-                return Math.min(85, valorBase + Math.random() * 5 + 10);
-              } else {
-                // Sin eventos, reducir la ocupación entre 5-10%
-                return Math.max(25, valorBase - Math.random() * 5 - 5);
-              }
-            });
-
-            // Crear el dataset base con segmentos coloreados
-            const baseDataset = {
-              label: "Ocupación (%)",
-              data: ocupacionAjustada,
-              borderColor: (context) => {
-                const index = context.dataIndex;
-                const dia = index + 1;
-                // Buscar si hay un evento en este día
-                for (let i = 0; i < Math.min(eventos.length, 5); i++) {
-                  const evento = eventos[i];
-                  if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
-                    return evento.borderColor;
+            // Crear datasets para cada evento
+            const datasets = [
+              // Dataset base sin eventos
+              {
+                label: "Días sin eventos",
+                data: ocupacionBase.map((valor, index) => {
+                  const dia = index + 1;
+                  let tieneEvento = false;
+                  
+                  // Verificar si hay algún evento en este día
+                  for (let i = 0; i < Math.min(eventos.length, 5); i++) {
+                    const evento = eventos[i];
+                    if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
+                      tieneEvento = true;
+                      break;
+                    }
                   }
-                }
-                return "#00eaff"; // Color por defecto si no hay evento
-              },
-              backgroundColor: "rgba(0, 234, 255, 0.1)",
-              borderWidth: 3,
-              pointRadius: (context) => {
-                const index = context.dataIndex;
-                return daysWithHighOccupancy[index] ? 6 : 5;
-              },
-              pointBackgroundColor: (context) => {
-                const index = context.dataIndex;
-                const dia = index + 1;
-                // Colorear el punto según el evento
-                for (let i = 0; i < Math.min(eventos.length, 5); i++) {
-                  const evento = eventos[i];
-                  if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
-                    return evento.borderColor;
+                  
+                  if (tieneEvento) {
+                    return null;
                   }
-                }
-                return daysWithHighOccupancy[index] ? "#ffcc00" : "#fff";
+                  return valor * 0.6;
+                }),
+                borderColor: "#7a8288",
+                backgroundColor: 'transparent',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: "#fff",
+                pointBorderColor: "#7a8288",
+                pointHoverRadius: 6,
+                pointBorderWidth: 2,
+                fill: false,
+                tension: 0.3
               },
-              pointBorderColor: (context) => {
-                const index = context.dataIndex;
-                const dia = index + 1;
-                // Colorear el borde del punto según el evento
-                for (let i = 0; i < Math.min(eventos.length, 5); i++) {
-                  const evento = eventos[i];
+              // Datasets para cada evento
+              ...eventos.slice(0, 5).map((evento) => ({
+                label: evento.nombre,
+                data: ocupacionBase.map((valor, index) => {
+                  const dia = index + 1;
                   if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
-                    return evento.borderColor;
+                    return Math.min(85, valor * 0.6 + Math.random() * 5 + 10);
                   }
-                }
-                return "#00eaff";
-              },
-              pointHoverRadius: 8,
-              pointBorderWidth: 2,
-              fill: true,
-              tension: 0.3,
-            };
+                  return null;
+                }),
+                borderColor: evento.borderColor,
+                backgroundColor: 'transparent',
+                borderWidth: 3,
+                pointRadius: 4,
+                pointBackgroundColor: evento.borderColor,
+                pointBorderColor: evento.borderColor,
+                pointHoverRadius: 7,
+                pointBorderWidth: 2,
+                fill: false,
+                tension: 0.2
+              }))
+            ];
 
             const chart = new Chart(ctx, {
               type: "line",
               data: {
                 labels: diasMes,
-                datasets: [baseDataset],
+                datasets: datasets
               },
               options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                  intersect: false,
+                  mode: 'nearest'
+                },
                 elements: {
                   point: {
                     hitRadius: 10,
+                  }
+                },
+                plugins: {
+                  legend: {
+                    display: false
                   },
-                  line: {
-                    segment: {
-                      borderColor: (context) => {
-                        const index = context.p0DataIndex;
-                        const dia = index + 1;
-                        for (let i = 0; i < Math.min(eventos.length, 5); i++) {
-                          const evento = eventos[i];
-                          if (
-                            dia >= evento.fechaInicio &&
-                            dia <= evento.fechaFin
-                          ) {
-                            return evento.borderColor;
-                          }
-                        }
-                        return "#00eaff";
-                      },
+                  tooltip: {
+                    backgroundColor: "rgba(18, 35, 46, 0.8)",
+                    titleFont: {
+                      family: "Orbitron",
+                      size: 14,
                     },
-                  },
+                    bodyFont: {
+                      family: "Orbitron",
+                      size: 13,
+                    },
+                    callbacks: {
+                      title: function (tooltipItems) {
+                        return "Día " + tooltipItems[0].label + " de Mayo";
+                      },
+                      label: function (context) {
+                        if (context.dataset.label === "Días sin eventos") {
+                          return "Días sin eventos";
+                        }
+                        return context.dataset.label + ": " + context.parsed.y.toFixed(1) + "%";
+                      }
+                    }
+                  }
                 },
                 scales: {
                   y: {
                     beginAtZero: true,
-                    max: 90, // Reducir el máximo visible
-                    min: 20, // Establecer un mínimo visible
+                    max: 90,
+                    min: 20,
                     grid: {
                       color: "rgba(255, 255, 255, 0.1)",
                     },
@@ -438,7 +445,7 @@
                       callback: function (value) {
                         return value + "%";
                       },
-                      stepSize: 10, // Establecer intervalos de 10%
+                      stepSize: 10,
                     },
                   },
                   x: {
@@ -473,60 +480,6 @@
                     border: {
                       display: false,
                     },
-                  },
-                },
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                  tooltip: {
-                    backgroundColor: "rgba(18, 35, 46, 0.8)",
-                    titleFont: {
-                      family: "Orbitron",
-                      size: 14,
-                    },
-                    bodyFont: {
-                      family: "Orbitron",
-                      size: 13,
-                    },
-                    callbacks: {
-                      title: function (tooltipItems) {
-                        return "Día " + tooltipItems[0].label + " de Mayo";
-                      },
-                      label: function (context) {
-                        return "Ocupación: " + context.parsed.y + "%";
-                      },
-                      afterLabel: function (context) {
-                        // Mostrar evento si hay alguno ese día
-                        const dia = parseInt(context.label);
-                        let eventosDelDia = [];
-
-                        eventos.forEach((evento) => {
-                          if (
-                            dia >= evento.fechaInicio &&
-                            dia <= evento.fechaFin
-                          ) {
-                            eventosDelDia.push(evento.nombre);
-                          }
-                        });
-
-                        if (eventosDelDia.length > 0) {
-                          if (eventosDelDia.length === 1) {
-                            return "Evento: " + eventosDelDia[0];
-                          } else {
-                            let result = "Eventos:";
-                            eventosDelDia.forEach((evento, index) => {
-                              result += "\n- " + evento;
-                            });
-                            return result;
-                          }
-                        }
-                        return "";
-                      },
-                    },
-                  },
-                  annotation: {
-                    annotations: {}, // Ya no necesitamos las anotaciones
                   },
                 },
               },
