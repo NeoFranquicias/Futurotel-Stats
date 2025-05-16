@@ -119,13 +119,13 @@
         }
 
         .comparison-card, .booking-position, .warning-card {
-            padding: 4px 8px;
+            padding: 8px 12px;
             min-width: 0;
         }
 
         .booking-position, .warning-card {
             width: 100%;
-            min-height: 77px;
+            min-height: 85px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -154,17 +154,21 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            font-size: 1.20rem;
+            font-size: 1.4rem;
             color: #fff;
         }
 
         .value-number {
             font-weight: bold;
             text-shadow: 0 0 10px #00eaff99;
-            font-size: 1.20rem;
+            font-size: 1.4rem;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .booking-position .value-number {
+            font-size: 1.4rem;
         }
 
         .warning-card {
@@ -191,7 +195,7 @@
 
         .warning-message {
             color: #ff6b6b;
-            font-size: 1.20rem;
+            font-size: 1.4rem;
         }
 
         .proposal-section {
@@ -210,7 +214,7 @@
         .proposal-cards-row {
             display: flex;
             flex-direction: row;
-            gap: 12px;
+            gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -218,23 +222,23 @@
             background: linear-gradient(135deg, rgba(20,40,80,0.55) 60%, rgba(32,58,67,0.55) 100%) !important;
             border: 2px solid #00eaff !important;
             border-radius: 12px !important;
-            padding: 2px 6px;
-            min-width: 90px;
+            padding: 4px 8px;
+            min-width: 110px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 1.25rem;
+            font-size: 1.4rem;
             color: #e0f7fa;
             box-shadow: 0 0 4px rgba(0, 234, 255, 0.1);
         }
         .proposal-card-mini .price {
             color: #00eaff;
             font-weight: bold;
-            font-size: 1.20rem;
-            margin-bottom: 1px;
+            font-size: 1.4rem;
+            margin-bottom: 2px;
         }
         .proposal-card-mini .rooms {
-            font-size: 1.20rem;
+            font-size: 1.4rem;
         }
 
         @keyframes subtleGlow {
@@ -319,6 +323,7 @@
                     </div>
                 </div>
             </div>
+            <br>
             <br>
             <div class="proposal-section">
                 <div class="proposal-title" id="propuestaPrincipal"></div>
