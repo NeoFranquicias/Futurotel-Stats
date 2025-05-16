@@ -108,9 +108,24 @@
         width: 200%;
         height: 200%;
       }
+
+      /* Estilos para el overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: 1000;
+        cursor: default;
+      }
     </style>
   </head>
   <body>
+    <!-- Overlay para prevenir clics -->
+    <div class="overlay"></div>
+
     <div class="display-container">
       <div class="display-frame">
         <iframe src="pantalla1.html" scrolling="no"></iframe>
