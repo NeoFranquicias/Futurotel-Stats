@@ -226,10 +226,13 @@
                 color: "rgba(0, 234, 255, 0.8)",
                 font: {
                   family: "Orbitron",
-                  size: 32,
+                  size: 28,
                   weight: "700",
                 },
                 padding: 6,
+                callback: function(value) {
+                  return value + '%';
+                }
               },
               border: {
                 display: false,
