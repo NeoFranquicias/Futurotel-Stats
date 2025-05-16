@@ -52,7 +52,6 @@
       padding: 0;
       box-shadow: none;
       border: none;
-      animation: fadein 1.2s;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -139,12 +138,10 @@
       padding: 8px 20px;
       border-radius: 8px;
       background: rgba(0, 0, 0, 0.3);
-      transition: all 0.3s;
       white-space: nowrap;
     }
     .event-item:hover {
       background: rgba(0, 0, 0, 0.5);
-      transform: scale(1.02);
     }
     .event-color {
       width: 45px;
@@ -641,12 +638,5 @@
     </script>
 
     <script src="particles-bg.js"></script>
-    <script>
-      // Add keyboard navigation
-      document.addEventListener("keydown", function (event) {
-        // Navigate back to pantalla3.html when any key is pressed
-        window.location.href = "pantalla3.html";
-      });
-    </script>
   </body>
 </html>
