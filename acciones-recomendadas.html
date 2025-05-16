@@ -51,16 +51,12 @@
         margin: 30px;
       }
       .acciones-title {
-        animation: titleGlow 2.2s infinite alternate;
-
         color: #00eaff;
-        font-size: 2rem;
-        font-weight: bold;
-        margin-top: 7px;
-        margin-bottom: 6px;
-        letter-spacing: 0.08em;
-        text-shadow: 0 0 8px #00eaff88;
+        font-size: 2.5rem;
+        margin-bottom: 20px;
         text-align: center;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 10px #00eaff88;
       }
       .acciones-grid {
         display: grid;
@@ -580,20 +576,6 @@
         }
         renderPantalla(currentPantalla);
       }
-
-      // Event listener para el teclado
-      document.addEventListener("keydown", (event) => {
-        switch (event.key) {
-          case "ArrowRight":
-          case "Space":
-          case "Enter":
-            navegarPantalla("siguiente");
-            break;
-          case "ArrowLeft":
-            navegarPantalla("anterior");
-            break;
-        }
-      });
 
       // Escuchar mensajes del padre
       window.addEventListener("message", function (event) {
