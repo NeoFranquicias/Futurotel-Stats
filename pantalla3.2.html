@@ -233,38 +233,38 @@
                 nombre: "Día del Trabajador",
                 fechaInicio: 1,
                 fechaFin: 4,
-                borderColor: "#FF6B6B"
+                borderColor: "#FF6B6B",
               },
               {
                 nombre: "Kidd Keo",
                 fechaInicio: 17,
                 fechaFin: 18,
-                borderColor: "#FF8B94"
+                borderColor: "#FF8B94",
               },
               {
                 nombre: "Alameda Festival",
                 fechaInicio: 22,
                 fechaFin: 24,
-                borderColor: "#4ECDC4"
+                borderColor: "#4ECDC4",
               },
               {
                 nombre: "Festival Oh See",
                 fechaInicio: 23,
                 fechaFin: 24,
-                borderColor: "#e67e22"
+                borderColor: "#e67e22",
               },
               {
                 nombre: "Myke Towers",
                 fechaInicio: 24,
                 fechaFin: 25,
-                borderColor: "#485efc"
+                borderColor: "#485efc",
               },
               {
                 nombre: "Chayanne",
                 fechaInicio: 25,
                 fechaFin: 26,
-                borderColor: "#FFD93D"
-              }
+                borderColor: "#FFD93D",
+              },
             ];
 
             // Mejora para resaltar días con mayor ocupación
@@ -351,13 +351,16 @@
             eventos.forEach((evento) => {
               const item = document.createElement("div");
               item.className = "event-item";
-              
+
               const colorLine = document.createElement("div");
               colorLine.className = "event-color";
               colorLine.style.backgroundColor = evento.borderColor;
 
               const label = document.createElement("span");
-              const dateRange = formatDateRange(evento.fechaInicio, evento.fechaFin);
+              const dateRange = formatDateRange(
+                evento.fechaInicio,
+                evento.fechaFin
+              );
               label.innerHTML = `${evento.nombre} <span style="opacity:0.9">${dateRange}</span>`;
 
               item.appendChild(colorLine);
@@ -380,20 +383,20 @@
                 data: ocupacionBase.map((valor, index) => {
                   const dia = index + 1;
                   let tieneEvento = false;
-                  
+
                   eventos.forEach((evento) => {
                     if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
                       tieneEvento = true;
                     }
                   });
-                  
+
                   if (tieneEvento) {
                     return null;
                   }
                   return valor * 0.6;
                 }),
                 borderColor: "#7a8288",
-                backgroundColor: 'transparent',
+                backgroundColor: "transparent",
                 borderWidth: 2,
                 pointRadius: 3,
                 pointBackgroundColor: "#fff",
@@ -402,7 +405,7 @@
                 pointBorderWidth: 2,
                 fill: false,
                 tension: 0.3,
-                order: 2
+                order: 2,
               },
               // Datasets para cada evento
               ...eventos.map((evento, index) => ({
@@ -443,64 +446,64 @@
                   return null;
                 }),
                 borderColor: evento.borderColor,
-                backgroundColor: 'transparent',
+                backgroundColor: "transparent",
                 borderWidth: 4,
                 pointRadius: 6,
                 pointBackgroundColor: evento.borderColor,
-                pointBorderColor: 'white',
+                pointBorderColor: "white",
                 pointBorderWidth: 2,
                 pointHoverRadius: 9,
                 pointHoverBorderWidth: 3,
                 pointHoverBackgroundColor: evento.borderColor,
-                pointHoverBorderColor: 'white',
-                pointStyle: 'circle',
+                pointHoverBorderColor: "white",
+                pointStyle: "circle",
                 fill: false,
                 tension: 0.2,
                 order: 0,
                 segment: {
-                  borderDash: evento => [0, 0]
+                  borderDash: (evento) => [0, 0],
                 },
-                spanGaps: false
-              }))
+                spanGaps: false,
+              })),
             ];
 
             const chart = new Chart(ctx, {
               type: "line",
               data: {
                 labels: diasMes,
-                datasets: datasets
+                datasets: datasets,
               },
               options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: {
                   intersect: false,
-                  mode: 'nearest',
-                  axis: 'x'
+                  mode: "nearest",
+                  axis: "x",
                 },
                 elements: {
                   point: {
                     hitRadius: 12,
                   },
                   line: {
-                    capBezierPoints: true
-                  }
+                    capBezierPoints: true,
+                  },
                 },
                 plugins: {
                   legend: {
-                    display: false
+                    display: false,
                   },
                   tooltip: {
                     backgroundColor: "rgba(18, 35, 46, 0.95)",
                     titleFont: {
                       family: "Orbitron",
                       size: 26,
-                      weight: 'bold'
+                      weight: "bold",
                     },
                     bodyFont: {
                       family: "Orbitron",
                       size: 24,
-                      weight: '500'
+                      weight: "500",
                     },
                     padding: 18,
                     cornerRadius: 10,
@@ -515,12 +518,21 @@
                       },
                       label: function (context) {
                         if (context.dataset.label === "Días sin eventos") {
-                          return "Días sin eventos: " + context.parsed.y.toFixed(1) + "%";
+                          return (
+                            "Días sin eventos: " +
+                            context.parsed.y.toFixed(1) +
+                            "%"
+                          );
                         }
-                        return context.dataset.label + ": " + context.parsed.y.toFixed(1) + "%";
-                      }
-                    }
-                  }
+                        return (
+                          context.dataset.label +
+                          ": " +
+                          context.parsed.y.toFixed(1) +
+                          "%"
+                        );
+                      },
+                    },
+                  },
                 },
                 scales: {
                   y: {
@@ -535,13 +547,13 @@
                       font: {
                         family: "Orbitron",
                         size: 24,
-                        weight: 'bold'
+                        weight: "bold",
                       },
                       callback: function (value) {
                         return value + "%";
                       },
                       stepSize: 10,
-                      padding: 12
+                      padding: 12,
                     },
                   },
                   x: {
@@ -554,7 +566,7 @@
                       font: {
                         family: "Orbitron",
                         size: 24,
-                        weight: 'bold'
+                        weight: "bold",
                       },
                       padding: 10,
                       align: "center",
@@ -629,5 +641,12 @@
     </script>
 
     <script src="particles-bg.js"></script>
+    <script>
+      // Add keyboard navigation
+      document.addEventListener("keydown", function (event) {
+        // Navigate back to pantalla3.html when any key is pressed
+        window.location.href = "pantalla3.html";
+      });
+    </script>
   </body>
 </html>
