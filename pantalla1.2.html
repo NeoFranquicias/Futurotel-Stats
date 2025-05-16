@@ -29,13 +29,15 @@
             justify-content: center;
             overflow: hidden;
             margin-top: 0;
-            padding-top: 10px;
-            padding-bottom: 10px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         .dashboard-section {
             background: transparent;
-            padding: 8px;
+            padding: 12px 4px;
             animation: fadein 1.2s forwards;
             opacity: none;
             visibility: visible;
@@ -44,7 +46,7 @@
             max-height: 100%;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
             overflow: hidden;
             position: relative;
             z-index: 10;
@@ -71,9 +73,9 @@
 
         .dashboard-section h2 {
             color: #00eaff;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-top: 0;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             letter-spacing: 0.08em;
             text-shadow: 0 0 10px #00eaff88;
             text-align: center;
@@ -82,19 +84,18 @@
 
         .hotel-name {
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 2rem;
             text-align: center;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             text-shadow: 0 0 6px #00eaff99;
         }
 
         .comparison-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            /* grid-template-rows: 1.2fr 0.8fr; */
-            grid-auto-rows: min-content;
             gap: 12px;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            padding: 0 4px;
         }
 
         .comparison-card, .booking-position, .warning-card, .proposal-card-mini {
@@ -103,6 +104,7 @@
             border: 2px solid #00eaff !important;
             border-radius: 12px !important;
             margin-bottom: 8px;
+            width: 100%;
         }
 
         .comparison-card, .booking-position, .warning-card {
@@ -111,15 +113,15 @@
         }
 
         .booking-position, .warning-card {
-            min-height: 65px;
-            height: 65px;
+            min-height: 80px;
+            height: 80px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
         }
 
         .booking-position .comparison-title,
@@ -156,8 +158,8 @@
 
         .comparison-title {
             color: #00eaff;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
             margin-top: 0;
             text-align: center;
             letter-spacing: 0.07em;
@@ -167,15 +169,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.30rem;
+            font-size: 1.6rem;
             color: #fff;
-            gap: 16px;
+            gap: 20px;
         }
 
         .value-number {
             font-weight: bold;
             text-shadow: 0 0 10px #00eaff99;
-            font-size: 1.30rem;
+            font-size: 1.6rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -202,15 +204,15 @@
 
         .warning-title {
             color: #00eaff;
-            font-size: 1.5rem;
-            margin-bottom: 2px;
+            font-size: 1.6rem;
+            margin-bottom: 4px;
             text-align: center;
             letter-spacing: 0.07em;
         }
 
         .warning-message {
             color: #ff6b6b;
-            font-size: 1.20rem;
+            font-size: 1.5rem;
         }
 
         .proposal-section {
@@ -221,9 +223,9 @@
 
         .proposal-title {
             color: #00eaff;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             text-align: center;
-            margin-bottom: 1px;
+            margin-bottom: 4px;
         }
 
         .proposal-cards-row {
@@ -232,28 +234,27 @@
             gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
+            padding: 0 4px;
         }
         .proposal-card-mini {
             background: linear-gradient(135deg, rgba(20,40,80,0.55) 60%, rgba(32,58,67,0.55) 100%) !important;
             border: 2px solid #00eaff !important;
             border-radius: 12px !important;
-            padding: 2px 6px;
-            min-width: 90px;
+            padding: 4px 8px;
+            min-width: 110px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             color: #e0f7fa;
             box-shadow: 0 0 4px rgba(0, 234, 255, 0.1);
         }
         .proposal-card-mini .price {
-            color: #00eaff;
-            font-weight: bold;
-            font-size: 1.20rem;
-            margin-bottom: 1px;
+            font-size: 1.5rem;
+            margin-bottom: 2px;
         }
         .proposal-card-mini .rooms {
-            font-size: 1.20rem;
+            font-size: 1.5rem;
         }
 
         @keyframes subtleGlow {
@@ -360,14 +361,22 @@ async function cargarDatosPantalla1() {
         document.getElementById('hotelName').textContent = data.hotel;
         document.getElementById('ocupacionFuturotel').innerHTML = `
             <div style="text-align:left;">
-                <span style="font-weight:bold;color:#00eaff;">Futurotel:</span> Real ${data.ocupacion.futurotel.toFixed(2)}% <span style='color:#aaa;'>|</span> Prevista ${data.ocupacion.futurotel_prevista.toFixed(2)}%<br><br>
-                <span style="font-weight:bold;color:#00eaff;">Competencia:</span> Real ${data.ocupacion.competencia.toFixed(2)}% <span style='color:#aaa;'>|</span> Prevista ${data.ocupacion.competencia_prevista.toFixed(2)}%
+                <span style="font-weight:bold;color:#00eaff;">Futurotel:</span><br>
+                <span style="margin-left:20px;">Real: ${data.ocupacion.futurotel.toFixed(2)}%</span><br>
+                <span style="margin-left:20px;">Prevista: ${data.ocupacion.futurotel_prevista.toFixed(2)}%</span><br><br>
+                <span style="font-weight:bold;color:#00eaff;">Competencia:</span><br>
+                <span style="margin-left:20px;">Real: ${data.ocupacion.competencia.toFixed(2)}%</span><br>
+                <span style="margin-left:20px;">Prevista: ${data.ocupacion.competencia_prevista.toFixed(2)}%</span>
             </div>`;
         document.getElementById('ocupacionCompetencia').textContent = '';
         document.getElementById('precioFuturotel').innerHTML = `
             <div style="text-align:left;">
-                <span style="font-weight:bold;color:#00eaff;">Futurotel:</span> Real ${data.precio_medio.futurotel.toFixed(2)}€ <span style='color:#aaa;'>|</span> Previsto ${data.precio_medio.futurotel_previsto.toFixed(2)}€<br><br>
-                <span style="font-weight:bold;color:#00eaff;">Competencia:</span> Real ${data.precio_medio.competencia.toFixed(2)}€ <span style='color:#aaa;'>|</span> Previsto ${data.precio_medio.competencia_previsto.toFixed(2)}€
+                <span style="font-weight:bold;color:#00eaff;">Futurotel:</span><br>
+                <span style="margin-left:20px;">Real: ${data.precio_medio.futurotel.toFixed(2)}€</span><br>
+                <span style="margin-left:20px;">Previsto: ${data.precio_medio.futurotel_previsto.toFixed(2)}€</span><br><br>
+                <span style="font-weight:bold;color:#00eaff;">Competencia:</span><br>
+                <span style="margin-left:20px;">Real: ${data.precio_medio.competencia.toFixed(2)}€</span><br>
+                <span style="margin-left:20px;">Previsto: ${data.precio_medio.competencia_previsto.toFixed(2)}€</span>
             </div>`;
         document.getElementById('precioCompetencia').textContent = '';
         document.getElementById('posicionBooking').textContent = '7/4422';
