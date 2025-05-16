@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Futurotel Stats - Fórmula de Precios Óptimos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary-bg: #0a1a22;
+        --secondary-bg: #12232e;
+        --accent-color: #00eaff;
+        --text-color: #e0f7fa;
+        --grid-line: rgba(0, 234, 255, 0.1);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Orbitron", sans-serif;
+        background: var(--primary-bg);
+        color: var(--text-color);
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .scale-container {
+        width: 1920px;
+        height: 1080px;
+        transform-origin: center;
+        position: absolute;
+        transform: scale(0.8);
+      }
+
+      main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+      }
+
+      .dashboard-section {
+        width: 100%;
+        height: 100%;
+        padding: 20px 40px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+
+      h2 {
+        color: var(--accent-color);
+        font-size: 2.5rem;
+        margin: 0 0 20px 0;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-align: center;
+        text-shadow: 0 0 15px rgba(0, 234, 255, 0.4);
+        font-weight: 700;
+      }
+
+      .formula-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        flex: 1;
+      }
+
+      .section-title {
+        color: var(--accent-color);
+        font-size: 2rem;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: left;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--accent-color);
+        box-shadow: 0 0 10px var(--accent-color);
+      }
+
+      .variable-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        margin-bottom: 10px;
+        background: rgba(18, 35, 46, 0.8);
+        border: 1px solid var(--grid-line);
+        border-radius: 4px;
+        font-size: 1.2rem;
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(5px);
+      }
+
+      .variable-symbol {
+        color: var(--accent-color);
+        font-weight: bold;
+        margin-right: 20px;
+        min-width: 60px;
+      }
+
+      .formula-display {
+        text-align: center;
+        font-size: 1.8rem;
+        margin: 15px 0;
+        padding: 20px;
+        background: rgba(18, 35, 46, 0.8);
+        border: 1px solid var(--grid-line);
+        border-radius: 4px;
+        color: var(--accent-color);
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(5px);
+      }
+
+      .formula-aux {
+        font-size: 1.2rem;
+        padding: 15px;
+        background: rgba(18, 35, 46, 0.8);
+        border: 1px solid var(--grid-line);
+        border-radius: 4px;
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(5px);
+      }
+
+      .formula-aux div {
+        margin: 8px 0;
+      }
+
+      .example-item {
+        padding: 12px 20px;
+        background: rgba(18, 35, 46, 0.8);
+        border: 1px solid var(--grid-line);
+        border-radius: 4px;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(5px);
+      }
+
+      .example-item div {
+        margin: 8px 0;
+      }
+
+      .example-result {
+        text-align: center;
+        font-size: 1.4rem;
+        padding: 68px;
+        background: rgba(18, 35, 46, 0.8);
+        border: 1px solid var(--grid-line);
+        border-radius: 4px;
+        color: var(--accent-color);
+        letter-spacing: 0.05em;
+        backdrop-filter: blur(5px);
+      }
+
+      .example-result div {
+        margin: 8px 0;
+      }
+
+      @keyframes fadein {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      #particles-bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      sub {
+        font-size: 0.7em;
+        vertical-align: sub;
+        position: relative;
+        bottom: -0.1em;
+        margin-left: 0.1em;
+      }
+
+      .formula-display sub, .formula-aux sub, .example-item sub, .example-result sub {
+        color: var(--text-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scale-container">
+      <main>
+        <section class="dashboard-section">
+          <h2>Fórmula de Precios Óptimos</h2>
+          <div class="formula-container">
+            <div class="left-column">
+              <div>
+                <div class="section-title">Definición de Variables</div>
+                <div class="variables-grid">
+                  <div class="variable-item">
+                    <span class="variable-symbol">O<sub>c</sub></span>
+                    <span>Ocupación de la ciudad (en porcentaje, 0 a 1)</span>
+                  </div>
+                  <div class="variable-item">
+                    <span class="variable-symbol">P<sub>h</sub></span>
+                    <span>Precio medio histórico del hotel en años anteriores</span>
+                  </div>
+                  <div class="variable-item">
+                    <span class="variable-symbol">P<sub>min</sub></span>
+                    <span>Precio mínimo de la competencia</span>
+                  </div>
+                  <div class="variable-item">
+                    <span class="variable-symbol">P<sub>max</sub></span>
+                    <span>Precio máximo de la competencia</span>
+                  </div>
+                  <div class="variable-item">
+                    <span class="variable-symbol">O<sub>c</sub>*</span>
+                    <span>Ocupación de la competencia (en porcentaje, 0 a 1)</span>
+                  </div>
+                  <div class="variable-item">
+                    <span class="variable-symbol">W</span>
+                    <span>Pesos de cada variable (ajustables según estrategia)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="section-title">Fórmula Principal</div>
+                <div class="formula-display">
+                  P<sub>opt</sub> = W<sub>o</sub>·f(O<sub>c</sub>) + W<sub>p</sub>·P<sub>h</sub> + W<sub>r</sub>·((P<sub>min</sub> + P<sub>max</sub>)/2) + W<sub>oc</sub>·g(O<sub>c</sub>*)
+                </div>
+                <div class="formula-aux">
+                  <div>Funciones auxiliares:</div>
+                  <div>f(O<sub>c</sub>) = P<sub>h</sub>·(1 + O<sub>c</sub>) → Si la ocupación es alta, se ajusta el precio</div>
+                  <div>g(O<sub>c</sub>*) = P<sub>h</sub>·(1 + O<sub>c</sub>*) → Si hay alta ocupación en competencia</div>
+                  <div>∑W = 1 → La suma de todos los pesos debe ser 1</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="right-column">
+              <div>
+                <div class="section-title">Ejemplo de Aplicación</div>
+                <div class="example-grid">
+                  <div class="example-item">
+                    <div><strong>Pesos asignados:</strong></div>
+                    <div>W<sub>o</sub> = 0.3: ocupación de la ciudad</div>
+                    <div>W<sub>p</sub> = 0.3: precio histórico del hotel</div>
+                    <div>W<sub>r</sub> = 0.2: precios de la competencia</div>
+                    <div>W<sub>oc</sub> = 0.2: ocupación de la competencia</div>
+                  </div>
+                  <div class="example-item">
+                    <div><strong>Valores usados:</strong></div>
+                    <div>O<sub>c</sub> = 0.85: 85% ocupación ciudad</div>
+                    <div>P<sub>h</sub> = 100 €: precio histórico</div>
+                    <div>P<sub>min</sub> = 90 €: precio mínimo</div>
+                    <div>P<sub>max</sub> = 120 €: precio máximo</div>
+                    <div>O<sub>c</sub>* = 0.75: 75% ocupación competencia</div>
+                  </div>
+                  <div class="example-result">
+                    <div><strong>Cálculo final:</strong></div>
+                    <div>P<sub>opt</sub> = 0.3·(100·1.85) + 0.3·100 + 0.2·((90+120)/2) + 0.2·(100·1.75)</div>
+                    <div>P<sub>opt</sub> = 55.5 + 30 + 21 + 35 = 141.5 €</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="particles-bg.js"></script>
+  </body>
+</html> 
