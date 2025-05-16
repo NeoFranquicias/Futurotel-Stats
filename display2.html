@@ -52,6 +52,7 @@
         transform: none;
         min-width: 0;
         min-height: 0;
+        transition: opacity 0.5s ease-in-out;
       }
 
       .frame-title {
@@ -120,6 +121,11 @@
         z-index: 1000;
         cursor: default;
       }
+
+      /* Clase para la animación de fade */
+      .fade-out {
+        opacity: 0;
+      }
     </style>
   </head>
   <body>
@@ -186,14 +192,23 @@
             const currentSrc = frame.src.split("/").pop();
             const transitions = transitionMap[key];
             if (transitions && transitions[currentSrc]) {
-              frame.src = transitions[currentSrc];
+              // Agregar clase para fade out
+              frame.classList.add("fade-out");
+
+              // Esperar a que termine la animación antes de cambiar la fuente
+              setTimeout(() => {
+                frame.src = transitions[currentSrc];
+                // Remover la clase después de un breve momento para permitir el fade in
+                setTimeout(() => {
+                  frame.classList.remove("fade-out");
+                }, 50);
+              }, 500);
             }
           }
         } else if (key === "4") {
           // Para la tecla 4, enviar el evento al iframe de acciones-recomendadas
           const frame = document.querySelectorAll(".display-frame iframe")[3];
           if (frame && frame.contentWindow) {
-            // Simular la tecla Enter en el iframe de acciones-recomendadas
             frame.contentWindow.postMessage("navegarSiguiente", "*");
           }
         }
