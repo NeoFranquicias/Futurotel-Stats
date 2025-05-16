@@ -485,21 +485,24 @@
                     display: false
                   },
                   tooltip: {
-                    backgroundColor: "rgba(18, 35, 46, 0.9)",
+                    backgroundColor: "rgba(18, 35, 46, 0.95)",
                     titleFont: {
                       family: "Orbitron",
-                      size: 16,
+                      size: 26,
+                      weight: 'bold'
                     },
                     bodyFont: {
                       family: "Orbitron",
-                      size: 15,
+                      size: 24,
+                      weight: '500'
                     },
-                    padding: 12,
-                    cornerRadius: 8,
+                    padding: 18,
+                    cornerRadius: 10,
                     displayColors: true,
-                    boxWidth: 10,
-                    boxHeight: 10,
-                    boxPadding: 3,
+                    boxWidth: 15,
+                    boxHeight: 15,
+                    boxPadding: 6,
+                    titleMarginBottom: 12,
                     callbacks: {
                       title: function (tooltipItems) {
                         return "Día " + tooltipItems[0].label + " de Mayo";
@@ -525,12 +528,14 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
-                        size: 14,
+                        size: 24,
+                        weight: 'bold'
                       },
                       callback: function (value) {
                         return value + "%";
                       },
                       stepSize: 10,
+                      padding: 12
                     },
                   },
                   x: {
@@ -542,9 +547,10 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
-                        size: 14,
+                        size: 24,
+                        weight: 'bold'
                       },
-                      padding: 5,
+                      padding: 10,
                       align: "center",
                       autoSkip: false,
                       maxRotation: 0,
