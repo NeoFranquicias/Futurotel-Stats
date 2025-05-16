@@ -226,7 +226,44 @@
             const ocupacionBase = data.ocupacion;
 
             // Configuración de eventos
-            const eventos = data.eventos;
+            const eventos = [
+              {
+                nombre: "Día del Trabajador",
+                fechaInicio: 1,
+                fechaFin: 4,
+                borderColor: "#FF6B6B"
+              },
+              {
+                nombre: "Alameda Festival",
+                fechaInicio: 22,
+                fechaFin: 24,
+                borderColor: "#4ECDC4"
+              },
+              {
+                nombre: "Chayanne",
+                fechaInicio: 25,
+                fechaFin: 26,
+                borderColor: "#FFD93D"
+              },
+              {
+                nombre: "Festival Oh See",
+                fechaInicio: 23,
+                fechaFin: 24,
+                borderColor: "#95E1D3"
+              },
+              {
+                nombre: "Kidd Keo",
+                fechaInicio: 17,
+                fechaFin: 18,
+                borderColor: "#FF8B94"
+              },
+              {
+                nombre: "Myke Towers",
+                fechaInicio: 24,
+                fechaFin: 25,
+                borderColor: "#485efc"
+              }
+            ];
 
             // Mejora para resaltar días con mayor ocupación
             const daysWithHighOccupancy = [];
@@ -302,8 +339,8 @@
             baseItem.appendChild(baseLabel);
             grid.appendChild(baseItem);
 
-            eventos.slice(0, 5).forEach((evento) => {
-              // Limitar a 5 eventos
+            // Agregar todos los eventos a la leyenda
+            eventos.forEach((evento) => {
               const item = document.createElement("div");
               item.className = "event-item";
               item.title = `${evento.nombre} (${evento.fechaInicio}-${evento.fechaFin})`;
@@ -337,13 +374,11 @@
                   let tieneEvento = false;
                   
                   // Verificar si hay algún evento en este día
-                  for (let i = 0; i < Math.min(eventos.length, 5); i++) {
-                    const evento = eventos[i];
+                  eventos.forEach((evento) => {
                     if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
                       tieneEvento = true;
-                      break;
                     }
-                  }
+                  });
                   
                   if (tieneEvento) {
                     return null;
@@ -362,11 +397,42 @@
                 tension: 0.3
               },
               // Datasets para cada evento
-              ...eventos.slice(0, 5).map((evento) => ({
+              ...eventos.map((evento) => ({
                 label: evento.nombre,
                 data: ocupacionBase.map((valor, index) => {
                   const dia = index + 1;
                   if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
+                    // Valores específicos para cada evento
+                    if (evento.nombre === "Myke Towers") {
+                      if (dia === 24) return 83;
+                      if (dia === 25) return 82;
+                    }
+                    if (evento.nombre === "Festival Oh See") {
+                      if (dia === 23) return 50;
+                      if (dia === 24) return 52;
+                    }
+                    if (evento.nombre === "Alameda Festival") {
+                      if (dia === 22) return 61;
+                      if (dia === 23) return 63;
+                      if (dia === 24) return 61;
+                    }
+                    if (evento.nombre === "Kidd Keo") {
+                      if (dia === 17) return 80;
+                      if (dia === 18) return 82;
+                    }
+                    if (evento.nombre === "Día del Trabajador") {
+                      if (dia === 1) return 80;
+                      if (dia === 2) return 80;
+                      if (dia === 3) return 83;
+                      if (dia === 4) return 80;
+                    }
+                    if (evento.nombre === "Chayanne") {
+                      if (dia === 25) return 94;
+                      if (dia === 26) return 95;
+                    }
+                    // Y así sucesivamente para cada evento...
+                    
+                    // Valor por defecto si no se especifica
                     return Math.min(85, valor * 0.6 + Math.random() * 5 + 10);
                   }
                   return null;
@@ -422,7 +488,7 @@
                       },
                       label: function (context) {
                         if (context.dataset.label === "Días sin eventos") {
-                          return "Días sin eventos";
+                          return "Días sin eventos: " + context.parsed.y.toFixed(1) + "%";
                         }
                         return context.dataset.label + ": " + context.parsed.y.toFixed(1) + "%";
                       }
@@ -432,7 +498,7 @@
                 scales: {
                   y: {
                     beginAtZero: true,
-                    max: 90,
+                    max: 105,
                     min: 20,
                     grid: {
                       color: "rgba(255, 255, 255, 0.1)",
