@@ -141,6 +141,48 @@
 
       // Ajustar cuando cambia el tamaño de la ventana
       window.addEventListener("resize", adjustIframes);
+
+      // Mapeo de teclas a URLs de transición
+      const transitionMap = {
+        1: {
+          "pantalla1.html": "pantalla1.2.html",
+          "pantalla1.2.html": "tablas.html",
+          "tablas.html": "pantalla1.html",
+        },
+        2: {
+          "pantalla2.html": "pantalla2.2.html",
+          "pantalla2.2.html": "pantalla2.html",
+        },
+        3: {
+          "pantalla3.html": "pantalla3.2.html",
+          "pantalla3.2.html": "pantalla3.html",
+        },
+      };
+
+      // Manejar las transiciones con las teclas numéricas
+      document.addEventListener("keydown", function (event) {
+        const key = event.key;
+        if (key >= "1" && key <= "3") {
+          const frameIndex = parseInt(key) - 1;
+          const frame = document.querySelectorAll(".display-frame iframe")[
+            frameIndex
+          ];
+          if (frame) {
+            const currentSrc = frame.src.split("/").pop();
+            const transitions = transitionMap[key];
+            if (transitions && transitions[currentSrc]) {
+              frame.src = transitions[currentSrc];
+            }
+          }
+        } else if (key === "4") {
+          // Para la tecla 4, enviar el evento al iframe de acciones-recomendadas
+          const frame = document.querySelectorAll(".display-frame iframe")[3];
+          if (frame && frame.contentWindow) {
+            // Simular la tecla Enter en el iframe de acciones-recomendadas
+            frame.contentWindow.postMessage("navegarSiguiente", "*");
+          }
+        }
+      });
     </script>
     <div
       id="android-version-indicator"

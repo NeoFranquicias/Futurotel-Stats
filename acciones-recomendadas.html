@@ -595,6 +595,13 @@
         }
       });
 
+      // Escuchar mensajes del padre
+      window.addEventListener("message", function (event) {
+        if (event.data === "navegarSiguiente") {
+          navegarPantalla("siguiente");
+        }
+      });
+
       async function updateDataAndRender() {
         await Promise.all([fetchAcciones(), fetchJustificaciones()]);
         if (!acciones.length) return;
