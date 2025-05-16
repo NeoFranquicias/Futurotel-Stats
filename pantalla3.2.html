@@ -251,7 +251,7 @@
                 nombre: "Festival Oh See",
                 fechaInicio: 23,
                 fechaFin: 24,
-                borderColor: "#95E1D3"
+                borderColor: "#e67e22"
               },
               {
                 nombre: "Kidd Keo",
@@ -375,7 +375,6 @@
                   const dia = index + 1;
                   let tieneEvento = false;
                   
-                  // Verificar si hay algún evento en este día
                   eventos.forEach((evento) => {
                     if (dia >= evento.fechaInicio && dia <= evento.fechaFin) {
                       tieneEvento = true;
@@ -396,10 +395,11 @@
                 pointHoverRadius: 6,
                 pointBorderWidth: 2,
                 fill: false,
-                tension: 0.3
+                tension: 0.3,
+                order: 2
               },
               // Datasets para cada evento
-              ...eventos.map((evento) => ({
+              ...eventos.map((evento, index) => ({
                 label: evento.nombre,
                 data: ocupacionBase.map((valor, index) => {
                   const dia = index + 1;
@@ -407,16 +407,16 @@
                     // Valores específicos para cada evento
                     if (evento.nombre === "Myke Towers") {
                       if (dia === 24) return 83;
-                      if (dia === 25) return 82;
+                      if (dia === 25) return 94;
                     }
                     if (evento.nombre === "Festival Oh See") {
-                      if (dia === 23) return 50;
-                      if (dia === 24) return 52;
+                      if (dia === 23) return 63;
+                      if (dia === 24) return 82;
                     }
                     if (evento.nombre === "Alameda Festival") {
                       if (dia === 22) return 61;
                       if (dia === 23) return 63;
-                      if (dia === 24) return 61;
+                      if (dia === 24) return 82;
                     }
                     if (evento.nombre === "Kidd Keo") {
                       if (dia === 17) return 80;
@@ -432,23 +432,29 @@
                       if (dia === 25) return 94;
                       if (dia === 26) return 95;
                     }
-                    // Y así sucesivamente para cada evento...
-                    
-                    // Valor por defecto si no se especifica
                     return Math.min(85, valor * 0.6 + Math.random() * 5 + 10);
                   }
                   return null;
                 }),
                 borderColor: evento.borderColor,
                 backgroundColor: 'transparent',
-                borderWidth: 3,
-                pointRadius: 4,
+                borderWidth: 4,
+                pointRadius: 6,
                 pointBackgroundColor: evento.borderColor,
-                pointBorderColor: evento.borderColor,
-                pointHoverRadius: 7,
+                pointBorderColor: 'white',
                 pointBorderWidth: 2,
+                pointHoverRadius: 9,
+                pointHoverBorderWidth: 3,
+                pointHoverBackgroundColor: evento.borderColor,
+                pointHoverBorderColor: 'white',
+                pointStyle: 'circle',
                 fill: false,
-                tension: 0.2
+                tension: 0.2,
+                order: 0,
+                segment: {
+                  borderDash: evento => [0, 0]
+                },
+                spanGaps: false
               }))
             ];
 
@@ -463,11 +469,15 @@
                 maintainAspectRatio: false,
                 interaction: {
                   intersect: false,
-                  mode: 'nearest'
+                  mode: 'nearest',
+                  axis: 'x'
                 },
                 elements: {
                   point: {
-                    hitRadius: 10,
+                    hitRadius: 12,
+                  },
+                  line: {
+                    capBezierPoints: true
                   }
                 },
                 plugins: {
@@ -475,7 +485,7 @@
                     display: false
                   },
                   tooltip: {
-                    backgroundColor: "rgba(18, 35, 46, 0.8)",
+                    backgroundColor: "rgba(18, 35, 46, 0.9)",
                     titleFont: {
                       family: "Orbitron",
                       size: 16,
@@ -484,6 +494,12 @@
                       family: "Orbitron",
                       size: 15,
                     },
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: true,
+                    boxWidth: 10,
+                    boxHeight: 10,
+                    boxPadding: 3,
                     callbacks: {
                       title: function (tooltipItems) {
                         return "Día " + tooltipItems[0].label + " de Mayo";
