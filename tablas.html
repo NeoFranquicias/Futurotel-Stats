@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Futurotel Stats - Comparativa Algoritmos</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Orbitron", Arial, sans-serif;
+        background: #12232e;
+        color: #e0f7fa;
+        width: 100vw;
+        height: 100vh;
+        min-height: 100vh;
+        min-width: 100vw;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      main {
+        width: 1920px;
+        height: 1080px;
+        min-height: 1080px;
+        min-width: 1920px;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        overflow: hidden;
+        position: relative;
+        transform: scale(0.8);
+        transform-origin: center center;
+      }
+
+      .dashboard-section {
+        width: 1920px;
+        height: 1080px;
+        min-height: 1080px;
+        min-width: 1920px;
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        animation: fadein 1.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        box-sizing: border-box;
+        margin: 0;
+        position: relative;
+        overflow: auto;
+      }
+
+      .dashboard-section h2 {
+        color: #00eaff;
+        font-size: 2.2rem;
+        margin: 0;
+        padding: 2vh 0;
+        letter-spacing: 0.08em;
+        text-shadow: 0 0 15px rgba(0, 234, 255, 0.4);
+        position: relative;
+        z-index: 10;
+        background: transparent;
+        width: 100%;
+        text-align: center;
+        animation: subtleGlow 3s infinite;
+        font-weight: 700;
+      }
+
+      .tables-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 30px;
+        width: 100%;
+        max-width: 1800px;
+        margin-top: 20px;
+      }
+
+      .table-section {
+        background: rgba(18, 35, 46, 0.9);
+        border: 2px solid rgba(0, 234, 255, 0.3);
+        border-radius: 16px;
+        padding: 25px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 234, 255, 0.1);
+      }
+
+      .table-title {
+        color: #00eaff;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        letter-spacing: 0.05em;
+        text-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+        font-weight: 700;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 0 auto;
+        font-size: 1rem;
+        background: rgba(18, 35, 46, 0.5);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      th {
+        background: rgba(0, 234, 255, 0.1);
+        color: #00eaff;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        padding: 15px;
+        text-align: center;
+        border-bottom: 2px solid rgba(0, 234, 255, 0.3);
+        text-transform: uppercase;
+        font-size: 0.9rem;
+      }
+
+      td {
+        color: #e0f7fa;
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid rgba(0, 234, 255, 0.1);
+        transition: background-color 0.3s ease;
+      }
+
+      tr:hover td {
+        background: rgba(0, 234, 255, 0.05);
+      }
+
+      td:first-child {
+        text-align: left;
+        font-weight: 500;
+        color: #00eaff;
+      }
+
+      .conclusion {
+        background: rgba(18, 35, 46, 0.9);
+        border: 2px solid rgba(0, 234, 255, 0.3);
+        border-radius: 16px;
+        padding: 25px;
+        margin-top: 30px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 234, 255, 0.1);
+      }
+
+      .conclusion h3 {
+        color: #00eaff;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        letter-spacing: 0.05em;
+        text-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+        font-weight: 700;
+      }
+
+      .conclusion p {
+        color: #e0f7fa;
+        line-height: 1.8;
+        margin: 15px 0;
+        font-size: 1.1rem;
+        padding: 0 20px;
+      }
+
+      @keyframes fadein {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes subtleGlow {
+        0% {
+          text-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+        }
+        50% {
+          text-shadow: 0 0 20px rgba(0, 234, 255, 0.5);
+        }
+        100% {
+          text-shadow: 0 0 10px rgba(0, 234, 255, 0.3);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="dashboard-section">
+        <h2>
+          Comparativa mensual – Futurotel Malagueta Beach – Mes de 31 días – 40
+          habitaciones
+        </h2>
+        <div class="tables-container">
+          <div class="table-section">
+            <div class="table-title">Comparativa de Algoritmos</div>
+            <table>
+              <tr>
+                <th>Indicador</th>
+                <th>Futurotel V717</th>
+                <th>Futurotel V716</th>
+                <th>Competencia (Good Vibes Only)</th>
+              </tr>
+              <tr>
+                <td>Habitaciones totales disponibles</td>
+                <td>1.240</td>
+                <td>1.240</td>
+                <td>1.240</td>
+              </tr>
+              <tr>
+                <td>Habitaciones vendidas</td>
+                <td>1.286</td>
+                <td>1.211</td>
+                <td>834,53</td>
+              </tr>
+              <tr>
+                <td>Ocupación</td>
+                <td>103,71 %</td>
+                <td>97,66 %</td>
+                <td>67,22 %</td>
+              </tr>
+              <tr>
+                <td>ADR</td>
+                <td>83,10 €</td>
+                <td>79,65 €</td>
+                <td>49,75 €</td>
+              </tr>
+              <tr>
+                <td>Ingresos totales</td>
+                <td>106.926,60 €</td>
+                <td>96.479,15 €</td>
+                <td>41.537,84 €</td>
+              </tr>
+              <tr>
+                <td>RevPAR</td>
+                <td>86,24 €</td>
+                <td>77,81 €</td>
+                <td>33,47 €</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="conclusion">
+            <h3>Conclusión general</h3>
+            <p>
+              • El algoritmo V717, el más agresivo, logra la ocupación más alta
+              (103,71 %) y genera 10.447 € más que V716, y + 65.388 € más que la
+              competencia.
+            </p>
+            <p>
+              • V716, algo más conservador, pero igualmente optimizado, logra
+              una ocupación del 97,66 % y revPAR de 77,81 €, aún muy por encima
+              de los competidores.
+            </p>
+            <p>
+              • La competencia queda muy por debajo en todos los indicadores,
+              con una ocupación baja y tarifas poco optimizadas.
+            </p>
+            <p>
+              La versión V718 se espera que pueda estar disponible en el último
+              trimestre del año, en la actualidad la versión se está centrando
+              en poder mejorar el precio medio ya que la ocupación es muy
+              dificil poder mejorarla
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
