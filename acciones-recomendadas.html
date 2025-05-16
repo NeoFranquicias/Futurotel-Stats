@@ -32,7 +32,8 @@
       overflow: hidden;
     }
     .acciones-panel {
-      width: 1232px;
+      width: 98vw;
+      max-width: 1400px;
       background: none;
       border-radius: 10px;
       box-shadow: none;
@@ -42,6 +43,8 @@
       justify-content: flex-start;
       position: relative;
       z-index: 1;
+      padding: 0;
+      margin: 30px;
     }
     .acciones-title {
       animation: titleGlow 2.2s infinite alternate;
@@ -57,29 +60,30 @@
     }
     .acciones-grid {
       display: grid;
-      grid-template-columns: 300px 390px 300px;
-      grid-template-rows: 215px 215px;
-      gap: 12px 16px;
-      width: 1020px;
-      height: 432px;
-      margin: 0 auto;
+      grid-template-columns: 1fr 1.3fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px 14px;
+      width: 100%;
+      height: 70vh;
+      min-height: 400px;
+      margin: 0;
+      padding: 0 10px;
+      box-sizing: border-box;
     }
     .acciones-card {
       opacity: 0;
       transform: translateY(30px) scale(0.98);
       animation: cardFadeIn 0.7s cubic-bezier(.4,0,.2,1) forwards;
-
       background: rgba(18, 35, 46, 0.3);
       border: 1px solid rgba(0, 234, 255, 0.3);
       border-radius: 20px;
-      box-shadow: 0 0 30px rgba(0, 234, 255, 0.1),
-        inset 0 0 15px rgba(0, 234, 255, 0.05);
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.1), inset 0 0 15px rgba(0, 234, 255, 0.05);
       padding: 8px 8px 7px 8px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
-      font-size: 0.85rem;
+      font-size: 1.2rem;
       color: #e0f7fa;
       position: relative;
       min-width: 0;
@@ -111,17 +115,16 @@
       box-shadow: 0 0 14px #00eaff55;
       color: #e0f7fa;
       align-items: flex-start;
-      font-size: 1.05rem;
+      font-size: 1.2rem;
       min-width: 0;
       min-height: 0;
-      max-width: 390px;
       width: 100%;
       height: 100%;
       overflow: hidden;
     }
     .acciones-card .acciones-label {
       color: #00eaff;
-      font-size: 1.05rem;
+      font-size: 1.5rem;
       font-weight: bold;
       margin-bottom: 2px;
       letter-spacing: 0.06em;
@@ -139,7 +142,7 @@
       text-overflow: ellipsis;
     }
     .acciones-card .acciones-precio {
-      font-size: 1.05rem;
+      font-size: 1.5rem;
       color: #00eaff;
       margin-bottom: 2px;
       white-space: nowrap;
@@ -148,7 +151,7 @@
     }
     .acciones-card .acciones-precio span {
       color: #fff;
-      font-size: 1.05rem;
+      font-size: 1.2rem;
       font-weight: normal;
     }
     .acciones-card .acciones-table {
@@ -161,7 +164,7 @@
       border: 1px solid #00eaff55;
       padding: 1px 4px;
       text-align: left;
-      font-size: 0.8rem;
+      font-size: 1rem;
       color: #e0f7fa;
       white-space: nowrap;
       overflow: hidden;
@@ -177,7 +180,7 @@
     .acciones-card .acciones-reflexion {
       margin-top: 5px;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1.1rem;
       background: rgba(0,234,255,0.06);
       border-left: 2px solid #00eaff99;
       padding: 6px 8px 6px 12px;
@@ -200,7 +203,7 @@
     }
     .acciones-card .acciones-derivacion {
       margin-top: 2px;
-      font-size: 0.95rem;
+      font-size: 1.3rem;
       color: #fff;
       white-space: normal;
       line-height: 1.18;
@@ -370,7 +373,7 @@
               ${(Array.isArray(pantalla.texto) ? pantalla.texto : []).map(seccion => `
                 <div class='acciones-card cian' style='padding:20px 18px 10px 18px;box-sizing:border-box;'>
                   <div class='acciones-label' style='margin-bottom:10px;'>${seccion.titulo}</div>
-                  <div style='font-size:1.08em;line-height:1.6;width:100%;color:#e0f7fa;'>${seccion.texto}</div>
+                  <div style='font-size:1.2rem;line-height:1.6;width:100%;color:#e0f7fa;'>${seccion.texto}</div>
                 </div>
               `).join('')}
             </div>
@@ -390,9 +393,9 @@ const gridStyles = [
   // Recomendación Principal: columnas 2-3, fila 1
   "grid-column:2/span 2;grid-row:1;",
   // Opción 1: columna 2, fila 2 (columna central, más ancha)
-  "grid-column:2;grid-row:2;max-width:390px;min-height:130px;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;",
+  "grid-column:2;grid-row:2;min-height:130px;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;",
   // Opción 2: columna 3, fila 2 (columna derecha, más estrecha)
-  "grid-column:3;grid-row:2;max-width:300px;min-height:130px;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;"
+  "grid-column:3;grid-row:2;min-height:130px;display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;"
 ];
 for (let i = 0; i < 4; i++) {
   if (bloques[i] && bloques[i].trim() !== "") {
@@ -418,8 +421,8 @@ for (let i = 0; i < 4; i++) {
       contenidoHtml = contenido.split(/\.( |$)/).map(p => p.trim()).filter(p => p.length > 0).map(p => `<p style='margin:0 0 10px 0;'>${p}.</p>`).join('');
     }
     html += `<div class='acciones-card cian' style='${gridStyles[i]}padding: 18px 20px 10px 20px; display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;'>`+
-      `<div class='acciones-label' style='margin-bottom:12px;font-size:1.18em;'>${titulo}</div>`+
-      `<div style='font-size:1.13em;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${contenidoHtml}</div>`+
+      `<div class='acciones-label' style='margin-bottom:12px;font-size:1.5rem;'>${titulo}</div>`+
+      `<div style='font-size:1.2rem;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${contenidoHtml}</div>`+
       `</div>`;
   }
 }
@@ -469,17 +472,17 @@ for (let i = 0; i < 4; i++) {
                   }
                 });
               } else {
-                document.getElementById('graficaBarras').replaceWith("<div style='color:#ff7070;text-align:center;font-size:1.2em;'>Error: Chart.js no está cargado</div>");
+                document.getElementById('graficaBarras').replaceWith("<div style='color:#ff7070;text-align:center;font-size:1.2rem;'>Error: Chart.js no está cargado</div>");
               }
             } catch(e) {
-              document.getElementById('graficaBarras').replaceWith("<div style='color:#ff7070;text-align:center;font-size:1.2em;'>Error al mostrar la gráfica</div>");
+              document.getElementById('graficaBarras').replaceWith("<div style='color:#ff7070;text-align:center;font-size:1.2rem;'>Error al mostrar la gráfica</div>");
             }
           }, 0);
         }
       }
     }
     // Cambia este valor para elegir la pantalla inicial (0 = primera, 1 = segunda, etc)
-    let pantallaInicial = 0;
+    let pantallaInicial = 1;
     async function updateDataAndRender() {
       await Promise.all([fetchAcciones(), fetchJustificaciones()]);
       if (!acciones.length) return;
