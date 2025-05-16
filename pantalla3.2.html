@@ -236,16 +236,16 @@
                 borderColor: "#FF6B6B"
               },
               {
+                nombre: "Kidd Keo",
+                fechaInicio: 17,
+                fechaFin: 18,
+                borderColor: "#FF8B94"
+              },
+              {
                 nombre: "Alameda Festival",
                 fechaInicio: 22,
                 fechaFin: 24,
                 borderColor: "#4ECDC4"
-              },
-              {
-                nombre: "Chayanne",
-                fechaInicio: 25,
-                fechaFin: 26,
-                borderColor: "#FFD93D"
               },
               {
                 nombre: "Festival Oh See",
@@ -254,16 +254,16 @@
                 borderColor: "#e67e22"
               },
               {
-                nombre: "Kidd Keo",
-                fechaInicio: 17,
-                fechaFin: 18,
-                borderColor: "#FF8B94"
-              },
-              {
                 nombre: "Myke Towers",
                 fechaInicio: 24,
                 fechaFin: 25,
                 borderColor: "#485efc"
+              },
+              {
+                nombre: "Chayanne",
+                fechaInicio: 25,
+                fechaFin: 26,
+                borderColor: "#FFD93D"
               }
             ];
 
@@ -325,7 +325,7 @@
             grid.style.gap = "5px";
             grid.style.width = "100%";
 
-            // Agregar ítem para días sin eventos
+            // Agregar ítem para días sin eventos primero
             const baseItem = document.createElement("div");
             baseItem.className = "event-item";
             baseItem.title = "Días sin eventos";
@@ -341,18 +341,24 @@
             baseItem.appendChild(baseLabel);
             grid.appendChild(baseItem);
 
-            // Agregar todos los eventos a la leyenda
+            // Función para formatear el rango de fechas
+            const formatDateRange = (inicio, fin) => {
+              if (inicio === fin) return `(${inicio})`;
+              return `(${inicio}-${fin})`;
+            };
+
+            // Agregar eventos ordenados a la leyenda
             eventos.forEach((evento) => {
               const item = document.createElement("div");
               item.className = "event-item";
-              item.title = `${evento.nombre} (${evento.fechaInicio}-${evento.fechaFin})`;
-
+              
               const colorLine = document.createElement("div");
               colorLine.className = "event-color";
               colorLine.style.backgroundColor = evento.borderColor;
 
               const label = document.createElement("span");
-              label.textContent = `${evento.nombre} (${evento.fechaInicio}-${evento.fechaFin})`;
+              const dateRange = formatDateRange(evento.fechaInicio, evento.fechaFin);
+              label.innerHTML = `${evento.nombre} <span style="opacity:0.9">${dateRange}</span>`;
 
               item.appendChild(colorLine);
               item.appendChild(label);
