@@ -562,34 +562,38 @@
 
         const baseWidth = 1200;
         const baseHeight = 520;
-        const targetWidth = 1200;
-        const targetHeight = 520;
 
-        // Calcular el factor de escala
-        const scaleW = targetWidth / baseWidth;
-        const scaleH = targetHeight / baseHeight;
-        const scale = Math.min(scaleW, scaleH);
+        // Obtener dimensiones de la ventana
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
 
-        // Aplicar la transformación con un límite mínimo de escala
-        const minScale = 0.7; // 70% de zoom mínimo
-        const finalScale = Math.max(scale, minScale);
+        // Calcular escalas
+        const scaleX = windowWidth / baseWidth;
+        const scaleY = windowHeight / baseHeight;
+        const scale = Math.min(scaleX, scaleY, 1); // No permitir escala mayor a 1
 
-        main.style.transform = `scale(${finalScale})`;
-        main.style.transformOrigin = "top left";
+        // Aplicar transformación
+        main.style.transform = `scale(${scale})`;
+        main.style.transformOrigin = "top center";
 
-        // Ajustar el contenedor para mantener las proporciones
+        // Ajustar el contenedor para alineación superior
         const container = main.parentElement;
-        container.style.width = `${targetWidth}px`;
-        container.style.height = `${targetHeight}px`;
+        container.style.width = "100vw";
+        container.style.height = "100vh";
+        container.style.display = "flex";
+        container.style.alignItems = "flex-start";
+        container.style.justifyContent = "center";
         container.style.overflow = "hidden";
-        container.style.position = "relative";
+        container.style.paddingTop = "20px"; // Pequeño padding superior
+
+        // Ajustar el main
+        main.style.position = "relative";
+        main.style.margin = "0 auto";
       }
 
-      // Aplicar el escalado al cargar y al redimensionar
+      // Aplicar el escalado
       window.addEventListener("load", scaleDashboard);
       window.addEventListener("resize", scaleDashboard);
-
-      // Aplicar el escalado inicial
       document.addEventListener("DOMContentLoaded", scaleDashboard);
     </script>
 
