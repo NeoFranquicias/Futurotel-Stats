@@ -29,10 +29,10 @@
       justify-content: center;
     }
     main {
-      width: 1200px;
-      height: 520px;
-      min-height: 520px;
-      min-width: 1200px;
+      width: 1600px;
+      height: 800px;
+      min-height: 800px;
+      min-width: 1600px;
       padding: 0;
       margin: 0;
       display: flex;
@@ -43,10 +43,10 @@
       position: relative;
     }
     .dashboard-section {
-      width: 1200px;
-      height: 520px;
-      min-height: 520px;
-      min-width: 1200px;
+      width: 1600px;
+      height: 800px;
+      min-height: 800px;
+      min-width: 1600px;
       background: transparent;
       border-radius: 0;
       padding: 0;
@@ -64,9 +64,9 @@
     }
     .dashboard-section h2 {
       color: #00eaff;
-      font-size: 2rem;
+      font-size: 2.5rem;
       margin: 0;
-      padding: 1vh 0;
+      padding: 0.5vh 0;
       letter-spacing: 0.08em;
       text-shadow: 0 0 10px #00eaff88;
       position: relative;
@@ -92,7 +92,7 @@
     }
     .chart-wrapper {
       width: 95%;
-      height: 360px;
+      height: 600px;
       background: rgba(18, 35, 46, 0.3);
       border: 1px solid rgba(0, 234, 255, 0.3);
       border-radius: 20px;
@@ -119,9 +119,9 @@
     .event-legend {
       display: flex;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       flex-wrap: wrap;
-      padding: 8px;
+      padding: 12px;
       background: rgba(18, 35, 46, 0.7);
       border-radius: 10px;
       max-width: 95%;
@@ -133,10 +133,10 @@
     .event-item {
       display: flex;
       align-items: center;
-      margin: 2px 10px;
-      font-size: 0.8rem;
-      padding: 3px 8px;
-      border-radius: 4px;
+      margin: 3px 12px;
+      font-size: 1rem;
+      padding: 5px 12px;
+      border-radius: 6px;
       background: rgba(0, 0, 0, 0.2);
       transition: all 0.3s;
       white-space: nowrap;
@@ -145,9 +145,9 @@
       background: rgba(0, 0, 0, 0.4);
     }
     .event-color {
-      width: 25px;
-      height: 3px;
-      margin-right: 8px;
+      width: 35px;
+      height: 4px;
+      margin-right: 10px;
       flex-shrink: 0;
     }
     @keyframes fadein {
@@ -177,8 +177,8 @@
     <main
       id="main-dashboard"
       style="
-        width: 1200px;
-        height: 520px;
+        width: 1600px;
+        height: 800px;
         margin: 0;
         padding: 0;
         display: flex;
@@ -191,8 +191,8 @@
       <section
         class="dashboard-section"
         style="
-          width: 1200px;
-          height: 520px;
+          width: 1600px;
+          height: 800px;
           margin: 0;
           padding: 0;
           box-sizing: border-box;
@@ -314,7 +314,7 @@
             // Crear leyenda de eventos personalizada
             const legendContainer = document.getElementById("eventLegend");
             legendContainer.innerHTML =
-              "<div style='width:100%; text-align:center; margin-bottom:6px; color:#00eaff; font-weight:bold; font-size:0.9rem;'>Eventos de Mayo</div>";
+              "<div style='width:100%; text-align:center; margin-bottom:4px; color:#00eaff; font-weight:bold; font-size:1.2rem;'>Eventos de Mayo</div>";
 
             const grid = document.createElement("div");
             grid.style.display = "flex";
@@ -476,11 +476,11 @@
                     backgroundColor: "rgba(18, 35, 46, 0.8)",
                     titleFont: {
                       family: "Orbitron",
-                      size: 14,
+                      size: 16,
                     },
                     bodyFont: {
                       family: "Orbitron",
-                      size: 13,
+                      size: 15,
                     },
                     callbacks: {
                       title: function (tooltipItems) {
@@ -507,6 +507,7 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
+                        size: 14,
                       },
                       callback: function (value) {
                         return value + "%";
@@ -523,7 +524,7 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
-                        size: 11,
+                        size: 14,
                       },
                       padding: 5,
                       align: "center",
@@ -560,8 +561,8 @@
         const main = document.getElementById("main-dashboard");
         if (!main) return;
 
-        const baseWidth = 1200;
-        const baseHeight = 520;
+        const baseWidth = 1600;
+        const baseHeight = 800;
 
         // Obtener dimensiones de la ventana
         const windowWidth = window.innerWidth;
@@ -570,7 +571,7 @@
         // Calcular escalas
         const scaleX = windowWidth / baseWidth;
         const scaleY = windowHeight / baseHeight;
-        const scale = Math.min(scaleX, scaleY, 1); // No permitir escala mayor a 1
+        const scale = Math.min(scaleX, scaleY, 1);
 
         // Aplicar transformación
         main.style.transform = `scale(${scale})`;
@@ -584,7 +585,7 @@
         container.style.alignItems = "flex-start";
         container.style.justifyContent = "center";
         container.style.overflow = "hidden";
-        container.style.paddingTop = "20px"; // Pequeño padding superior
+        container.style.paddingTop = "10px";
 
         // Ajustar el main
         main.style.position = "relative";
