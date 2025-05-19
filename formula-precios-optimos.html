@@ -31,6 +31,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        font-size: 2.2rem;
       }
 
       .scale-container {
@@ -54,7 +55,6 @@
       h2 {
         color: var(--accent-color);
         font-size: 3rem;
-        
         letter-spacing: 0.1em;
         text-transform: uppercase;
         text-align: center;
@@ -97,8 +97,7 @@
 
       .section-title {
         color: var(--accent-color);
-        font-size: 2.4rem;
-        
+        font-size: 2.7rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         text-align: left;
@@ -110,11 +109,11 @@
         display: flex;
         align-items: center;
         padding: 15px 25px;
-        
+        margin-bottom: 21px;
         background: rgba(18, 35, 46, 0.9);
         border: 2px solid var(--accent-color);
         border-radius: 8px;
-        font-size: 2rem;
+        font-size: 2.3rem;
         letter-spacing: 0.05em;
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
@@ -135,7 +134,7 @@
 
       .formula-display {
         text-align: center;
-        font-size: 2rem;
+        font-size: 2.3rem;
         margin: 10px 0;
         padding: 15px;
         background: rgba(18, 35, 46, 0.9);
@@ -180,7 +179,7 @@
         background: rgba(18, 35, 46, 0.9);
         border: 2px solid var(--accent-color);
         border-radius: 8px;
-        font-size: 2rem;
+        font-size: 2.3rem;
         margin-bottom: 15px;
         letter-spacing: 0.05em;
         backdrop-filter: blur(5px);
@@ -198,7 +197,7 @@
 
       .example-result {
         text-align: center;
-        font-size: 2rem;
+        font-size: 2.3rem;
         background: rgba(18, 35, 46, 0.9);
         border: 2px solid var(--accent-color);
         border-radius: 8px;
@@ -260,13 +259,13 @@
       }
 
       .latex-formula {
-        font-size: 2.4rem;
+        font-size: 2.7rem;
         margin: 10px 0;
         text-align: center;
       }
 
       .latex-formula .MathJax {
-        font-size: 1.6rem !important;
+        font-size: 2.5rem !important;
       }
 
       .variable-item,
@@ -350,22 +349,8 @@
               </div>
             </div>
 
-            <!-- Fórmula Principal -->
-            <div class="left-column">
-              <div>
-                <div class="section-title">Fórmula Principal</div>
-                <div class="formula-display">
-                  <div class="latex-formula">
-                    $$P_{opt} = W_o \cdot f(O_c) + W_p \cdot P_h + W_c \cdot
-                    \frac{P_{c_{min}} + P_{c_{max}}}{2} + W_{oc} \cdot
-                    g(O_c^*)$$
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <!-- Cálculo Final -->
-            <div class="right-column">
+            <div class="right-column" style="grid-column: 1 / span 2;">
               <div>
                 <div class="section-title">Cálculo final</div>
                 <div class="example-result">
