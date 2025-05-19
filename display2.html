@@ -126,6 +126,42 @@
       .fade-out {
         opacity: 0;
       }
+
+      /* Estilos para la animación de construcción */
+      .content-reveal {
+        opacity: 0;
+        animation: revealAnimation 1.5s ease-out forwards;
+      }
+
+      @keyframes revealAnimation {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .typewriter {
+        overflow: hidden;
+        border-right: 3px solid #00eaff;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: 0.15em;
+        animation: typing 1s steps(40, end), blink-caret 0.75s step-end infinite;
+      }
+
+      @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+      }
+
+      @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #00eaff; }
+      }
     </style>
   </head>
   <body>
@@ -163,6 +199,43 @@
       // Ajustar cuando cambia el tamaño de la ventana
       window.addEventListener("resize", adjustIframes);
 
+      // Función para animar el contenido de un iframe
+      function animateIframeContent(iframe) {
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+          
+          // Aplicar animación de revelación a todos los elementos principales
+          const elements = iframeDoc.querySelectorAll('h1, h2, h3, p, div, section, article, .card, .panel');
+          elements.forEach((el, index) => {
+            // Saltar elementos que ya tienen animación
+            if (el.classList.contains('content-reveal')) return;
+            
+            // Aplicar estilos iniciales
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            
+            // Aplicar animación con retraso escalonado
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+              
+              // Para títulos, agregar efecto de máquina de escribir
+              if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3') {
+                el.classList.add('typewriter');
+                // Eliminar la clase después de la animación
+                setTimeout(() => {
+                  el.classList.remove('typewriter');
+                  el.style.borderRight = 'none';
+                }, 1500);
+              }
+            }, 100 + (index * 100)); // Retraso escalonado
+          });
+        } catch (e) {
+          console.log('No se pudo acceder al contenido del iframe:', e);
+        }
+      }
+
       // Mapeo de teclas a URLs de transición
       const transitionMap = {
         1: {
@@ -181,14 +254,40 @@
         },
       };
 
+      // Función para manejar la carga de un iframe
+      function handleIframeLoad(frame) {
+        // Asegurarse de que el iframe esté completamente cargado
+        if (frame.contentDocument.readyState === 'complete') {
+          animateIframeContent(frame);
+        } else {
+          frame.addEventListener('load', function() {
+            animateIframeContent(frame);
+          });
+        }
+      }
+
+      // Configurar observador de mutación para detectar cambios en los iframes
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'childList') {
+            mutation.addedNodes.forEach((node) => {
+              if (node.tagName === 'IFRAME') {
+                handleIframeLoad(node);
+              }
+            });
+          }
+        });
+      });
+
+      // Observar cambios en el documento
+      observer.observe(document.body, { childList: true, subtree: true });
+
       // Manejar las transiciones con las teclas numéricas
       document.addEventListener("keydown", function (event) {
         const key = event.key;
         if (key >= "1" && key <= "3") {
           const frameIndex = parseInt(key) - 1;
-          const frame = document.querySelectorAll(".display-frame iframe")[
-            frameIndex
-          ];
+          const frame = document.querySelectorAll(".display-frame iframe")[frameIndex];
           if (frame) {
             const currentSrc = frame.src.split("/").pop();
             const transitions = transitionMap[key];
@@ -199,10 +298,15 @@
               // Esperar a que termine la animación antes de cambiar la fuente
               setTimeout(() => {
                 frame.src = transitions[currentSrc];
-                // Remover la clase después de un breve momento para permitir el fade in
-                setTimeout(() => {
-                  frame.classList.remove("fade-out");
-                }, 50);
+                
+                // Configurar el manejador de carga para el nuevo contenido
+                frame.onload = function() {
+                  // Pequeño retraso para asegurar que el contenido esté listo
+                  setTimeout(() => {
+                    frame.classList.remove("fade-out");
+                    handleIframeLoad(frame);
+                  }, 100);
+                };
               }, 500);
             }
           }
@@ -213,6 +317,14 @@
             frame.contentWindow.postMessage("navegarSiguiente", "*");
           }
         }
+      });
+
+      // Animar los iframes iniciales
+      document.addEventListener('DOMContentLoaded', () => {
+        const frames = document.querySelectorAll('.display-frame iframe');
+        frames.forEach(frame => {
+          handleIframeLoad(frame);
+        });
       });
     </script>
     <div
