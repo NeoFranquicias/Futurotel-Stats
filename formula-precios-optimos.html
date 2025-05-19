@@ -17,6 +17,9 @@
         --accent-color: #00eaff;
         --text-color: #e0f7fa;
         --grid-line: rgba(0, 234, 255, 0.1);
+        --border-width: 0.15vw;
+        --border-radius: 0.5vw;
+        --spacing-unit: 0.5vw;
       }
 
       body {
@@ -25,261 +28,226 @@
         font-family: "Orbitron", sans-serif;
         background: var(--primary-bg);
         color: var(--text-color);
+        height: 100vh;
         width: 100vw;
-        height: 120vh;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.6rem;
+        font-size: clamp(0.8rem, 1.2vw, 1.5rem);
       }
 
       .scale-container {
-        width: 1920px;
+        width: 95vw;
+        height: 95vh;
+        padding: var(--spacing-unit);
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transform-origin: center;
-        position: absolute;
-        transform: scale(0.6
-        );
       }
 
-    
       .dashboard-section {
         width: 100%;
         height: 100%;
-        
         display: flex;
         flex-direction: column;
         box-sizing: border-box;
+        padding: var(--spacing-unit);
+        gap: var(--spacing-unit);
       }
 
       h2 {
         color: var(--accent-color);
-        font-size: 3.6rem;
+        font-size: clamp(1.5rem, 2.5vw, 3rem);
         letter-spacing: 0.1em;
-        text-transform: uppercase;
         text-align: center;
         text-shadow: 0 0 20px rgba(0, 234, 255, 0.6);
         font-weight: 700;
+        margin: 0;
+        padding: calc(var(--spacing-unit) * 2) 0;
+        width: 100%;
+        position: relative;
+        z-index: 1;
       }
 
       .formula-container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        gap: 30px;
-        flex: 1;
-        height: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
+        gap: var(--spacing-unit);
+        width: 100%;
+        height: calc(100% - 5vw);
+        margin: 0;
       }
 
       .left-column,
       .right-column {
+        width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: column;
-        height: 100%;
+        gap: var(--spacing-unit);
+        overflow: hidden;
       }
 
       .variables-grid,
       .example-grid {
-        
-        flex: 1;
         display: flex;
         flex-direction: column;
-        height: 100%;
-      }
-
-      .formula-display,
-      .example-result {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
+        gap: var(--spacing-unit);
+        overflow: hidden;
       }
 
       .section-title {
         color: var(--accent-color);
-        font-size: 3rem;
+        font-size: clamp(1rem, 1.5vw, 1.5rem);
         text-transform: uppercase;
         letter-spacing: 0.05em;
         text-align: left;
         position: relative;
-        padding-bottom: 10px;
+        padding-bottom: calc(var(--spacing-unit) * 0.5);
+        margin: 0;
       }
 
       .variable-item {
         display: flex;
         align-items: center;
-        padding: 15px 25px;
-        margin-bottom: 21px;
+        padding: var(--spacing-unit);
         background: rgba(18, 35, 46, 0.9);
-        border: 2px solid var(--accent-color);
-        border-radius: 8px;
-        font-size: 2.7rem;
+        border: var(--border-width) solid var(--accent-color);
+        border-radius: var(--border-radius);
+        font-size: clamp(0.9rem, 1.3vw, 1.4rem);
         letter-spacing: 0.05em;
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
-      }
-
-      .variable-item:hover {
-        transform: translateX(10px);
-        box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
+        gap: var(--spacing-unit);
+        min-height: 0;
       }
 
       .variable-symbol {
         color: var(--accent-color);
         font-weight: bold;
-        margin-right: 25px;
-        min-width: 90px;
-        font-size: 2rem;
+        min-width: clamp(3vw, 5vw, 6vw);
+        font-size: clamp(0.9rem, 1.3vw, 1.4rem);
       }
 
-      .formula-display {
-        text-align: center;
-        font-size: 2.7rem;
-        margin: 10px 0;
-        padding: 15px;
+      .formula-display,
+      .example-result {
+        padding: calc(var(--spacing-unit) * 1.5);
         background: rgba(18, 35, 46, 0.9);
-        border: 2px solid var(--accent-color);
-        border-radius: 8px;
+        border: var(--border-width) solid var(--accent-color);
+        border-radius: var(--border-radius);
         color: var(--accent-color);
         letter-spacing: 0.05em;
         backdrop-filter: blur(5px);
         box-shadow: 0 0 30px rgba(0, 234, 255, 0.2);
-        height: 100%;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        min-height: 0;
       }
 
       .formula-display .MathJax {
-        font-size: 3rem !important;
-      }
-
-      .formula-display strong {
-        font-size: 2.2rem;
-        display: block;
-        margin-bottom: 15px;
-      }
-
-      .formula-aux {
-        font-size: 1.5rem;
-        padding: 20px;
-        background: rgba(18, 35, 46, 0.8);
-        border: 1px solid var(--grid-line);
-        border-radius: 4px;
-        letter-spacing: 0.05em;
-        backdrop-filter: blur(5px);
-      }
-
-      .formula-aux div {
-        margin: 8px 0;
+        font-size: clamp(0.9rem, 1.3vw, 1.6rem) !important;
+        max-width: 100%;
+        overflow: hidden;
+        transform-origin: center;
       }
 
       .example-item {
-        padding: 20px 25px;
+        padding: calc(var(--spacing-unit) * 1.5);
         background: rgba(18, 35, 46, 0.9);
-        border: 2px solid var(--accent-color);
-        border-radius: 8px;
-        font-size: 2.7rem;
-        margin-bottom: 15px;
+        border: var(--border-width) solid var(--accent-color);
+        border-radius: var(--border-radius);
+        font-size: clamp(0.9rem, 1.3vw, 1.4rem);
         letter-spacing: 0.05em;
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
-      }
-
-      .example-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 20px rgba(0, 234, 255, 0.3);
-      }
-
-      .example-item div {
-        margin: 8px 0;
-      }
-
-      .example-result {
-        text-align: center;
-        font-size: 2.7rem;
-        background: rgba(18, 35, 46, 0.9);
-        border: 2px solid var(--accent-color);
-        border-radius: 8px;
-        color: var(--accent-color);
-        letter-spacing: 0.05em;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 0 30px rgba(0, 234, 255, 0.2);
-        margin-top: 10px;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .example-result div {
-        margin: 5px 0;
-      }
-
-      .example-result strong {
-        font-size: 2.2rem;
-        display: block;
-        margin-bottom: 15px;
-      }
-
-      @keyframes fadein {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      #particles-bg-canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        z-index: 0;
-        pointer-events: none;
-      }
-
-      sub {
-        font-size: 0.7em;
-        vertical-align: sub;
-        position: relative;
-        bottom: -0.1em;
-        margin-left: 0.1em;
-      }
-
-      .formula-display sub,
-      .formula-aux sub,
-      .example-item sub,
-      .example-result sub {
-        color: var(--text-color);
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 0;
       }
 
       .latex-formula {
-        font-size: 3rem;
-        margin: 10px 0;
+        font-size: clamp(0.9rem, 1.3vw, 1.6rem);
+        margin: calc(var(--spacing-unit) * 0.5) 0;
         text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        transform-origin: center;
       }
 
       .latex-formula .MathJax {
-        font-size: 3rem !important;
+        font-size: clamp(0.9rem, 1.3vw, 1.6rem) !important;
+        max-width: 100%;
+        overflow: hidden;
+        transform-origin: center;
       }
 
-      .variable-item,
-      .example-item,
-      .section-title,
-      .latex-formula,
-      .example-result,
-      .formula-display {
-        font-size: 2.3rem;
+      @media (max-width: 768px) {
+        :root {
+          --spacing-unit: 1vw;
+          --border-width: 0.2vw;
+          --border-radius: 1vw;
+        }
+
+        .formula-container {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+
+        .right-column[style*="grid-column"] {
+          grid-column: 1 !important;
+        }
+
+        .variable-item {
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+        }
+
+        .variable-symbol {
+          margin-bottom: calc(var(--spacing-unit) * 0.5);
+        }
+      }
+
+      @media (max-width: 480px) {
+        :root {
+          --spacing-unit: 1.5vw;
+          --border-width: 0.25vw;
+          --border-radius: 1.5vw;
+        }
+
+        body {
+          font-size: 0.8rem;
+        }
+      }
+
+      /* Ajustes específicos para las fórmulas matemáticas */
+      .MathJax {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        transform-origin: center;
+      }
+
+      /* Ajustes para el contenedor de la última columna */
+      .right-column[style*="grid-column"] {
+        grid-column: 1 / -1;
+        height: auto;
+      }
+
+      /* Asegurar que los elementos mantengan sus proporciones al hacer zoom */
+      * {
+        transform-origin: center;
       }
     </style>
   </head>
   <body>
-  
     <div class="scale-container">
       <main>
         <section class="dashboard-section">
@@ -350,12 +318,14 @@
             </div>
 
             <!-- Cálculo Final -->
-            <div class="right-column" style="grid-column: 1 / span 2;">
+            <div class="right-column" style="grid-column: 1 / span 2">
               <div>
                 <div class="section-title">Cálculo final</div>
                 <div class="example-result">
                   <div class="latex-formula">
-                    $$P_{opt} = W_o \cdot f(O_c) + W_p \cdot P_h + W_c \cdot \frac{P_{c_{min}} + P_{c_{max}}}{2} + W_{oc} \cdot g(O_c^*)$$
+                    $$P_{opt} = W_o \cdot f(O_c) + W_p \cdot P_h + W_c \cdot
+                    \frac{P_{c_{min}} + P_{c_{max}}}{2} + W_{oc} \cdot
+                    g(O_c^*)$$
                   </div>
                   <div class="latex-formula">
                     $$ P_{opt} = 0.3 \cdot (100 \cdot 1.85) + 0.3 \cdot 100 +
