@@ -229,18 +229,16 @@
           inset 0 0 15px rgba(255, 45, 85, 0.09);
       }
 
-      /* Animaciones */
       @keyframes cardFadeIn {
         from {
           opacity: 0;
-          transform: translateY(20px) scale(0.98);
+          transform: translateY(30px) scale(0.98);
         }
         to {
           opacity: 1;
           transform: translateY(0) scale(1);
         }
       }
-      
       @keyframes cardFadeOut {
         from {
           opacity: 1;
@@ -250,35 +248,6 @@
           opacity: 0;
           transform: translateY(-30px) scale(0.98);
         }
-      }
-      
-      /* Typewriter Animation */
-      .typewriter {
-        overflow: hidden;
-        border-right: 3px solid #00eaff;
-        white-space: nowrap;
-        margin: 0 auto;
-        letter-spacing: 0.15em;
-        animation: typing 1s steps(40, end), blink-caret 0.75s step-end infinite;
-      }
-      
-      @keyframes typing {
-        from { width: 0; }
-        to { width: 100%; }
-      }
-      
-      @keyframes blink-caret {
-        from, to { border-color: transparent; }
-        50% { border-color: #00eaff; }
-      }
-      
-      .content-reveal {
-        opacity: 0;
-        animation: revealContent 0.5s ease-out forwards;
-      }
-      
-      @keyframes revealContent {
-        to { opacity: 1; }
       }
 
       @keyframes titleGlow {
@@ -356,72 +325,6 @@
           }) + "€"
         );
       }
-      // Función para aplicar animación typewriter a un elemento
-      function applyTypewriterEffect(element) {
-        if (!element) return;
-        
-        // Guardar el texto original
-        const text = element.textContent;
-        element.textContent = '';
-        element.classList.add('typewriter');
-        
-        // Aplicar el texto letra por letra
-        let i = 0;
-        const speed = 30; // Velocidad en milisegundos
-        
-        function typeWriter() {
-          if (i < text.length) {
-            element.textContent += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, speed);
-          } else {
-            // Eliminar la clase typewriter después de la animación
-            setTimeout(() => {
-              element.classList.remove('typewriter');
-              element.style.borderRight = 'none';
-            }, 1000);
-          }
-        }
-        
-        // Iniciar la animación con un pequeño retraso
-        setTimeout(typeWriter, 100);
-      }
-      
-      // Función para animar los elementos de una tarjeta
-      function animateCardElements(card) {
-        if (!card) return;
-        
-        // Animar títulos primero
-        const titulos = card.querySelectorAll('.acciones-label, .acciones-fecha, .acciones-precio');
-        titulos.forEach((titulo, index) => {
-          setTimeout(() => {
-            titulo.style.opacity = '0';
-            titulo.style.transform = 'translateY(10px)';
-            titulo.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            
-            // Aplicar typewriter a los títulos principales
-            if (titulo.classList.contains('acciones-label')) {
-              applyTypewriterEffect(titulo);
-            }
-            
-            titulo.style.opacity = '1';
-            titulo.style.transform = 'translateY(0)';
-          }, index * 100);
-        });
-        
-        // Animar el resto del contenido
-        const contenido = card.querySelectorAll('table, .acciones-reflexion, .acciones-derivacion');
-        contenido.forEach((elem, index) => {
-          setTimeout(() => {
-            elem.style.opacity = '0';
-            elem.style.transform = 'translateY(10px)';
-            elem.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            elem.style.opacity = '1';
-            elem.style.transform = 'translateY(0)';
-          }, (titulos.length * 100) + (index * 50));
-        });
-      }
-      
       function renderPantalla(pantallaIdx) {
         if (!acciones.length) return;
         const accion = acciones[0]; // Solo una acción
@@ -429,23 +332,75 @@
         const pantalla = pantallas[pantallaIdx % pantallas.length];
         const grid = document.getElementById("accionesGrid");
         
-        // Animar fade out de todos los hijos antes de cambiar el contenido
-        const fadeOut = () => {
-          Array.from(grid.children).forEach((el) => {
-            el.style.animation = "cardFadeOut 0.5s cubic-bezier(.4,0,.2,1) forwards";
-          });
-          grid.style.opacity = 0.5;
-        };
-        
+        // Si ya hay contenido, actualizar solo los valores
         if (grid.children.length > 0) {
-          fadeOut();
-          setTimeout(() => {
-            grid.innerHTML = '';
-            renderPantallaContent();
-          }, 500);
-        } else {
-          renderPantallaContent();
+          updateExistingContent(grid, pantalla);
+          return;
         }
+        
+        // Si no hay contenido, renderizar todo
+        renderPantallaContent();
+        
+        function updateExistingContent(grid, pantalla) {
+          const just = justificaciones[pantalla.justificacion_id] || {
+            titulo: "",
+            texto: [],
+            reflexion: [],
+          };
+          
+          // Actualizar tarjeta de acción
+          const accionCard = grid.querySelector('.acciones-card:nth-child(1)');
+          if (accionCard) {
+            accionCard.querySelector('.acciones-fecha').textContent = pantalla.fecha;
+            const precioIni = formatEuros(pantalla.precio_inicial);
+            const precioAccion = formatEuros(pantalla.precio_accion);
+            accionCard.querySelector('.acciones-precio').innerHTML = `Precio<br><span>${precioIni} → ${precioAccion}</span>`;
+          }
+          
+          // Actualizar tarjeta de reflexión
+          const reflexionCard = grid.querySelector('.acciones-card:nth-child(2)');
+          if (reflexionCard) {
+            reflexionCard.querySelector('.acciones-fecha').textContent = `Para el día ${pantalla.fecha}`;
+            const rows = reflexionCard.querySelectorAll('tr');
+            if (rows.length >= 3) {
+              rows[0].querySelector('td').textContent = formatEuros(pantalla.facturacion_objetivo);
+              rows[1].querySelector('td').textContent = formatEuros(pantalla.facturacion_conseguida);
+              rows[2].querySelector('td').textContent = pantalla.habitaciones_por_vender;
+            }
+          }
+          
+          // Actualizar tarjeta de justificación
+          const justCard = grid.querySelector('.acciones-card.justificacion');
+          if (justCard) {
+            const label = justCard.querySelector('.acciones-label');
+            if (label) label.textContent = just.titulo || "Justificación";
+            
+            const ul = justCard.querySelector('ul');
+            if (ul) {
+              ul.innerHTML = (just.texto || []).map(t => `<li>${t}</li>`).join('');
+            }
+            
+            const reflexionDiv = justCard.querySelector('.acciones-reflexion');
+            if (reflexionDiv) {
+              reflexionDiv.innerHTML = (just.reflexion || []).map(t => `<div>${t}</div>`).join('');
+            }
+          }
+          
+          // Actualizar tarjeta "Si aplica"
+          const siAplicaCard = grid.querySelector('.acciones-card.verde');
+          if (siAplicaCard && pantalla.si_aplica) {
+            const derivacion = siAplicaCard.querySelector('.acciones-derivacion');
+            if (derivacion) derivacion.textContent = pantalla.si_aplica;
+          }
+          
+          // Actualizar tarjeta "No aplica"
+          const noAplicaCard = grid.querySelector('.acciones-card.rojo');
+          if (noAplicaCard && pantalla.no_aplica) {
+            const derivacion = noAplicaCard.querySelector('.acciones-derivacion');
+            if (derivacion) derivacion.textContent = pantalla.no_aplica;
+          }
+        }
+        
         function renderPantallaContent() {
           let html = "";
           if (pantalla.tipo === "accion") {
@@ -595,21 +550,6 @@
           }
           grid.innerHTML = html;
           grid.style.opacity = 1;
-          
-          // Animar las tarjetas después de un pequeño retraso para asegurar que el DOM está listo
-          setTimeout(() => {
-            const cards = grid.querySelectorAll('.acciones-card');
-            cards.forEach((card, index) => {
-              setTimeout(() => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px) scale(0.98)';
-                card.style.animation = 'cardFadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards';
-                
-                // Animar los elementos internos de la tarjeta
-                animateCardElements(card);
-              }, index * 100); // Retraso escalonado entre tarjetas
-            });
-          }, 50);
           // Renderizar gráfica si aplica
           if (pantalla.tipo === "grafica") {
             setTimeout(() => {
@@ -700,27 +640,30 @@
         }
       });
 
-      async function updateDataAndRender() {
+      // Función para actualizar solo los valores sin recargar todo
+      async function updateDataOnly() {
+        const oldAcciones = [...acciones];
         await Promise.all([fetchAcciones(), fetchJustificaciones()]);
         if (!acciones.length) return;
-        totalPantallas = (acciones[0].pantallas || []).length || 1;
-        // Si el valor es inválido, muestra la primera
-        currentPantalla =
-          pantallaInicial >= 0 && pantallaInicial < totalPantallas
-            ? pantallaInicial
-            : 0;
-        renderPantalla(currentPantalla);
-
-        // Eliminar el intervalo automático si existe
-        if (rotarInterval) {
-          clearInterval(rotarInterval);
-          rotarInterval = null;
+        
+        // Si los datos cambiaron, actualizar la pantalla actual
+        if (JSON.stringify(oldAcciones) !== JSON.stringify(acciones)) {
+          renderPantalla(currentPantalla);
         }
       }
 
-      // Refresca datos cada 60s
-      setInterval(updateDataAndRender, 60000);
-      window.addEventListener("DOMContentLoaded", updateDataAndRender);
+      // Inicializar la primera carga
+      async function init() {
+        await Promise.all([fetchAcciones(), fetchJustificaciones()]);
+        if (!acciones.length) return;
+        totalPantallas = (acciones[0].pantallas || []).length || 1;
+        currentPantalla = pantallaInicial >= 0 && pantallaInicial < totalPantallas ? pantallaInicial : 0;
+        renderPantalla(currentPantalla);
+      }
+
+      // Actualizar datos periódicamente sin recargar todo
+      setInterval(updateDataOnly, 5000);
+      window.addEventListener("DOMContentLoaded", init);
     </script>
   </body>
 </html>
