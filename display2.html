@@ -202,37 +202,91 @@
       // Función para animar el contenido de un iframe
       function animateIframeContent(iframe) {
         try {
-          const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-          
-          // Aplicar animación de revelación a todos los elementos principales
-          const elements = iframeDoc.querySelectorAll('h1, h2, h3, p, div, section, article, .card, .panel');
-          elements.forEach((el, index) => {
-            // Saltar elementos que ya tienen animación
-            if (el.classList.contains('content-reveal')) return;
-            
-            // Aplicar estilos iniciales
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            
-            // Aplicar animación con retraso escalonado
-            setTimeout(() => {
-              el.style.opacity = '1';
-              el.style.transform = 'translateY(0)';
+          // Esperar un poco para asegurar que el contenido esté listo
+          setTimeout(() => {
+            try {
+              const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+              if (!iframeDoc) return;
               
-              // Para títulos, agregar efecto de máquina de escribir
-              if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3') {
-                el.classList.add('typewriter');
-                // Eliminar la clase después de la animación
-                setTimeout(() => {
-                  el.classList.remove('typewriter');
-                  el.style.borderRight = 'none';
-                }, 1500);
+              // Función para animar elementos
+              const animateElements = () => {
+                // Aplicar animación de revelación a todos los elementos principales
+                const elements = iframeDoc.querySelectorAll('h1, h2, h3, h4, p, div, section, article, .card, .panel, .acciones-card, .acciones-grid');
+                
+                elements.forEach((el, index) => {
+                  // Saltar elementos que ya tienen animación o están ocultos
+                  if (el.classList.contains('content-reveal') || 
+                      el.offsetParent === null || 
+                      el.offsetWidth === 0 || 
+                      el.offsetHeight === 0) {
+                    return;
+                  }
+                  
+                  // Aplicar estilos iniciales
+                  const originalTransition = el.style.transition;
+                  el.style.opacity = '0';
+                  el.style.transform = 'translateY(20px)';
+                  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                  
+                  // Forzar repintado
+                  void el.offsetHeight;
+                  
+                  // Aplicar animación con retraso escalonado
+                  setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                    
+                    // Para títulos, agregar efecto de máquina de escribir
+                    if (el.tagName.match(/^H[1-3]$/i)) {
+                      el.classList.add('typewriter');
+                      // Eliminar la clase después de la animación
+                      setTimeout(() => {
+                        el.classList.remove('typewriter');
+                        el.style.borderRight = 'none';
+                      }, 1500);
+                    }
+                    
+                    // Restaurar transición original después de la animación
+                    setTimeout(() => {
+                      el.style.transition = originalTransition;
+                    }, 1000);
+                  }, 50 + (index * 100)); // Retraso escalonado
+                });
+              };
+              
+              // Intentar animar inmediatamente
+              animateElements();
+              
+              // Configurar un MutationObserver para animar contenido dinámico
+              const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                  if (mutation.addedNodes.length > 0) {
+                    // Pequeño retraso para asegurar que el contenido esté listo
+                    setTimeout(animateElements, 100);
+                  }
+                });
+              });
+              
+              // Observar cambios en el contenido del iframe
+              observer.observe(iframeDoc.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                characterData: true
+              });
+              
+              // Si el iframe tiene su propio sistema de carga
+              if (iframe.contentWindow && iframe.contentWindow.addEventListener) {
+                iframe.contentWindow.addEventListener('load', animateElements);
               }
-            }, 100 + (index * 100)); // Retraso escalonado
-          });
+              
+            } catch (e) {
+              console.log('Error al animar el contenido del iframe:', e);
+            }
+          }, 300); // Pequeño retraso para asegurar que el iframe esté listo
+          
         } catch (e) {
-          console.log('No se pudo acceder al contenido del iframe:', e);
+          console.log('No se pudo acceder al iframe:', e);
         }
       }
 
@@ -256,13 +310,38 @@
 
       // Función para manejar la carga de un iframe
       function handleIframeLoad(frame) {
-        // Asegurarse de que el iframe esté completamente cargado
-        if (frame.contentDocument.readyState === 'complete') {
-          animateIframeContent(frame);
-        } else {
-          frame.addEventListener('load', function() {
-            animateIframeContent(frame);
-          });
+        if (!frame || !frame.contentWindow) return;
+        
+        // Función para verificar si el iframe está listo
+        const checkIframeReady = () => {
+          try {
+            if (frame.contentDocument && frame.contentDocument.readyState === 'complete') {
+              animateIframeContent(frame);
+              return true;
+            }
+          } catch (e) {
+            // Error de política de mismo origen
+            console.log('No se puede acceder al iframe por políticas de seguridad:', e);
+            return true; // No seguir intentando
+          }
+          return false;
+        };
+        
+        // Intentar inmediatamente
+        if (!checkIframeReady()) {
+          // Si no está listo, configurar eventos de carga
+          const onLoad = () => {
+            frame.removeEventListener('load', onLoad);
+            setTimeout(() => animateIframeContent(frame), 100);
+          };
+          
+          frame.addEventListener('load', onLoad);
+          
+          // Timeout de respaldo en caso de que el evento load no se dispare
+          setTimeout(() => {
+            frame.removeEventListener('load', onLoad);
+            checkIframeReady();
+          }, 2000);
         }
       }
 
@@ -273,6 +352,10 @@
             mutation.addedNodes.forEach((node) => {
               if (node.tagName === 'IFRAME') {
                 handleIframeLoad(node);
+              } else if (node.querySelectorAll) {
+                // Buscar iframes dentro del nodo agregado
+                const iframes = node.querySelectorAll('iframe');
+                iframes.forEach(iframe => handleIframeLoad(iframe));
               }
             });
           }
@@ -280,7 +363,13 @@
       });
 
       // Observar cambios en el documento
-      observer.observe(document.body, { childList: true, subtree: true });
+      observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+      });
+      
+      // Manejar iframes que ya están en el DOM
+      document.querySelectorAll('iframe').forEach(handleIframeLoad);
 
       // Manejar las transiciones con las teclas numéricas
       document.addEventListener("keydown", function (event) {
