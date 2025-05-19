@@ -331,76 +331,20 @@
         const pantallas = accion.pantallas || [];
         const pantalla = pantallas[pantallaIdx % pantallas.length];
         const grid = document.getElementById("accionesGrid");
-        
-        // Si ya hay contenido, actualizar solo los valores
+        // Animar fade out de todos los hijos antes de cambiar el contenido
+        const fadeOut = () => {
+          Array.from(grid.children).forEach((el) => {
+            el.style.animation =
+              "cardFadeOut 0.5s cubic-bezier(.4,0,.2,1) forwards";
+          });
+          grid.style.opacity = 0.5;
+        };
         if (grid.children.length > 0) {
-          updateExistingContent(grid, pantalla);
-          return;
+          fadeOut();
+          setTimeout(renderPantallaContent, 500);
+        } else {
+          renderPantallaContent();
         }
-        
-        // Si no hay contenido, renderizar todo
-        renderPantallaContent();
-        
-        function updateExistingContent(grid, pantalla) {
-          const just = justificaciones[pantalla.justificacion_id] || {
-            titulo: "",
-            texto: [],
-            reflexion: [],
-          };
-          
-          // Actualizar tarjeta de acción
-          const accionCard = grid.querySelector('.acciones-card:nth-child(1)');
-          if (accionCard) {
-            accionCard.querySelector('.acciones-fecha').textContent = pantalla.fecha;
-            const precioIni = formatEuros(pantalla.precio_inicial);
-            const precioAccion = formatEuros(pantalla.precio_accion);
-            accionCard.querySelector('.acciones-precio').innerHTML = `Precio<br><span>${precioIni} → ${precioAccion}</span>`;
-          }
-          
-          // Actualizar tarjeta de reflexión
-          const reflexionCard = grid.querySelector('.acciones-card:nth-child(2)');
-          if (reflexionCard) {
-            reflexionCard.querySelector('.acciones-fecha').textContent = `Para el día ${pantalla.fecha}`;
-            const rows = reflexionCard.querySelectorAll('tr');
-            if (rows.length >= 3) {
-              rows[0].querySelector('td').textContent = formatEuros(pantalla.facturacion_objetivo);
-              rows[1].querySelector('td').textContent = formatEuros(pantalla.facturacion_conseguida);
-              rows[2].querySelector('td').textContent = pantalla.habitaciones_por_vender;
-            }
-          }
-          
-          // Actualizar tarjeta de justificación
-          const justCard = grid.querySelector('.acciones-card.justificacion');
-          if (justCard) {
-            const label = justCard.querySelector('.acciones-label');
-            if (label) label.textContent = just.titulo || "Justificación";
-            
-            const ul = justCard.querySelector('ul');
-            if (ul) {
-              ul.innerHTML = (just.texto || []).map(t => `<li>${t}</li>`).join('');
-            }
-            
-            const reflexionDiv = justCard.querySelector('.acciones-reflexion');
-            if (reflexionDiv) {
-              reflexionDiv.innerHTML = (just.reflexion || []).map(t => `<div>${t}</div>`).join('');
-            }
-          }
-          
-          // Actualizar tarjeta "Si aplica"
-          const siAplicaCard = grid.querySelector('.acciones-card.verde');
-          if (siAplicaCard && pantalla.si_aplica) {
-            const derivacion = siAplicaCard.querySelector('.acciones-derivacion');
-            if (derivacion) derivacion.textContent = pantalla.si_aplica;
-          }
-          
-          // Actualizar tarjeta "No aplica"
-          const noAplicaCard = grid.querySelector('.acciones-card.rojo');
-          if (noAplicaCard && pantalla.no_aplica) {
-            const derivacion = noAplicaCard.querySelector('.acciones-derivacion');
-            if (derivacion) derivacion.textContent = pantalla.no_aplica;
-          }
-        }
-        
         function renderPantallaContent() {
           let html = "";
           if (pantalla.tipo === "accion") {
@@ -640,30 +584,27 @@
         }
       });
 
-      // Función para actualizar solo los valores sin recargar todo
-      async function updateDataOnly() {
-        const oldAcciones = [...acciones];
-        await Promise.all([fetchAcciones(), fetchJustificaciones()]);
-        if (!acciones.length) return;
-        
-        // Si los datos cambiaron, actualizar la pantalla actual
-        if (JSON.stringify(oldAcciones) !== JSON.stringify(acciones)) {
-          renderPantalla(currentPantalla);
-        }
-      }
-
-      // Inicializar la primera carga
-      async function init() {
+      async function updateDataAndRender() {
         await Promise.all([fetchAcciones(), fetchJustificaciones()]);
         if (!acciones.length) return;
         totalPantallas = (acciones[0].pantallas || []).length || 1;
-        currentPantalla = pantallaInicial >= 0 && pantallaInicial < totalPantallas ? pantallaInicial : 0;
+        // Si el valor es inválido, muestra la primera
+        currentPantalla =
+          pantallaInicial >= 0 && pantallaInicial < totalPantallas
+            ? pantallaInicial
+            : 0;
         renderPantalla(currentPantalla);
+
+        // Eliminar el intervalo automático si existe
+        if (rotarInterval) {
+          clearInterval(rotarInterval);
+          rotarInterval = null;
+        }
       }
 
-      // Actualizar datos periódicamente sin recargar todo
-      setInterval(updateDataOnly, 5000);
-      window.addEventListener("DOMContentLoaded", init);
+      // Refresca datos cada 60s
+      setInterval(updateDataAndRender, 60000);
+      window.addEventListener("DOMContentLoaded", updateDataAndRender);
     </script>
   </body>
 </html>
