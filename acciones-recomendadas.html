@@ -534,7 +534,7 @@
           } else if (pantalla.tipo === "info") {
             const bloques = pantalla.contenido || [];
             const titulos = [
-              "Estrategia de Precio",
+              "Estrategia Actual",
               "Recomendación Principal",
               "Opción 1",
               "Opción 2",
@@ -711,7 +711,7 @@
       }
 
       // Refresca datos cada 60s
-      setInterval(updateDataAndRender, 60000);
+      //setInterval(updateDataAndRender, 60000);
       window.addEventListener("DOMContentLoaded", updateDataAndRender);
     </script>
   </body>
