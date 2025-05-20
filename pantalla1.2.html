@@ -133,14 +133,14 @@
 
       .booking-position,
       .warning-card {
-        min-height: 120px;
-        height: 120px;
+        min-height: 180px;
+        height: 180px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        padding-top: 22px;
-        padding-bottom: 22px;
+        padding-top: 36px;
+        padding-bottom: 36px;
         margin-bottom: 10px;
       }
 
@@ -150,6 +150,7 @@
         margin-top: 0;
         width: 100%;
         text-align: center;
+        font-size: 2.2rem !important;
       }
 
       .booking-position .value-number,
@@ -158,6 +159,7 @@
         margin-bottom: 0;
         width: 100%;
         text-align: center;
+        font-size: 2rem !important;
       }
 
       .comparison-card {
@@ -214,18 +216,19 @@
         padding: 8px;
         text-align: center;
         color: #fff;
-
         min-height: 48px;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
+        padding-top: 36px;
+        padding-bottom: 36px;
         font-size: 1.3rem;
       }
 
       .warning-title {
         color: #00eaff;
         font-size: 1.6rem;
-        margin-bottom: 4px;
+        margin-bottom: 36px;
         text-align: center;
         letter-spacing: 0.07em;
       }
@@ -467,9 +470,12 @@
         margin-bottom: 0;
       }
       .algoritmo-cuadro .alg-formula {
-        font-size: 1.5rem;
+        font-size: 2.2rem;
         min-height: 18px;
         padding: 2px 0 1px 0;
+        overflow-x: auto;
+        word-break: break-word;
+        white-space: normal;
       }
 
       .comparison-title, .booking-position .comparison-title, .warning-card .warning-title {
@@ -603,8 +609,8 @@
             </div>`;
           document.getElementById("precioCompetencia").textContent = "";
           document.getElementById("posicionBooking").textContent = "7/4422";
-          document.getElementById("propuestaTitulo").textContent =
-            "Propuesta subir al top 1";
+          document.getElementById("propuestaTitulo").innerHTML =
+            "Propuesta subir al top 1" + '<div style="height: 24px;"></div>';
           document.getElementById("propuestaMensaje").textContent =
             "No recomendable – 14.20% en precio";
 
