@@ -327,6 +327,10 @@
         x: 1, // Segunda página
         c: 2, // Tercera página
       };
+      
+      // Control de tiempo entre cambios de pantalla
+      let lastFrameChange = 0;
+      const FRAME_CHANGE_COOLDOWN = 1200; // 500ms de espera entre cambios
 
       // Función para manejar la carga de un iframe
       function handleIframeLoad(iframe) {
@@ -418,15 +422,33 @@
 
         // Verificar teclas para el cuarto iframe (z,x,c)
         if (fourthFrameMap[key] !== undefined) {
+          const now = Date.now();
+          if (now - lastFrameChange < FRAME_CHANGE_COOLDOWN) {
+            return; // Ignorar si no ha pasado el tiempo de espera
+          }
+          lastFrameChange = now;
+          
           const frame = document.querySelectorAll(".display-frame iframe")[3];
           if (frame && frame.contentWindow) {
-            frame.contentWindow.postMessage(
-              {
-                action: "renderPantalla",
-                index: fourthFrameMap[key],
-              },
-              "*"
-            );
+            // Agregar clase de desvanecimiento
+            frame.style.transition = 'opacity 0.3s ease';
+            frame.style.opacity = '0.3';
+            
+            // Usar requestAnimationFrame para asegurar que la animación se vea suave
+            requestAnimationFrame(() => {
+              frame.contentWindow.postMessage(
+                {
+                  action: "renderPantalla",
+                  index: fourthFrameMap[key],
+                },
+                "*"
+              );
+              
+              // Restaurar opacidad después de un breve retraso
+              setTimeout(() => {
+                frame.style.opacity = '1';
+              }, 50);
+            });
             return;
           }
         }
