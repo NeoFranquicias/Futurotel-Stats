@@ -263,7 +263,7 @@
   <body>
     <div class="acciones-zoom-wrapper">
       <div class="acciones-panel">
-        <div class="acciones-title">Acciones Recomendadas</div>
+        <div class="acciones-title" id="mainTitle">Acciones Recomendadas</div>
         <br />
         <div class="acciones-grid" id="accionesGrid">
           <!-- Las tarjetas se rellenan por JS -->
@@ -331,20 +331,82 @@
         const pantallas = accion.pantallas || [];
         const pantalla = pantallas[pantallaIdx % pantallas.length];
         const grid = document.getElementById("accionesGrid");
-        // Animar fade out de todos los hijos antes de cambiar el contenido
-        const fadeOut = () => {
-          Array.from(grid.children).forEach((el) => {
-            el.style.animation =
-              "cardFadeOut 0.5s cubic-bezier(.4,0,.2,1) forwards";
+        
+        // Función para animar la aparición de elementos
+        const animateElements = () => {
+          const elements = grid.querySelectorAll('.acciones-card');
+          elements.forEach((el, index) => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+              
+              // Aplicar efecto de máquina de escribir a los títulos
+              const title = el.querySelector('h3');
+              if (title) {
+                const text = title.textContent;
+                title.textContent = '';
+                title.style.overflow = 'hidden';
+                title.style.borderRight = '2px solid #00eaff';
+                let i = 0;
+                const typeWriter = () => {
+                  if (i < text.length) {
+                    title.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 30);
+                  } else {
+                    title.style.borderRight = 'none';
+                  }
+                };
+                typeWriter();
+              }
+            }, index * 150);
           });
-          grid.style.opacity = 0.5;
         };
-        if (grid.children.length > 0) {
-          fadeOut();
-          setTimeout(renderPantallaContent, 500);
-        } else {
-          renderPantallaContent();
+        
+        // Limpiar el grid
+        grid.innerHTML = '';
+        grid.style.opacity = 1;
+        
+        // Renderizar el contenido
+        renderPantallaContent();
+        
+        // Animar el título principal
+        const title = document.getElementById('mainTitle');
+        if (title) {
+          title.style.opacity = '0';
+          title.style.transform = 'translateY(-20px)';
+          title.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+          
+          setTimeout(() => {
+            title.style.opacity = '1';
+            title.style.transform = 'translateY(0)';
+            
+            // Efecto de máquina de escribir
+            const text = title.textContent;
+            title.textContent = '';
+            title.style.overflow = 'hidden';
+            title.style.display = 'inline-block';
+            title.style.borderRight = '2px solid #00eaff';
+            let i = 0;
+            const typeWriter = () => {
+              if (i < text.length) {
+                title.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 30);
+              } else {
+                title.style.borderRight = 'none';
+              }
+            };
+            typeWriter();
+          }, 100);
         }
+        
+        // Animar los elementos después de un pequeño retraso
+        setTimeout(animateElements, 500);
         function renderPantallaContent() {
           let html = "";
           if (pantalla.tipo === "accion") {
