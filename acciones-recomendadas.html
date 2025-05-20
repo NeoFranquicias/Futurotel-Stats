@@ -693,8 +693,16 @@
       });
 
       async function updateDataAndRender() {
-        await Promise.all([fetchAcciones(), fetchJustificaciones()]);
-        if (!acciones.length) return;
+        let accionesPrevias = acciones;
+        let justificacionesPrevias = justificaciones;
+        try {
+          await Promise.all([fetchAcciones(), fetchJustificaciones()]);
+        } catch (e) {
+          // Si falla la carga, restaurar los datos previos
+          acciones = accionesPrevias;
+          justificaciones = justificacionesPrevias;
+        }
+        if (!acciones.length) return; // Si no hay datos, no borres nada
         totalPantallas = (acciones[0].pantallas || []).length || 1;
         // Si el valor es inválido, muestra la primera
         currentPantalla =
@@ -702,12 +710,6 @@
             ? pantallaInicial
             : 0;
         renderPantalla(currentPantalla);
-
-        // Eliminar el intervalo automático si existe
-        if (rotarInterval) {
-          clearInterval(rotarInterval);
-          rotarInterval = null;
-        }
       }
 
       // Refresca datos cada 60s
