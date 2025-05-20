@@ -325,88 +325,128 @@
           }) + "€"
         );
       }
+      // Variables para controlar las animaciones en curso
+      let currentAnimationFrame = null;
+      let currentTypeWriterTimeout = null;
+      let currentTitleTypeWriter = null;
+
+      // Función para limpiar animaciones en curso
+      function clearAllAnimations() {
+        if (currentAnimationFrame) {
+          cancelAnimationFrame(currentAnimationFrame);
+          currentAnimationFrame = null;
+        }
+        if (currentTypeWriterTimeout) {
+          clearTimeout(currentTypeWriterTimeout);
+          currentTypeWriterTimeout = null;
+        }
+        if (currentTitleTypeWriter) {
+          clearTimeout(currentTitleTypeWriter);
+          currentTitleTypeWriter = null;
+        }
+      }
+
       function renderPantalla(pantallaIdx) {
         if (!acciones.length) return;
+        
+        // Limpiar animaciones en curso
+        clearAllAnimations();
+        
         const accion = acciones[0]; // Solo una acción
         const pantallas = accion.pantallas || [];
         const pantalla = pantallas[pantallaIdx % pantallas.length];
         const grid = document.getElementById("accionesGrid");
-        
-        // Función para animar la aparición de elementos
-        const animateElements = () => {
-          const elements = grid.querySelectorAll('.acciones-card');
-          elements.forEach((el, index) => {
-            el.style.opacity = 0;
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            
-            setTimeout(() => {
-              el.style.opacity = '1';
-              el.style.transform = 'translateY(0)';
-              
-              // Aplicar efecto de máquina de escribir a los títulos
-              const title = el.querySelector('h3');
-              if (title) {
-                const text = title.textContent;
-                title.textContent = '';
-                title.style.overflow = 'hidden';
-                title.style.borderRight = '2px solid #00eaff';
-                let i = 0;
-                const typeWriter = () => {
-                  if (i < text.length) {
-                    title.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 30);
-                  } else {
-                    title.style.borderRight = 'none';
-                  }
-                };
-                typeWriter();
-              }
-            }, index * 150);
-          });
-        };
-        
-        // Limpiar el grid
-        grid.innerHTML = '';
-        grid.style.opacity = 1;
-        
-        // Renderizar el contenido
-        renderPantallaContent();
-        
-        // Animar el título principal
         const title = document.getElementById('mainTitle');
+        
+        // Resetear el título inmediatamente
         if (title) {
           title.style.opacity = '0';
           title.style.transform = 'translateY(-20px)';
-          title.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-          
-          setTimeout(() => {
-            title.style.opacity = '1';
-            title.style.transform = 'translateY(0)';
-            
-            // Efecto de máquina de escribir
-            const text = title.textContent;
-            title.textContent = '';
-            title.style.overflow = 'hidden';
-            title.style.display = 'inline-block';
-            title.style.borderRight = '2px solid #00eaff';
-            let i = 0;
-            const typeWriter = () => {
-              if (i < text.length) {
-                title.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 30);
-              } else {
-                title.style.borderRight = 'none';
-              }
-            };
-            typeWriter();
-          }, 100);
+          title.style.transition = 'none';
+          title.style.borderRight = 'none';
         }
         
-        // Animar los elementos después de un pequeño retraso
-        setTimeout(animateElements, 500);
+        // Limpiar el grid inmediatamente
+        grid.style.opacity = '0';
+        grid.style.transition = 'opacity 0.3s ease';
+        
+        // Esperar un frame para asegurar que los estilos se apliquen
+        currentAnimationFrame = requestAnimationFrame(() => {
+          // Limpiar el contenido del grid
+          grid.innerHTML = '';
+          
+          // Renderizar el nuevo contenido
+          renderPantallaContent();
+          
+          // Animar el título principal
+          if (title) {
+            const titleText = title.textContent;
+            title.textContent = '';
+            title.style.opacity = '0';
+            title.style.transform = 'translateY(-20px)';
+            title.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            title.style.overflow = 'hidden';
+            title.style.display = 'inline-block';
+            
+            // Mostrar el título con animación
+            setTimeout(() => {
+              title.style.opacity = '1';
+              title.style.transform = 'translateY(0)';
+              
+              // Efecto de máquina de escribir para el título
+              title.style.borderRight = '2px solid #00eaff';
+              let i = 0;
+              const typeWriter = () => {
+                if (i < titleText.length) {
+                  title.textContent += titleText.charAt(i);
+                  i++;
+                  currentTitleTypeWriter = setTimeout(typeWriter, 30);
+                } else {
+                  title.style.borderRight = 'none';
+                }
+              };
+              typeWriter();
+            }, 100);
+          }
+          
+          // Mostrar el grid con animación
+          setTimeout(() => {
+            grid.style.opacity = '1';
+            
+            // Animar los elementos del grid
+            const elements = grid.querySelectorAll('.acciones-card');
+            elements.forEach((el, index) => {
+              el.style.opacity = '0';
+              el.style.transform = 'translateY(20px)';
+              el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+              
+              currentTypeWriterTimeout = setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                
+                // Aplicar efecto de máquina de escribir a los títulos
+                const title = el.querySelector('h3');
+                if (title) {
+                  const text = title.textContent;
+                  title.textContent = '';
+                  title.style.overflow = 'hidden';
+                  title.style.borderRight = '2px solid #00eaff';
+                  let i = 0;
+                  const typeWriter = () => {
+                    if (i < text.length) {
+                      title.textContent += text.charAt(i);
+                      i++;
+                      currentTypeWriterTimeout = setTimeout(typeWriter, 30);
+                    } else {
+                      title.style.borderRight = 'none';
+                    }
+                  };
+                  typeWriter();
+                }
+              }, index * 150);
+            });
+          }, 100);
+        });
         function renderPantallaContent() {
           let html = "";
           if (pantalla.tipo === "accion") {
