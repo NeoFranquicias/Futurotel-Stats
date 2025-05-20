@@ -52,7 +52,7 @@
       }
       .acciones-title {
         color: #00eaff;
-        font-size: 2.5rem;
+        font-size: clamp(1.5rem, 2.2vw, 2.2rem);
         margin-bottom: 20px;
         text-align: center;
         letter-spacing: 0.1em;
@@ -588,7 +588,7 @@
                 }
                 html +=
                   `<div class='acciones-card cian' style='${gridStyles[i]}padding: 18px 20px 10px 20px; display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;'>` +
-                  `<div class='acciones-label' style='margin-bottom:12px;font-size:1.5rem;'>${titulo}</div>` +
+                  `<div class='acciones-label' style='margin-bottom:12px;font-size:${Math.min(2.7, Math.max(1.7, 2.2))}rem;'>${titulo}</div>` +
                   `<div style='font-size:1.2rem;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${contenidoHtml}</div>` +
                   `</div>`;
               }
