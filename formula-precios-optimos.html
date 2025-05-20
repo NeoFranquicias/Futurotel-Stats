@@ -191,6 +191,11 @@
         line-height: 1;
       }
 
+      .content {
+        font-weight: bold;
+        color: #fff;
+      }
+
       /* Ajuste específico para mjx-math */
       mjx-math {
         font-size: 2.1rem !important;
@@ -236,6 +241,10 @@
       * {
         transform-origin: center;
       }
+
+      .example-item strong {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -251,34 +260,27 @@
                 <div class="variables-grid">
                   <div class="variable-item">
                     <span class="variable-symbol">O<sub>c</sub></span>
-                    <span>Ocupación de la ciudad (en porcentaje, 0 a 1)</span>
+                    <span class="content">Ocupación de la ciudad (en porcentaje, 0 a 1)</span>
                   </div>
                   <div class="variable-item">
                     <span class="variable-symbol">P<sub>h</sub></span>
-                    <span
-                      >Precio medio histórico del hotel en años anteriores</span
-                    >
+                    <span class="content">Precio medio histórico del hotel en años anteriores</span>
                   </div>
                   <div class="variable-item">
                     <span class="variable-symbol">P<sub>min</sub></span>
-                    <span>Precio mínimo de la competencia</span>
+                    <span class="content">Precio mínimo de la competencia</span>
                   </div>
                   <div class="variable-item">
                     <span class="variable-symbol">P<sub>max</sub></span>
-                    <span>Precio máximo de la competencia</span>
+                    <span class="content">Precio máximo de la competencia</span>
                   </div>
                   <div class="variable-item">
                     <span class="variable-symbol">O<sub>c</sub>*</span>
-                    <span
-                      >Ocupación de la competencia (en porcentaje, 0 a 1)</span
-                    >
+                    <span class="content">Ocupación de la competencia (en porcentaje, 0 a 1)</span>
                   </div>
                   <div class="variable-item">
                     <span class="variable-symbol">W</span>
-                    <span
-                      >Pesos de cada variable (ajustables según
-                      estrategia)</span
-                    >
+                    <span class="content">Pesos de cada variable (ajustables según estrategia)</span>
                   </div>
                 </div>
               </div>
@@ -291,18 +293,18 @@
                 <div class="example-grid">
                   <div class="example-item">
                     <div><strong>Pesos asignados:</strong></div>
-                    <div>W<sub>o</sub> = 0.3: ocupación de la ciudad</div>
-                    <div>W<sub>p</sub> = 0.3: precio histórico del hotel</div>
-                    <div>W<sub>r</sub> = 0.2: precios de la competencia</div>
-                    <div>W<sub>oc</sub> = 0.2: ocupación de la competencia</div>
+                    <div class="content">W<sub>o</sub> = 0.3: ocupación de la ciudad</div>
+                    <div class="content">W<sub>p</sub> = 0.3: precio histórico del hotel</div>
+                    <div class="content">W<sub>r</sub> = 0.2: precios de la competencia</div>
+                    <div class="content">W<sub>oc</sub> = 0.2: ocupación de la competencia</div>
                   </div>
-                  <div class="example-item">
+                  <div class="example-item" >
                     <div><strong>Valores usados:</strong></div>
-                    <div>O<sub>c</sub> = 0.85: 85% ocupación ciudad</div>
-                    <div>P<sub>h</sub> = 100 €: precio histórico</div>
-                    <div>P<sub>min</sub> = 90 €: precio mínimo</div>
-                    <div>P<sub>max</sub> = 120 €: precio máximo</div>
-                    <div>O<sub>c</sub>* = 0.75: 75% ocupación competencia</div>
+                    <div class="content">O<sub>c</sub> = 0.85: 85% ocupación ciudad</div>
+                    <div class="content">P<sub>h</sub> = 100 €: precio histórico</div>
+                    <div class="content">P<sub>min</sub> = 90 €: precio mínimo</div>
+                    <div class="content">P<sub>max</sub> = 120 €: precio máximo</div>
+                    <div class="content">O<sub>c</sub>* = 0.75: 75% ocupación competencia</div>
                   </div>
                 </div>
               </div>
