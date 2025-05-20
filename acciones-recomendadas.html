@@ -643,6 +643,12 @@
       window.addEventListener("message", function (event) {
         if (event.data === "navegarSiguiente") {
           navegarPantalla("siguiente");
+        } else if (event.data && event.data.action === "renderPantalla") {
+          const index = event.data.index;
+          if (index >= 0 && index < totalPantallas) {
+            currentPantalla = index;
+            renderPantalla(currentPantalla);
+          }
         }
       });
 
