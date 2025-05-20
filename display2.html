@@ -181,9 +181,98 @@
         },
       };
 
+      // Mapeo para selección directa de pantallas en el primer iframe
+      const directScreenMap = {
+        1: "pantalla1.html",
+        2: "pantalla1.2.html",
+        3: "formula-precios-optimos.html",
+        4: "tablas.html",
+      };
+
+      // Mapeo para el segundo iframe (q,w)
+      const secondFrameMap = {
+        q: "pantalla2.html",
+        w: "pantalla2.2.html",
+      };
+
+      // Mapeo para el tercer iframe (a,s)
+      const thirdFrameMap = {
+        a: "pantalla3.html",
+        s: "pantalla3.2.html",
+      };
+
+      // Mapeo para el cuarto iframe (z,x,c)
+      const fourthFrameMap = {
+        z: 0, // Primera página
+        x: 1, // Segunda página
+        c: 2, // Tercera página
+      };
+
       // Manejar las transiciones con las teclas numéricas
       document.addEventListener("keydown", function (event) {
-        const key = event.key;
+        const key = event.key.toLowerCase();
+
+        // Verificar si es una tecla de selección directa (1-4)
+        if (directScreenMap[key]) {
+          const frame = document.querySelectorAll(".display-frame iframe")[0];
+          if (frame) {
+            frame.classList.add("fade-out");
+            setTimeout(() => {
+              frame.src = directScreenMap[key];
+              setTimeout(() => {
+                frame.classList.remove("fade-out");
+              }, 50);
+            }, 500);
+            return;
+          }
+        }
+
+        // Verificar teclas para el segundo iframe (q,w)
+        if (secondFrameMap[key]) {
+          const frame = document.querySelectorAll(".display-frame iframe")[1];
+          if (frame) {
+            frame.classList.add("fade-out");
+            setTimeout(() => {
+              frame.src = secondFrameMap[key];
+              setTimeout(() => {
+                frame.classList.remove("fade-out");
+              }, 50);
+            }, 500);
+            return;
+          }
+        }
+
+        // Verificar teclas para el tercer iframe (a,s)
+        if (thirdFrameMap[key]) {
+          const frame = document.querySelectorAll(".display-frame iframe")[2];
+          if (frame) {
+            frame.classList.add("fade-out");
+            setTimeout(() => {
+              frame.src = thirdFrameMap[key];
+              setTimeout(() => {
+                frame.classList.remove("fade-out");
+              }, 50);
+            }, 500);
+            return;
+          }
+        }
+
+        // Verificar teclas para el cuarto iframe (z,x,c)
+        if (fourthFrameMap[key] !== undefined) {
+          const frame = document.querySelectorAll(".display-frame iframe")[3];
+          if (frame && frame.contentWindow) {
+            frame.contentWindow.postMessage(
+              {
+                action: "renderPantalla",
+                index: fourthFrameMap[key],
+              },
+              "*"
+            );
+            return;
+          }
+        }
+
+        // Manejo original de las teclas 1-3 para las transiciones
         if (key >= "1" && key <= "3") {
           const frameIndex = parseInt(key) - 1;
           const frame = document.querySelectorAll(".display-frame iframe")[
