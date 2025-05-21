@@ -98,6 +98,23 @@
       .acciones-card.cian {
         border-color: #00eaff;
         box-shadow: 0 0 24px #00eaff55;
+        font-size: 1.7rem;
+        padding: 24px 18px 20px 18px;
+      }
+      .acciones-card.cian .acciones-label {
+        font-size: 2.1rem;
+        margin-bottom: 10px;
+      }
+      .acciones-card.cian .acciones-fecha {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+      }
+      .acciones-card.cian .acciones-precio {
+        font-size: 2.1rem;
+        margin-bottom: 10px;
+      }
+      .acciones-card.cian .acciones-precio span {
+        font-size: 1.5rem;
       }
       .acciones-card.verde {
         border-color: #00ffae;
@@ -180,17 +197,36 @@
       }
 
       .acciones-card .acciones-reflexion {
-        margin-top: 5px;
+        margin-top: 8px;
         color: #fff;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         background: rgba(0, 234, 255, 0.06);
         border-left: 2px solid #00eaff99;
-        padding: 6px 8px 6px 12px;
-        border-radius: 4px;
+        padding: 8px 12px 8px 16px;
+        border-radius: 6px;
         margin-bottom: 0;
-        box-shadow: 0 0 3px #00eaff33;
+        box-shadow: 0 0 6px #00eaff33;
         white-space: normal;
         line-height: 1.25;
+      }
+      .reflexion-item {
+        margin-bottom: 12px;
+        text-align: left;
+      }
+      .reflexion-label {
+        font-size: 1.05rem;
+        color: #00eaff;
+        font-weight: bold;
+        margin-bottom: 1px;
+        letter-spacing: 0.04em;
+        text-shadow: 0 0 4px #00eaff77;
+      }
+      .reflexion-value {
+        font-size: 1.3rem;
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 0;
+        text-shadow: 0 0 3px #00eaff33;
       }
       .acciones-arrow {
         position: absolute;
@@ -257,6 +293,12 @@
         100% {
           text-shadow: 0 0 18px #00eaffcc, 0 0 8px #00eaff55;
         }
+      }
+
+      .acciones-card.justificacion ul,
+      .acciones-card.justificacion ul li {
+        font-size: 1.3rem;
+        line-height: 1.5;
       }
     </style>
   </head>
@@ -467,20 +509,17 @@
           `;
             // Tarjeta Reflexión
             html += `
-            <div class="acciones-card cian" style="grid-column:1;grid-row:2;">
-              <div class="acciones-label">Reflexión</div>
-              <div class="acciones-fecha">Para el día ${pantalla.fecha}</div>
-              <table class="acciones-table">
-                <tr><th>Facturación Objetivo</th><td>${formatEuros(
-                  pantalla.facturacion_objetivo
-                )}</td></tr>
-                <tr><th>Facturación Conseguida</th><td>${formatEuros(
-                  pantalla.facturacion_conseguida
-                )}</td></tr>
-                <tr><th>Habitaciones por Vender</th><td>${
-                  pantalla.habitaciones_por_vender
-                }</td></tr>
-              </table>
+            <div class="acciones-card cian" style="grid-column:1;grid-row:2; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 24px 18px 24px 22px;">
+              <div class="acciones-label" style="font-size:1.6rem; margin-bottom: 12px;">Reflexión</div>
+              <div class="acciones-fecha" style="font-size:1.1rem; margin-bottom: 16px;">Para el día ${pantalla.fecha}</div>
+              <div style="width:100%;">
+                <div style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Facturación Objetivo</div>
+                <div style="font-size:1.7rem; color:#fff; font-weight:bold; margin-bottom: 12px;">${formatEuros(pantalla.facturacion_objetivo)}</div>
+                <div style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Facturación Conseguida</div>
+                <div style="font-size:1.7rem; color:#fff; font-weight:bold; margin-bottom: 12px;">${formatEuros(pantalla.facturacion_conseguida)}</div>
+                <div style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Habitaciones por Vender</div>
+                <div style="font-size:1.7rem; color:#fff; font-weight:bold;">${pantalla.habitaciones_por_vender}</div>
+              </div>
             </div>
           `;
             // Tarjeta Justificación
