@@ -509,6 +509,49 @@
         color: #00eaff;
         margin-bottom: 0;
       }
+
+      .info-block {
+        background: linear-gradient(135deg, rgba(20,40,80,0.55) 60%, rgba(32,58,67,0.55) 100%) !important;
+        border: 2px solid #00eaff !important;
+        border-radius: 12px !important;
+        padding: 12px 18px;
+        margin-bottom: 10px;
+        min-width: 180px;
+        max-width: 100%;
+        margin-top: 8px;
+      }
+      .info-title {
+        color: #00eaff;
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 6px;
+        text-align: left;
+      }
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2px;
+      }
+      .info-label {
+        color: #e0f7fa;
+        font-size: 1.4rem;
+      }
+      .info-value {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+      @media (max-width: 900px) {
+        .info-block {
+          padding: 6px 8px;
+        }
+        .info-title {
+          font-size: 1.1rem;
+        }
+        .info-label, .info-value {
+          font-size: 0.9rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -593,35 +636,27 @@
           const data = await resp.json();
           document.getElementById("hotelName").textContent = data.hotel;
           document.getElementById("ocupacionFuturotel").innerHTML = `
-            <div style="text-align:left;">
-                <span style="font-weight:bold;color:#00eaff;font-size:1.8rem;">Futurotel:</span><br>
-                <span style="margin-left:20px;font-size:1.8rem;">Real: ${data.ocupacion.futurotel.toFixed(
-                  2
-                )}%</span> <span style="margin-left:20px;font-size:1.8rem;">Prevista: ${data.ocupacion.futurotel_prevista.toFixed(
-            2
-          )}%</span><br>
-                <span style="font-weight:bold;color:#00eaff;font-size:1.8rem;">Competencia:</span><br>
-                <span style="margin-left:20px;font-size:1.8rem;">Real: ${data.ocupacion.competencia.toFixed(
-                  2
-                )}%</span> <span style="margin-left:20px;font-size:1.8rem;">Prevista: ${data.ocupacion.competencia_prevista.toFixed(
-            2
-          )}%</span>
+            <div class="info-block">
+              <div class="info-title">Futurotel</div>
+              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.ocupacion.futurotel.toFixed(2)}%</span></div>
+              <div class="info-row"><span class="info-label">Prevista:</span><span class="info-value">${data.ocupacion.futurotel_prevista.toFixed(2)}%</span></div>
+            </div>
+            <div class="info-block">
+              <div class="info-title">Competencia</div>
+              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.ocupacion.competencia.toFixed(2)}%</span></div>
+              <div class="info-row"><span class="info-label">Prevista:</span><span class="info-value">${data.ocupacion.competencia_prevista.toFixed(2)}%</span></div>
             </div>`;
           document.getElementById("ocupacionCompetencia").textContent = "";
           document.getElementById("precioFuturotel").innerHTML = `
-            <div style="text-align:left;">
-                <span style="font-weight:bold;color:#00eaff;font-size:1.8rem;">Futurotel:</span><br>
-                <span style="margin-left:20px;font-size:1.8rem;">Real: ${data.precio_medio.futurotel.toFixed(
-                  2
-                )}€</span> <span style="margin-left:20px;font-size:1.8rem;">Previsto: ${data.precio_medio.futurotel_previsto.toFixed(
-            2
-          )}€</span><br>
-                <span style="font-weight:bold;color:#00eaff;font-size:1.8rem;">Competencia:</span><br>
-                <span style="margin-left:20px;font-size:1.8rem;">Real: ${data.precio_medio.competencia.toFixed(
-                  2
-                )}€</span> <span style="margin-left:20px;font-size:1.8rem;">Previsto: ${data.precio_medio.competencia_previsto.toFixed(
-            2
-          )}€</span>
+            <div class="info-block">
+              <div class="info-title">Futurotel</div>
+              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.precio_medio.futurotel.toFixed(2)}€</span></div>
+              <div class="info-row"><span class="info-label">Previsto:</span><span class="info-value">${data.precio_medio.futurotel_previsto.toFixed(2)}€</span></div>
+            </div>
+            <div class="info-block">
+              <div class="info-title">Competencia</div>
+              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.precio_medio.competencia.toFixed(2)}€</span></div>
+              <div class="info-row"><span class="info-label">Previsto:</span><span class="info-value">${data.precio_medio.competencia_previsto.toFixed(2)}€</span></div>
             </div>`;
           document.getElementById("precioCompetencia").textContent = "";
           document.getElementById("posicionBooking").textContent = "7/4422";
