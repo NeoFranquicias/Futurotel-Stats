@@ -534,7 +534,7 @@
           } else if (pantalla.tipo === "info") {
             const bloques = pantalla.contenido || [];
             const titulos = [
-              "Estrategia de Precio",
+              "Estrategia Actual",
               "Recomendación Principal",
               "Opción 1",
               "Opción 2",
@@ -588,7 +588,7 @@
                 }
                 html +=
                   `<div class='acciones-card cian' style='${gridStyles[i]}padding: 18px 20px 10px 20px; display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;'>` +
-                  `<div class='acciones-label' style='margin-bottom:12px;font-size:${Math.min(2.7, Math.max(1.7, 2.2))}rem;'>${titulo}</div>` +
+                  `<div class='acciones-label' style='margin-bottom:12px;font-size:1.5rem;'>${titulo}</div>` +
                   `<div style='font-size:1.2rem;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${contenidoHtml}</div>` +
                   `</div>`;
               }
@@ -693,8 +693,16 @@
       });
 
       async function updateDataAndRender() {
-        await Promise.all([fetchAcciones(), fetchJustificaciones()]);
-        if (!acciones.length) return;
+        let accionesPrevias = acciones;
+        let justificacionesPrevias = justificaciones;
+        try {
+          await Promise.all([fetchAcciones(), fetchJustificaciones()]);
+        } catch (e) {
+          // Si falla la carga, restaurar los datos previos
+          acciones = accionesPrevias;
+          justificaciones = justificacionesPrevias;
+        }
+        if (!acciones.length) return; // Si no hay datos, no borres nada
         totalPantallas = (acciones[0].pantallas || []).length || 1;
         // Si el valor es inválido, muestra la primera
         currentPantalla =
@@ -702,16 +710,10 @@
             ? pantallaInicial
             : 0;
         renderPantalla(currentPantalla);
-
-        // Eliminar el intervalo automático si existe
-        if (rotarInterval) {
-          clearInterval(rotarInterval);
-          rotarInterval = null;
-        }
       }
 
       // Refresca datos cada 60s
-      setInterval(updateDataAndRender, 60000);
+      //setInterval(updateDataAndRender, 60000);
       window.addEventListener("DOMContentLoaded", updateDataAndRender);
     </script>
   </body>
