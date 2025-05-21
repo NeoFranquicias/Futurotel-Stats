@@ -552,6 +552,93 @@
           font-size: 0.9rem;
         }
       }
+
+      .ocupacion-tarjetas, .ocupacion-card, .ocupacion-grid {
+        all: unset;
+      }
+      .ocupacion-simple {
+        display: flex;
+        flex-direction: row;
+        gap: 64px;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+      }
+      .ocupacion-simple > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+        min-width: 260px;
+      }
+      .ocupacion-title {
+        color: #00eaff;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 2px;
+        width: 100%;
+      }
+      .ocupacion-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+        width: 100%;
+      }
+      .ocupacion-label {
+        color: #e0f7fa;
+        font-size: 1.2rem;
+        margin-right: 6px;
+        font-weight: 500;
+      }
+      .ocupacion-value {
+        color: #fff;
+        font-size: 1.7rem;
+        font-weight: bold;
+        margin-right: 0;
+      }
+      @media (max-width: 900px) {
+        .ocupacion-simple {
+          flex-direction: column;
+          gap: 32px;
+          align-items: center;
+        }
+        .ocupacion-simple > div {
+          min-width: 0;
+          width: 100%;
+        }
+        .ocupacion-title {
+          font-size: 1.2rem;
+        }
+        .ocupacion-label {
+          font-size: 0.95rem;
+        }
+        .ocupacion-value {
+          font-size: 1.1rem;
+        }
+        .ocupacion-row {
+          gap: 18px;
+        }
+      }
+      @media (max-width: 600px) {
+        .ocupacion-title {
+          font-size: 0.95rem;
+        }
+        .ocupacion-label {
+          font-size: 0.8rem;
+        }
+        .ocupacion-value {
+          font-size: 0.95rem;
+        }
+        .ocupacion-row {
+          gap: 8px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -636,27 +723,47 @@
           const data = await resp.json();
           document.getElementById("hotelName").textContent = data.hotel;
           document.getElementById("ocupacionFuturotel").innerHTML = `
-            <div class="info-block">
-              <div class="info-title">Futurotel</div>
-              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.ocupacion.futurotel.toFixed(2)}%</span></div>
-              <div class="info-row"><span class="info-label">Prevista:</span><span class="info-value">${data.ocupacion.futurotel_prevista.toFixed(2)}%</span></div>
-            </div>
-            <div class="info-block">
-              <div class="info-title">Competencia</div>
-              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.ocupacion.competencia.toFixed(2)}%</span></div>
-              <div class="info-row"><span class="info-label">Prevista:</span><span class="info-value">${data.ocupacion.competencia_prevista.toFixed(2)}%</span></div>
+            <div class="ocupacion-simple">
+              <div>
+                <span class="ocupacion-title">Futurotel</span>
+                <div class="ocupacion-row">
+                  <span class="ocupacion-label">Real:</span>
+                  <span class="ocupacion-value">${data.ocupacion.futurotel.toFixed(2)}%</span>
+                  <span class="ocupacion-label">Prevista:</span>
+                  <span class="ocupacion-value">${data.ocupacion.futurotel_prevista.toFixed(2)}%</span>
+                </div>
+              </div>
+              <div>
+                <span class="ocupacion-title">Competencia</span>
+                <div class="ocupacion-row">
+                  <span class="ocupacion-label">Real:</span>
+                  <span class="ocupacion-value">${data.ocupacion.competencia.toFixed(2)}%</span>
+                  <span class="ocupacion-label">Prevista:</span>
+                  <span class="ocupacion-value">${data.ocupacion.competencia_prevista.toFixed(2)}%</span>
+                </div>
+              </div>
             </div>`;
           document.getElementById("ocupacionCompetencia").textContent = "";
           document.getElementById("precioFuturotel").innerHTML = `
-            <div class="info-block">
-              <div class="info-title">Futurotel</div>
-              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.precio_medio.futurotel.toFixed(2)}€</span></div>
-              <div class="info-row"><span class="info-label">Previsto:</span><span class="info-value">${data.precio_medio.futurotel_previsto.toFixed(2)}€</span></div>
-            </div>
-            <div class="info-block">
-              <div class="info-title">Competencia</div>
-              <div class="info-row"><span class="info-label">Real:</span><span class="info-value">${data.precio_medio.competencia.toFixed(2)}€</span></div>
-              <div class="info-row"><span class="info-label">Previsto:</span><span class="info-value">${data.precio_medio.competencia_previsto.toFixed(2)}€</span></div>
+            <div class="ocupacion-simple">
+              <div>
+                <span class="ocupacion-title">Futurotel</span>
+                <div class="ocupacion-row">
+                  <span class="ocupacion-label">Real:</span>
+                  <span class="ocupacion-value">${data.precio_medio.futurotel.toFixed(2)}€</span>
+                  <span class="ocupacion-label">Previsto:</span>
+                  <span class="ocupacion-value">${data.precio_medio.futurotel_previsto.toFixed(2)}€</span>
+                </div>
+              </div>
+              <div>
+                <span class="ocupacion-title">Competencia</span>
+                <div class="ocupacion-row">
+                  <span class="ocupacion-label">Real:</span>
+                  <span class="ocupacion-value">${data.precio_medio.competencia.toFixed(2)}€</span>
+                  <span class="ocupacion-label">Previsto:</span>
+                  <span class="ocupacion-value">${data.precio_medio.competencia_previsto.toFixed(2)}€</span>
+                </div>
+              </div>
             </div>`;
           document.getElementById("precioCompetencia").textContent = "";
           document.getElementById("posicionBooking").textContent = "7/4422";
