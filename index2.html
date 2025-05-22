@@ -1,164 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=1700, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1700, initial-scale=1.0" />
     <title>Hoteles Futurotel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <style>
-        html, body {
-            width: 100vw;
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            font-family: 'Orbitron', Arial, sans-serif;
-            background: #0f2027;
-        }
-        #particles-js {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 0;
-        }
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: "Orbitron", Arial, sans-serif;
+        background: #0f2027;
+      }
+      #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+      }
+      .main-content {
+        position: relative;
+        z-index: 1;
+        width: 1400px;
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        color: #00eaff;
+        font-size: 2.8rem;
+        margin-top: 20px;
+        margin-bottom: 24px;
+        letter-spacing: 0.08em;
+        text-shadow: 0 0 18px #00eaff99, 0 0 4px #00eaff;
+        text-align: center;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 24px;
+        width: 100%;
+        max-width: 1400px;
+        min-height: 700px;
+      }
+      .hotel-card {
+        background: rgba(10, 20, 40, 0.96);
+        border: 2px solid #00eaffcc;
+        border-radius: 18px;
+        box-shadow: 0 0 32px #00eaff33, 0 0 2px #00eaff;
+        padding: 28px 20px 24px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        min-width: 0;
+      }
+      .hotel-name {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #00eaff;
+        margin-bottom: 14px;
+        letter-spacing: 0.07em;
+        text-shadow: 0 0 8px #00eaff77;
+        text-align: center;
+        width: 100%;
+      }
+      .hotel-date {
+        color: #e0f7fa;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.25em;
+        justify-content: center;
+      }
+      .hotel-date i {
+        color: #00eaff;
+        font-size: 1.25em;
+      }
+      .hotel-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 14px;
+        width: 100%;
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1.5px solid #00eaff33;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-value {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #00eaff;
+        text-shadow: 0 0 10px #00eaff99;
+      }
+      .stat-label {
+        font-size: 1em;
+        color: #e0f7fa;
+        margin-top: 6px;
+      }
+      @media (max-width: 1500px) {
         .main-content {
-            position: relative;
-            z-index: 1;
-            width: 1400px;
-            min-height: 100vh;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            color: #00eaff;
-            font-size: 2.8rem;
-            margin-top: 20px;
-            margin-bottom: 24px;
-            letter-spacing: 0.08em;
-            text-shadow: 0 0 18px #00eaff99, 0 0 4px #00eaff;
-            text-align: center;
+          width: 95vw;
         }
         .grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 24px;
-            width: 100%;
-            max-width: 1400px;
-            min-height: 700px;
+          max-width: 95vw;
+        }
+      }
+      @media (max-width: 1200px) {
+        .grid {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(5, 1fr);
+          gap: 20px;
         }
         .hotel-card {
-            background: rgba(10, 20, 40, 0.96);
-            border: 2px solid #00eaffcc;
-            border-radius: 18px;
-            box-shadow: 0 0 32px #00eaff33, 0 0 2px #00eaff;
-            padding: 28px 20px 24px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: space-between;
-            min-width: 0;
+          padding: 24px 16px 20px 16px;
         }
-        .hotel-name {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #00eaff;
-            margin-bottom: 14px;
-            letter-spacing: 0.07em;
-            text-shadow: 0 0 8px #00eaff77;
-            text-align: center;
-            width: 100%;
+      }
+
+      /* Estilos para la animación de máquina de escribir */
+      .typewriter {
+        position: relative;
+        display: inline-block;
+      }
+
+      .typewriter::after {
+        content: "|";
+        position: absolute;
+        right: -8px;
+        color: #00eaff;
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
         }
-        .hotel-date {
-            color: #e0f7fa;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.25em;
-            justify-content: center;
+        50% {
+          opacity: 0;
         }
-        .hotel-date i {
-            color: #00eaff;
-            font-size: 1.25em;
-        }
-        .hotel-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-            gap: 14px;
-            width: 100%;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1.5px solid #00eaff33;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #00eaff;
-            text-shadow: 0 0 10px #00eaff99;
-        }
-        .stat-label {
-            font-size: 1em;
-            color: #e0f7fa;
-            margin-top: 6px;
-        }
-        @media (max-width: 1500px) {
-            .main-content { width: 95vw; }
-            .grid { max-width: 95vw; }
-        }
-        @media (max-width: 1200px) {
-            .grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                grid-template-rows: repeat(5, 1fr);
-                gap: 20px;
-            }
-            .hotel-card {
-                padding: 24px 16px 20px 16px;
-            }
-        }
+      }
+
+      /* Estilos para la animación de fade */
+      body {
+        transition: opacity 0.5s ease;
+      }
+
+      body.fade-out {
+        opacity: 0;
+      }
+
+      /* Estilos para la animación de carga progresiva */
+      .content-reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .content-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="particles-js"></div>
     <div class="main-content">
-        <h1>Hoteles Futurotel</h1>
-        <div class="grid" id="hotelsGrid">
-            <!-- Las tarjetas de hoteles se cargarán aquí -->
-        </div>
+      <h1>Hoteles Futurotel</h1>
+      <div class="grid" id="hotelsGrid">
+        <!-- Las tarjetas de hoteles se cargarán aquí -->
+      </div>
     </div>
     <script src="particles-bg.js"></script>
     <script>
-       
+      // Función para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 30) {
+        if (!element) return;
 
-        // Cargar hoteles desde hoteles_map.json
-        async function loadHotels() {
-            try {
-                const response = await fetch('hoteles_map.json');
-                const hotels = await response.json();
-                const grid = document.getElementById('hotelsGrid');
-                grid.innerHTML = '';
-                // Mostrar hasta 10 hoteles (2x5)
-                hotels.slice(0, 10).forEach(hotel => {
-                    const card = document.createElement('div');
-                    card.className = 'hotel-card';
-                    // Asignar ocupación específica según el hotel
-                    let ocupacion;
-                    if (hotel.nombre.toLowerCase().includes('parquemar') || 
-                        hotel.nombre.toLowerCase().includes('torre hogar') || 
-                        hotel.nombre.toLowerCase().includes('apartahotel')) {
-                        ocupacion = 100;
-                    } else {
-                        // Para el resto, mínimo 90%
-                        ocupacion = Math.floor(Math.random() * (100 - 90 + 1)) + 90;
-                    }
-                    const precio = hotel.precio ?? (Math.floor(Math.random() * (150 - 80 + 1)) + 80);
-                    card.innerHTML = `
+        const text = element.textContent;
+        element.textContent = "";
+        element.classList.add("typewriter");
+
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+
+        // Eliminar el cursor parpadeante después de terminar
+        element.classList.remove("typewriter");
+      }
+
+      // Cargar hoteles desde hoteles_map.json
+      async function loadHotels() {
+        try {
+          const response = await fetch("hoteles_map.json");
+          const hotels = await response.json();
+          const grid = document.getElementById("hotelsGrid");
+          grid.innerHTML = "";
+          // Mostrar hasta 10 hoteles (2x5)
+          hotels.slice(0, 10).forEach((hotel) => {
+            const card = document.createElement("div");
+            card.className = "hotel-card";
+            // Asignar ocupación específica según el hotel
+            let ocupacion;
+            if (
+              hotel.nombre.toLowerCase().includes("parquemar") ||
+              hotel.nombre.toLowerCase().includes("torre hogar") ||
+              hotel.nombre.toLowerCase().includes("apartahotel")
+            ) {
+              ocupacion = 100;
+            } else {
+              // Para el resto, mínimo 90%
+              ocupacion = Math.floor(Math.random() * (100 - 90 + 1)) + 90;
+            }
+            const precio =
+              hotel.precio ?? Math.floor(Math.random() * (150 - 80 + 1)) + 80;
+            card.innerHTML = `
                         <div class="hotel-name">${hotel.nombre}</div>
                         <div class="hotel-stats">
                             <div class="stat">
@@ -172,10 +249,15 @@
                             <div class="stat">
                                 <div class="stat-value"><i class="fas fa-calendar"></i></div>
                                 <div class="stat-label">${(() => {
-                                    const date = new Date();
-                                    //const day = date.getDate();
-                                    const month = date.toLocaleString('es-ES', { month: 'long' });
-                                    return `${month.charAt(0).toUpperCase() + month.slice(1)}`;
+                                  const date = new Date();
+                                  //const day = date.getDate();
+                                  const month = date.toLocaleString("es-ES", {
+                                    month: "long",
+                                  });
+                                  return ` ${
+                                    month.charAt(0).toUpperCase() +
+                                    month.slice(1)
+                                  }`;
                                 })()}</div>
                             </div>
                             <div class="stat">
@@ -184,20 +266,73 @@
                             </div>
                         </div>
                     `;
-                    grid.appendChild(card);
-                });
-                // Si hay menos de 10 hoteles, rellenar con tarjetas vacías
-                for(let i=hotels.length; i<10; i++) {
-                    const card = document.createElement('div');
-                    card.className = 'hotel-card';
-                    card.innerHTML = `<div style="flex:1"></div>`;
-                    grid.appendChild(card);
-                }
-            } catch (error) {
-                document.getElementById('hotelsGrid').innerHTML = '<div style="color:#fff;font-size:2em;text-align:center;width:100%">No se pudo cargar hoteles</div>';
-            }
+            grid.appendChild(card);
+          });
+          // Si hay menos de 10 hoteles, rellenar con tarjetas vacías
+          for (let i = hotels.length; i < 10; i++) {
+            const card = document.createElement("div");
+            card.className = "hotel-card";
+            card.innerHTML = `<div style="flex:1"></div>`;
+            grid.appendChild(card);
+          }
+        } catch (error) {
+          document.getElementById("hotelsGrid").innerHTML =
+            '<div style="color:#fff;font-size:2em;text-align:center;width:100%">No se pudo cargar hoteles</div>';
         }
-        document.addEventListener('DOMContentLoaded', loadHotels);
+      }
+
+      // Función para animar elementos secuencialmente
+      async function animateElementsSequentially(elements, delay = 100) {
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Añadir clase de inicio de animación
+          element.classList.add("content-reveal");
+        }
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Quitar clase de inicio y añadir visible para activar transición
+          element.classList.add("visible");
+          // Si es un título, aplicar efecto de máquina de escribir
+          if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
+            await typeWriter(element);
+          }
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Animar el título principal
+        const title = document.querySelector("h1");
+        if (title) {
+          await typeWriter(title);
+        }
+
+        // Cargar hoteles
+        await loadHotels();
+
+        // Animar las tarjetas de hoteles
+        const cards = document.querySelectorAll(".hotel-card");
+        await animateElementsSequentially(cards, 150);
+      });
+
+      // Añadir listener para la tecla "," que redirige a display2.html
+      document.addEventListener("keydown", function (event) {
+        if (event.key === ",") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "display2.html";
+          }, 500);
+        } else if (event.key === ".") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+        }
+      });
     </script>
-</body>
-</html> 
+  </body>
+</html>
