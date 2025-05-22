@@ -250,11 +250,11 @@
                                 <div class="stat-value"><i class="fas fa-calendar"></i></div>
                                 <div class="stat-label">${(() => {
                                   const date = new Date();
-                                  const day = date.getDate();
+                                  //const day = date.getDate();
                                   const month = date.toLocaleString("es-ES", {
                                     month: "long",
                                   });
-                                  return `${day} ${
+                                  return ` ${
                                     month.charAt(0).toUpperCase() +
                                     month.slice(1)
                                   }`;
