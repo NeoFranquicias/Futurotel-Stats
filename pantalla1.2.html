@@ -35,7 +35,7 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        margin-top: 0;
+        margin: 0 auto;
         padding-top: 0;
         padding-bottom: 0;
         padding-left: 0;
@@ -134,13 +134,12 @@
 
       .booking-position,
       .warning-card {
-        min-height: 180px;
-        height: 180px;
+        min-height: 220px;
+        height: 220px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        
       }
 
       .booking-position {
@@ -149,8 +148,8 @@
         border-radius: 12px;
         text-align: center;
         color: #fff;
-        min-height: 120px;
-        height: 120px;
+        min-height: 160px;
+        height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -186,7 +185,7 @@
 
       .comparison-title {
         color: #00eaff;
-        font-size: 2rem;
+        font-size: 2.2rem;
         margin-bottom: 12px;
         margin-top: 0;
         text-align: center;
@@ -197,7 +196,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 2rem;
+        font-size: 2.2rem;
         color: #fff;
         gap: 20px;
       }
@@ -205,14 +204,14 @@
       .value-number {
         font-weight: bold;
         text-shadow: 0 0 10px #00eaff99;
-        font-size: 3.6rem;
+        font-size: 3.8rem;
         display: flex;
         justify-content: center;
         align-items: center;
       }
 
       .booking-position .value-number {
-        font-size: 2.4rem;
+        font-size: 2.6rem;
       }
 
       .warning-card {
@@ -221,17 +220,17 @@
         border-radius: 12px;
         text-align: center;
         color: #fff;
-        min-height: 120px;
-        height: 120px;
+        min-height: 160px;
+        height: 160px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        font-size: 1.9rem;
+        font-size: 2.1rem;
       }
 
       .warning-title {
         color: #00eaff;
-        font-size: 1.6rem;
+        font-size: 1.8rem;
         margin-bottom: 36px;
         text-align: center;
         letter-spacing: 0.07em;
@@ -239,7 +238,7 @@
 
       .warning-message {
         color: #ff6b6b;
-        font-size: 2rem;
+        font-size: 2.2rem;
         white-space: nowrap;
       }
 
@@ -573,6 +572,7 @@
         flex-wrap: wrap;
         margin-bottom: 0;
         min-width: 260px;
+        width: 100%;
       }
       .ocupacion-title {
         color: #fff;
@@ -591,9 +591,10 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 40px;
         width: 100%;
+        padding-left: 0;
       }
       .ocupacion-label {
         color: #e0f7fa;
@@ -601,12 +602,16 @@
         margin-right: 6px;
         font-weight: 500;
         text-shadow: none;
+        min-width: 80px;
+        text-align: right;
       }
       .ocupacion-value {
         color: #fff;
         font-size: 1.9rem;
         font-weight: bold;
         margin-right: 0;
+        min-width: 80px;
+        text-align: left;
       }
       @media (max-width: 900px) {
         .ocupacion-simple {
@@ -646,6 +651,15 @@
         }
       }
       .ocupacion-simple > div:first-child .ocupacion-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 40px;
+        width: 100%;
+        padding-left: 20px;
+      }
+      .ocupacion-simple > div:last-child .ocupacion-row {
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -812,4 +826,3 @@
     </script>
   </body>
 </html>
-000.0.0202232
