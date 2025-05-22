@@ -35,7 +35,7 @@
         position: relative;
         z-index: 1;
         width: 1400px;
-        min-height: 100vh;
+        height: 1090px;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
@@ -44,8 +44,8 @@
       h1 {
         color: #00eaff;
         font-size: 2.8rem;
-        margin-top: 20px;
-        margin-bottom: 24px;
+        margin-top: 16px;
+        margin-bottom: 20px;
         letter-spacing: 0.08em;
         text-shadow: 0 0 18px #00eaff99, 0 0 4px #00eaff;
         text-align: center;
@@ -57,30 +57,36 @@
         gap: 24px;
         width: 100%;
         max-width: 1400px;
-        min-height: 700px;
+        
       }
       .hotel-card {
         background: rgba(10, 20, 40, 0.96);
         border: 2px solid #00eaffcc;
         border-radius: 18px;
         box-shadow: 0 0 32px #00eaff33, 0 0 2px #00eaff;
-        padding: 18px 20px 14px 20px;
+        padding: 24px 20px 20px 20px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: space-between;
         min-width: 0;
-        min-height: 120px;
+        max-height: 320px
       }
       .hotel-name {
         font-size: 1.5em;
         font-weight: bold;
         color: #00eaff;
-        margin-bottom: 14px;
+        margin-bottom: 8px;
         letter-spacing: 0.07em;
         text-shadow: 0 0 8px #00eaff77;
         text-align: center;
         width: 100%;
+        max-height: 110px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-height: 1.4;
       }
       .hotel-date {
         color: #e0f7fa;
