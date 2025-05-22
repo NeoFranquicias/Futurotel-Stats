@@ -70,6 +70,7 @@
         align-items: flex-start;
         justify-content: space-between;
         min-width: 0;
+        min-height: 120px;
       }
       .hotel-name {
         font-size: 1.5em;
@@ -187,6 +188,7 @@
     <div id="particles-js"></div>
     <div class="main-content">
       <h1>Hoteles Futurotel</h1>
+      <div style="color:#fff;text-align:center;font-size:1.8rem;margin-bottom:18px;">Dashboard Mensual</div>
       <div class="grid" id="hotelsGrid">
         <!-- Las tarjetas de hoteles se cargarán aquí -->
       </div>
@@ -223,15 +225,15 @@
             card.className = "hotel-card";
             // Asignar ocupación específica según el hotel
             let ocupacion;
+            const nombre = hotel.nombre.toLowerCase();
             if (
-              hotel.nombre.toLowerCase().includes("parquemar") ||
-              hotel.nombre.toLowerCase().includes("torre hogar") ||
-              hotel.nombre.toLowerCase().includes("apartahotel")
+              nombre.includes("carrio sol") ||
+              nombre.includes("parquemar") ||
+              nombre.includes("torre hogar")
             ) {
               ocupacion = 100;
             } else {
-              // Para el resto, mínimo 90%
-              ocupacion = Math.floor(Math.random() * (100 - 90 + 1)) + 90;
+              ocupacion = Math.floor(Math.random() * 10) + 90; // 90-99
             }
             const precio =
               hotel.precio ?? Math.floor(Math.random() * (150 - 80 + 1)) + 80;
