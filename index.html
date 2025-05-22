@@ -71,29 +71,31 @@
             text-align: center;
             width: 100%;
         }
-        .hotel-city {
+        .hotel-date {
             color: #e0f7fa;
             margin-bottom: 24px;
             display: flex;
             align-items: center;
             gap: 12px;
             font-size: 1.25em;
+            justify-content: center;
         }
-        .hotel-city i {
+        .hotel-date i {
             color: #00eaff;
             font-size: 1.25em;
         }
         .hotel-stats {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 18px;
             width: 100%;
-            justify-content: space-between;
             margin-top: 18px;
             padding-top: 18px;
             border-top: 1.5px solid #00eaff33;
         }
         .stat {
             text-align: center;
-            flex: 1;
         }
         .stat-value {
             font-size: 2.1em;
@@ -143,7 +145,6 @@
                     const precio = hotel.precio ?? (Math.floor(Math.random() * (150 - 80 + 1)) + 80);
                     card.innerHTML = `
                         <div class="hotel-name">${hotel.nombre}</div>
-                        <div class="hotel-city"><i class="fas fa-map-marker-alt"></i>${hotel.ciudad}</div>
                         <div class="hotel-stats">
                             <div class="stat">
                                 <div class="stat-value">${ocupacion}%</div>
@@ -152,6 +153,19 @@
                             <div class="stat">
                                 <div class="stat-value">${precio}€</div>
                                 <div class="stat-label">Precio Medio</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value"><i class="fas fa-calendar"></i></div>
+                                <div class="stat-label">${(() => {
+                                    const date = new Date();
+                                    const day = date.getDate();
+                                    const month = date.toLocaleString('es-ES', { month: 'long' });
+                                    return `${day} ${month.charAt(0).toUpperCase() + month.slice(1)}`;
+                                })()}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value"><i class="fas fa-map-marker-alt"></i></div>
+                                <div class="stat-label">${hotel.ciudad}</div>
                             </div>
                         </div>
                     `;
