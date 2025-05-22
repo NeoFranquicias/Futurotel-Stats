@@ -129,13 +129,13 @@
       width: 98%;
       height: auto;
       border: 1px solid rgba(0, 234, 255, 0.2);
-      font-size: 2.4rem;
+      font-size: 2.8rem;
     }
     .event-item {
       display: flex;
       align-items: center;
       margin: 5px 15px;
-      font-size: 1.8rem;
+      font-size: 2.2rem;
       padding: 8px 20px;
       border-radius: 8px;
       background: rgba(0, 0, 0, 0.3);
@@ -246,12 +246,6 @@
                 borderColor: "#4ECDC4",
               },
               {
-                nombre: "Festival Oh See",
-                fechaInicio: 23,
-                fechaFin: 24,
-                borderColor: "#e67e22",
-              },
-              {
                 nombre: "Myke Towers",
                 fechaInicio: 24,
                 fechaFin: 25,
@@ -314,7 +308,7 @@
             // Crear leyenda de eventos personalizada
             const legendContainer = document.getElementById("eventLegend");
             legendContainer.innerHTML =
-              "<div style='width:100%; text-align:center; margin-bottom:12px; color:#00eaff; font-weight:bold; font-size:2.3rem; text-shadow: 0 0 10px rgba(0,234,255,0.5);'>Eventos de Mayo</div>";
+              "<div style='width:100%; text-align:center; margin-bottom:12px; color:#00eaff; font-weight:bold; font-size:2.7rem; text-shadow: 0 0 10px rgba(0,234,255,0.5);'>Eventos de Mayo</div>";
 
             const grid = document.createElement("div");
             grid.style.display = "flex";
@@ -416,10 +410,6 @@
                       if (dia === 24) return 83;
                       if (dia === 25) return 94;
                     }
-                    if (evento.nombre === "Festival Oh See") {
-                      if (dia === 23) return 63;
-                      if (dia === 24) return 82;
-                    }
                     if (evento.nombre === "Alameda Festival") {
                       if (dia === 22) return 61;
                       if (dia === 23) return 63;
@@ -495,12 +485,12 @@
                     backgroundColor: "rgba(18, 35, 46, 0.95)",
                     titleFont: {
                       family: "Orbitron",
-                      size: 26,
+                      size: 32,
                       weight: "bold",
                     },
                     bodyFont: {
                       family: "Orbitron",
-                      size: 24,
+                      size: 30,
                       weight: "500",
                     },
                     padding: 18,
@@ -544,7 +534,7 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
-                        size: 26,
+                        size: 32,
                         weight: "bold",
                       },
                       callback: function (value) {
@@ -563,7 +553,7 @@
                       color: "#e0f7fa",
                       font: {
                         family: "Orbitron",
-                        size: 24,
+                        size: 30,
                         weight: "bold",
                       },
                       padding: 10,
