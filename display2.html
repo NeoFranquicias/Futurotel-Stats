@@ -413,6 +413,17 @@ ca<!DOCTYPE html>
           return;
         }
 
+        // Verificar si es la tecla "-" para mostrar index2.html en pantalla completa
+        if (key === "-") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "index2.html";
+          }, 500);
+          return;
+        }
+
         // Verificar si es una tecla de selección directa (1-4)
         if (directScreenMap[key]) {
           const frame = document.querySelectorAll(".display-frame iframe")[0];

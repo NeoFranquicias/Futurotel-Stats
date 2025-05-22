@@ -279,6 +279,13 @@
           setTimeout(() => {
             window.location.href = "display2.html";
           }, 500);
+        } else if (event.key === "-") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "index2.html";
+          }, 500);
         }
       });
     </script>
