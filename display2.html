@@ -19,6 +19,15 @@ ca<!DOCTYPE html>
         opacity: 1;
       }
 
+      /* Estilos para la transición de fade out */
+      body {
+        transition: opacity 0.5s ease;
+      }
+
+      body.fade-out {
+        opacity: 0;
+      }
+
       html,
       body {
         margin: 0;
@@ -130,11 +139,6 @@ ca<!DOCTYPE html>
         background: transparent;
         z-index: 1000;
         cursor: default;
-      }
-
-      /* Clase para la animación de fade */
-      .fade-out {
-        opacity: 0;
       }
 
       /* Estilos para la animación de carga progresiva */
@@ -397,6 +401,17 @@ ca<!DOCTYPE html>
       // Manejar las transiciones con las teclas numéricas
       document.addEventListener("keydown", function (event) {
         const key = event.key.toLowerCase();
+
+        // Verificar si es la tecla "." para mostrar index.html en pantalla completa
+        if (key === ".") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+          return;
+        }
 
         // Verificar si es una tecla de selección directa (1-4)
         if (directScreenMap[key]) {
