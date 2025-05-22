@@ -140,8 +140,16 @@
                 hotels.slice(0, 10).forEach(hotel => {
                     const card = document.createElement('div');
                     card.className = 'hotel-card';
-                    // Generar datos de ejemplo si faltan
-                    const ocupacion = hotel.ocupacion ?? (Math.floor(Math.random() * (95 - 70 + 1)) + 70);
+                    // Asignar ocupación específica según el hotel
+                    let ocupacion;
+                    if (hotel.nombre.toLowerCase().includes('parquemar') || 
+                        hotel.nombre.toLowerCase().includes('torre hogar') || 
+                        hotel.nombre.toLowerCase().includes('apartahotel')) {
+                        ocupacion = 100;
+                    } else {
+                        // Para el resto, mínimo 90%
+                        ocupacion = Math.floor(Math.random() * (100 - 90 + 1)) + 90;
+                    }
                     const precio = hotel.precio ?? (Math.floor(Math.random() * (150 - 80 + 1)) + 80);
                     card.innerHTML = `
                         <div class="hotel-name">${hotel.nombre}</div>
