@@ -145,6 +145,12 @@
         transition: background-color 0.3s ease;
       }
 
+      td:not(:first-child) {
+        color: #ffffff;
+        font-weight: bold;
+        font-size: calc(clamp(1.4rem, 1.8vw, 1.6rem) + 0.2rem);
+      }
+
       tr:hover td {
         background: rgba(0, 234, 255, 0.05);
       }
