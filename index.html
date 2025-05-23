@@ -35,7 +35,7 @@
         position: relative;
         z-index: 1;
         width: 1400px;
-        min-height: 100vh;
+        min-height: 690px;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
@@ -57,18 +57,18 @@
         gap: 24px;
         width: 100%;
         max-width: 1400px;
-        min-height: 700px;
+        min-height: 690px;
       }
       .hotel-card {
         background: rgba(10, 20, 40, 0.96);
         border: 2px solid #00eaffcc;
         border-radius: 18px;
         box-shadow: 0 0 32px #00eaff33, 0 0 2px #00eaff;
-        padding: 18px 20px 14px 20px;
+        padding: 12px 16px 10px 16px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        justify-content: space-between;
+        justify-content: flex-start;
         min-width: 0;
         min-height: 120px;
       }
@@ -76,7 +76,7 @@
         font-size: 1.5em;
         font-weight: bold;
         color: #00eaff;
-        margin-bottom: 14px;
+        margin-bottom: 20px;
         letter-spacing: 0.07em;
         text-shadow: 0 0 8px #00eaff77;
         text-align: center;
@@ -84,7 +84,7 @@
       }
       .hotel-date {
         color: #e0f7fa;
-        margin-bottom: 24px;
+        margin-bottom: 12px;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -99,25 +99,25 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);
-        gap: 14px;
+        gap: 10px;
         width: 100%;
-        margin-top: 14px;
-        padding-top: 14px;
+        margin-top: 12px;
+        padding-top: 12px;
         border-top: 1.5px solid #00eaff33;
       }
       .stat {
         text-align: center;
       }
       .stat-value {
-        font-size: 1.8em;
+        font-size: 1.6em;
         font-weight: bold;
         color: #00eaff;
         text-shadow: 0 0 10px #00eaff99;
       }
       .stat-label {
-        font-size: 1em;
+        font-size: 0.9em;
         color: #e0f7fa;
-        margin-top: 6px;
+        margin-top: 4px;
       }
       @media (max-width: 1500px) {
         .main-content {
@@ -281,7 +281,7 @@
           setTimeout(() => {
             window.location.href = "display2.html";
           }, 500);
-        } else if (event.key === "-") {
+        } else if (event.key === "m") {
           // Añadir clase para fade out a todo el body
           document.body.classList.add("fade-out");
           // Esperar a que termine la animación antes de cambiar la página
