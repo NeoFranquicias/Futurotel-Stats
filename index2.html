@@ -341,6 +341,13 @@
           setTimeout(() => {
             window.location.href = "index.html";
           }, 500);
+        } else if (event.key === "v") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "no-micro.html";
+          }, 500);
         }
       });
     </script>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1700, initial-scale=1.0" />
+    <title>Voz No Reconocida - Futurotel</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        font-family: "Orbitron", Arial, sans-serif;
+        background: #0f2027;
+        transition: opacity 0.5s ease;
+      }
+      body.fade-out {
+        opacity: 0;
+      }
+      #particles-js {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+      }
+      .main-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .alert-container {
+        background: rgba(10, 20, 40, 0.96);
+        border: 2px solid #00eaff;
+        border-radius: 18px;
+        box-shadow: 0 0 32px #00eaff33, 0 0 2px #00eaff;
+        padding: 40px;
+        text-align: center;
+        max-width: 600px;
+        margin: 20px;
+      }
+      h1 {
+        color: #00eaff;
+        font-size: 2.8rem;
+        margin-bottom: 20px;
+        letter-spacing: 0.08em;
+        text-shadow: 0 0 18px #00eaff99, 0 0 4px #00eaff;
+      }
+      .alert-icon {
+        font-size: 5rem;
+        color: #00eaff;
+        margin-bottom: 20px;
+        animation: gentle-pulse 3s infinite;
+      }
+      .alert-message {
+        color: #e0f7fa;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+      .alert-details {
+        color: #e0f7fa;
+        font-size: 1.2rem;
+      }
+      @keyframes gentle-pulse {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+    <div class="main-content">
+      <div class="alert-container">
+        <i class="fas fa-volume-mute alert-icon"></i>
+        <h1>Voz No Reconocida</h1>
+        <div class="alert-message">
+          No se ha podido reconocer su voz correctamente.
+        </div>
+        <div class="alert-details">
+          Por favor, intente hablar más claro o acercarse al micrófono.
+        </div>
+      </div>
+    </div>
+    <script src="particles-bg.js"></script>
+    <script>
+      // Mapeo de teclas a URLs
+      const keyMap = {
+        '.': 'index.html',
+        'm': 'index2.html',
+        '1': 'pantalla1.html',
+        '2': 'pantalla1.2.html',
+        '3': 'formula-precios-optimos.html',
+        '4': 'tablas.html',
+        'q': 'pantalla2.html',
+        'w': 'pantalla2.2.html',
+        'a': 'pantalla3.html',
+        's': 'pantalla3.2.html',
+        'z': 'acciones-recomendadas.html'
+      };
+
+      // Manejar las transiciones con las teclas
+      document.addEventListener('keydown', function(event) {
+        const key = event.key.toLowerCase();
+        
+        if (keyMap[key]) {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add('fade-out');
+          
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = keyMap[key];
+          }, 500);
+        }
+      });
+    </script>
+  </body>
+</html>

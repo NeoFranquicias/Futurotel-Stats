@@ -406,6 +406,17 @@ ca<!DOCTYPE html>
       document.addEventListener("keydown", function (event) {
         const key = event.key.toLowerCase();
 
+        // Verificar si es la tecla "v" para mostrar no-micro.html en pantalla completa
+        if (key === "v") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "no-micro.html";
+          }, 500);
+          return;
+        }
+
         // Verificar si es la tecla "." para mostrar index.html en pantalla completa
         if (key === ".") {
           // Añadir clase para fade out a todo el body
