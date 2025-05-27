@@ -106,7 +106,6 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 6px;
         margin-bottom: 4px;
-       
       }
 
       .comparison-card,
@@ -121,14 +120,13 @@
         ) !important;
         border: 2px solid #00eaff !important;
         border-radius: 12px !important;
-        
+
         width: 100%;
       }
 
       .comparison-card,
       .booking-position,
       .warning-card {
-       
         min-width: 0;
       }
 
@@ -159,7 +157,7 @@
       .booking-position .comparison-title {
         color: #00eaff;
         font-size: 1.6rem;
-       
+
         text-align: center;
         letter-spacing: 0.07em;
       }
@@ -176,7 +174,7 @@
         box-shadow: 0 0 10px #00eaff22;
         transition: all 0.3s ease;
         animation: kpi-pop 1.1s;
-       
+
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -261,7 +259,6 @@
         gap: 12px;
         justify-content: center;
         flex-wrap: wrap;
-        
       }
       .proposal-card-mini {
         background: linear-gradient(
@@ -271,7 +268,7 @@
         ) !important;
         border: 2px solid #00eaff !important;
         border-radius: 12px !important;
-        
+
         min-width: 140px;
         display: flex;
         flex-direction: column;
@@ -329,7 +326,7 @@
         white-space: normal;
         word-break: break-word;
       }
-     
+
       .proposal-card-mini {
         min-height: 75px;
       }
@@ -345,7 +342,6 @@
           min-height: 100vh;
         }
         .dashboard-section {
-         
           height: 100vh;
           max-height: 100vh;
         }
@@ -364,7 +360,6 @@
           width: 100%;
           min-height: 30px;
           font-size: 0.7rem;
-          
         }
         .proposal-section {
           padding: 0;
@@ -372,7 +367,6 @@
         .proposal-card-mini {
           min-width: 30px;
           font-size: 0.6rem;
-          
         }
         .proposal-title,
         .hotel-name,
@@ -387,7 +381,6 @@
         }
         .algoritmo-cuadro {
           font-size: 0.7rem;
-          
         }
         .algoritmo-cuadro .alg-titulo {
           font-size: 0.8rem;
@@ -395,7 +388,6 @@
         .algoritmo-cuadro .alg-formula {
           font-size: 0.7rem;
           min-height: 12px;
-          
         }
       }
 
@@ -410,7 +402,6 @@
           min-height: 100vh;
         }
         .dashboard-section {
-          
           height: 100vh;
           max-height: 100vh;
         }
@@ -421,12 +412,10 @@
           width: 100%;
           min-height: 20px;
           font-size: 0.6rem;
-          
         }
         .proposal-card-mini {
           min-width: 20px;
           font-size: 0.5rem;
-          
         }
         .proposal-title,
         .hotel-name,
@@ -441,7 +430,6 @@
         }
         .algoritmo-cuadro {
           font-size: 0.6rem;
-          
         }
         .algoritmo-cuadro .alg-titulo {
           font-size: 0.65rem;
@@ -449,7 +437,6 @@
         .algoritmo-cuadro .alg-formula {
           font-size: 0.6rem;
           min-height: 8px;
-          
         }
       }
 
@@ -461,7 +448,7 @@
         ) !important;
         border: 2.5px solid #00eaff !important;
         border-radius: 14px !important;
-       
+
         margin: 0 auto 8px auto;
         width: 100%;
         max-width: 100%;
@@ -510,10 +497,14 @@
       }
 
       .info-block {
-        background: linear-gradient(135deg, rgba(20,40,80,0.55) 60%, rgba(32,58,67,0.55) 100%) !important;
+        background: linear-gradient(
+          135deg,
+          rgba(20, 40, 80, 0.55) 60%,
+          rgba(32, 58, 67, 0.55) 100%
+        ) !important;
         border: 2px solid #00eaff !important;
         border-radius: 12px !important;
-        
+
         margin-bottom: 10px;
         min-width: 180px;
         max-width: 100%;
@@ -542,17 +533,19 @@
       }
       @media (max-width: 900px) {
         .info-block {
-          
         }
         .info-title {
           font-size: 1.1rem;
         }
-        .info-label, .info-value {
+        .info-label,
+        .info-value {
           font-size: 0.9rem;
         }
       }
 
-      .ocupacion-tarjetas, .ocupacion-card, .ocupacion-grid {
+      .ocupacion-tarjetas,
+      .ocupacion-card,
+      .ocupacion-grid {
         all: unset;
       }
       .ocupacion-simple {
@@ -681,7 +674,7 @@
         <div class="comparison-grid">
           <div class="comparison-card">
             <div class="comparison-title">Ocupación</div>
-            <br>
+            <br />
             <div class="comparison-values">
               <div class="value">
                 <div class="value-label"></div>
@@ -695,7 +688,7 @@
           </div>
           <div class="comparison-card">
             <div class="comparison-title">Precio Medio</div>
-            <br>
+            <br />
             <div class="comparison-values">
               <div class="value">
                 <div class="value-label"></div>
@@ -709,7 +702,7 @@
           </div>
           <div class="booking-position">
             <div class="comparison-title">Posicionamiento en Booking.com</div>
-            <br>
+            <br />
             <div class="value-number" id="posicionBooking"></div>
           </div>
           <div class="warning-card">
@@ -760,18 +753,26 @@
                 <span class="ocupacion-title">Futurotel</span>
                 <div class="ocupacion-row">
                   <span class="ocupacion-label">Real:</span>
-                  <span class="ocupacion-value">${data.ocupacion.futurotel.toFixed(2)}%</span>
+                  <span class="ocupacion-value">${data.ocupacion.futurotel.toFixed(
+                    2
+                  )}%</span>
                   <span class="ocupacion-label">Prevista:</span>
-                  <span class="ocupacion-value">${data.ocupacion.futurotel_prevista.toFixed(2)}%</span>
+                  <span class="ocupacion-value">${data.ocupacion.futurotel_prevista.toFixed(
+                    2
+                  )}%</span>
                 </div>
               </div>
               <div>
                 <span class="ocupacion-title">Competencia</span>
                 <div class="ocupacion-row">
                   <span class="ocupacion-label">Real:</span>
-                  <span class="ocupacion-value">${data.ocupacion.competencia.toFixed(2)}%</span>
+                  <span class="ocupacion-value">${data.ocupacion.competencia.toFixed(
+                    2
+                  )}%</span>
                   <span class="ocupacion-label">Prevista:</span>
-                  <span class="ocupacion-value">${data.ocupacion.competencia_prevista.toFixed(2)}%</span>
+                  <span class="ocupacion-value">${data.ocupacion.competencia_prevista.toFixed(
+                    2
+                  )}%</span>
                 </div>
               </div>
             </div>`;
@@ -782,18 +783,26 @@
                 <span class="ocupacion-title">Futurotel</span>
                 <div class="ocupacion-row">
                   <span class="ocupacion-label">Real:</span>
-                  <span class="ocupacion-value">${data.precio_medio.futurotel.toFixed(2)}€</span>
+                  <span class="ocupacion-value">${data.precio_medio.futurotel.toFixed(
+                    2
+                  )}€</span>
                   <span class="ocupacion-label">Previsto:</span>
-                  <span class="ocupacion-value">${data.precio_medio.futurotel_previsto.toFixed(2)}€</span>
+                  <span class="ocupacion-value">${data.precio_medio.futurotel_previsto.toFixed(
+                    2
+                  )}€</span>
                 </div>
               </div>
               <div>
                 <span class="ocupacion-title">Competencia</span>
                 <div class="ocupacion-row">
                   <span class="ocupacion-label">Real:</span>
-                  <span class="ocupacion-value">${data.precio_medio.competencia.toFixed(2)}€</span>
+                  <span class="ocupacion-value">${data.precio_medio.competencia.toFixed(
+                    2
+                  )}€</span>
                   <span class="ocupacion-label">Previsto:</span>
-                  <span class="ocupacion-value">${data.precio_medio.competencia_previsto.toFixed(2)}€</span>
+                  <span class="ocupacion-value">${data.precio_medio.competencia_previsto.toFixed(
+                    2
+                  )}€</span>
                 </div>
               </div>
             </div>`;

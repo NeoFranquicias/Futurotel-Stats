@@ -71,6 +71,13 @@
         font-weight: 700;
         margin-bottom: 2vh;
         transform: translateZ(0);
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .dashboard-section h2.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       .tables-container {
@@ -80,6 +87,14 @@
         height: 85%;
         overflow: hidden;
         position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .tables-container.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       .table-section {
@@ -102,6 +117,14 @@
         margin-bottom: 1vh;
         text-shadow: 0 0 6px #00eaff99;
         transform: translateZ(0);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .table-title.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       table {
@@ -125,6 +148,15 @@
         word-wrap: break-word;
         overflow: hidden;
         text-overflow: ellipsis;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+      }
+
+      th.visible,
+      td.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       th {
@@ -246,6 +278,51 @@
           margin-bottom: 5px;
         }
       }
+
+      /* Estilos para la animación de máquina de escribir */
+      .typewriter {
+        position: relative;
+        display: inline-block;
+      }
+
+      .typewriter::after {
+        content: "|";
+        position: absolute;
+        right: -8px;
+        color: #00eaff;
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Estilos para la animación de carga progresiva */
+      .content-reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .content-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Estilos para la animación de fade */
+      body {
+        transition: opacity 0.5s ease;
+      }
+
+      body.fade-out {
+        opacity: 0;
+      }
     </style>
   </head>
   <body>
@@ -303,5 +380,68 @@
         </div>
       </section>
     </main>
+
+    <script>
+      // Función para esperar un tiempo determinado
+      const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      // Función para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 30) {
+        if (!element) return;
+
+        const text = element.textContent;
+        element.textContent = "";
+        element.classList.add("typewriter");
+
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await wait(speed);
+        }
+
+        element.classList.remove("typewriter");
+      }
+
+      // Función para animar elementos secuencialmente
+      async function animateElements() {
+        // Animar el título principal con efecto máquina de escribir
+        const title = document.querySelector("h2");
+        await typeWriter(title, 50);
+
+        // Animar el contenedor de tablas
+        const tablesContainer = document.querySelector(".tables-container");
+        await wait(200);
+        tablesContainer.classList.add("visible");
+
+        // Animar el título de la tabla
+        const tableTitle = document.querySelector(".table-title");
+        await wait(200);
+        tableTitle.classList.add("visible");
+
+        // Animar las celdas de la tabla
+        const table = document.querySelector("table");
+        const rows = table.querySelectorAll("tr");
+
+        for (let i = 0; i < rows.length; i++) {
+          const cells = rows[i].querySelectorAll("th, td");
+          for (let j = 0; j < cells.length; j++) {
+            await wait(50);
+            cells[j].classList.add("visible");
+          }
+        }
+      }
+
+      // Iniciar las animaciones cuando el DOM esté cargado
+      document.addEventListener("DOMContentLoaded", animateElements);
+
+      // Añadir listener para la tecla "," que redirige a index.html
+      document.addEventListener("keydown", function (event) {
+        if (event.key === ",") {
+          document.body.style.opacity = "0";
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+        }
+      });
+    </script>
   </body>
 </html>

@@ -24,6 +24,11 @@
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
+        transition: opacity 0.5s ease;
+      }
+
+      body.fade-out {
+        opacity: 0;
       }
 
       .main-scale-wrapper {
@@ -274,20 +279,58 @@
           transform: scale(1);
         }
       }
+
+      /* Estilos para la animación de máquina de escribir */
+      .typewriter {
+        position: relative;
+        display: inline-block;
+      }
+
+      .typewriter::after {
+        content: "|";
+        position: absolute;
+        right: -8px;
+        color: #00eaff;
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Estilos para la animación de carga progresiva */
+      .content-reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .content-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body>
     <div class="main-scale-wrapper">
       <main>
         <section class="dashboard-section">
-          <h2 style="margin-top: 0">Optimización de Estancias Diarias</h2>
+          <h2 class="content-reveal" style="margin-top: 0">
+            Optimización de Estancias Diarias
+          </h2>
           <br />
-          <div class="hotel-name" id="hotelName"></div>
+          <div class="hotel-name content-reveal" id="hotelName"></div>
           <br />
 
           <div class="comparison-grid">
             <div>
-              <div class="comparison-card">
+              <div class="comparison-card content-reveal">
                 <div class="comparison-title">Ocupación</div>
                 <div class="comparison-values">
                   <div class="value">
@@ -300,7 +343,7 @@
                   </div>
                 </div>
               </div>
-              <div class="booking-position">
+              <div class="booking-position content-reveal">
                 <div class="comparison-title">
                   Posicionamiento en Booking.com
                 </div>
@@ -309,7 +352,7 @@
             </div>
 
             <div>
-              <div class="comparison-card">
+              <div class="comparison-card content-reveal">
                 <div class="comparison-title">Precio Medio</div>
                 <div class="comparison-values">
                   <div class="value">
@@ -322,25 +365,28 @@
                   </div>
                 </div>
               </div>
-              <div class="warning-card">
+              <div class="warning-card content-reveal">
                 <div class="warning-title" id="propuestaTitulo"></div>
                 <div class="warning-message" id="propuestaMensaje"></div>
               </div>
             </div>
           </div>
           <br />
-          
+
           <div class="proposal-section">
-            <div class="proposal-title" id="propuestaPrincipal"></div>
+            <div
+              class="proposal-title content-reveal"
+              id="propuestaPrincipal"
+            ></div>
             <br />
             <div
-              class="proposal-cards-row"
+              class="proposal-cards-row content-reveal"
               id="miniPropuestasRow1"
               style="justify-content: center"
             ></div>
             <br />
             <div
-              class="proposal-cards-row"
+              class="proposal-cards-row content-reveal"
               id="miniPropuestasRow2"
               style="justify-content: center"
             ></div>
@@ -349,11 +395,61 @@
       </main>
     </div>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      // Función para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 30) {
+        if (!element) return;
+
+        const text = element.textContent;
+        element.textContent = "";
+        element.classList.add("typewriter");
+
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+
+        // Eliminar el cursor parpadeante después de terminar
+        element.classList.remove("typewriter");
+      }
+
+      // Función para animar elementos secuencialmente
+      async function animateElementsSequentially(elements, delay = 100) {
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Añadir clase de inicio de animación
+          element.classList.add("content-reveal");
+        }
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Quitar clase de inicio y añadir visible para activar transición
+          element.classList.add("visible");
+          // Si es un título, aplicar efecto de máquina de escribir
+          if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
+            await typeWriter(element);
+          }
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      // Iniciar la animación del título con un pequeño retraso
+      setTimeout(() => {
+        const title = document.querySelector("h2");
+        if (title) {
+          typeWriter(title);
+        }
+      }, 100);
+
+      document.addEventListener("DOMContentLoaded", async function () {
         const dashboardSection = document.querySelector(".dashboard-section");
         dashboardSection.style.opacity = "1";
         dashboardSection.style.visibility = "visible";
 
+        // Animar los elementos secuencialmente
+        const elements = document.querySelectorAll(".content-reveal");
+        await animateElementsSequentially(elements, 150);
+
+        // Cargar los datos
+        await cargarDatosPantalla1();
       });
     </script>
     <script src="particles-bg.js"></script>
@@ -418,7 +514,6 @@
       }
       window.addEventListener("resize", scaleToFit);
       window.addEventListener("DOMContentLoaded", scaleToFit);
-    </script>
     </script>
   </body>
 </html>
