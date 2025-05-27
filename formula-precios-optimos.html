@@ -35,6 +35,11 @@
         align-items: flex-start;
         justify-content: center;
         font-size: clamp(1rem, 1.5vw, 1.8rem);
+        transition: opacity 0.5s ease;
+      }
+
+      body.fade-out {
+        opacity: 0;
       }
 
       .scale-container {
@@ -108,7 +113,7 @@
         letter-spacing: 0.05em;
         text-align: left;
         position: relative;
-        
+
         margin: 0;
       }
 
@@ -140,7 +145,7 @@
         padding: 0.3vw;
         background: rgba(18, 35, 46, 0.9);
         border: 0.1vw solid var(--accent-color);
-        
+
         color: var(--accent-color);
         letter-spacing: 0.05em;
         backdrop-filter: blur(5px);
@@ -245,42 +250,98 @@
       .example-item strong {
         text-decoration: underline;
       }
+
+      /* Estilos para la animación de máquina de escribir */
+      .typewriter {
+        position: relative;
+        display: inline-block;
+      }
+
+      .typewriter::after {
+        content: "|";
+        position: absolute;
+        right: -8px;
+        color: var(--accent-color);
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      /* Estilos para la animación de fade */
+      body {
+        transition: opacity 0.5s ease;
+      }
+
+      body.fade-out {
+        opacity: 0;
+      }
+
+      /* Estilos para la animación de carga progresiva */
+      .content-reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .content-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
     </style>
   </head>
   <body>
     <div class="scale-container">
       <main>
         <section class="dashboard-section">
-          <h2>Fórmula de Precios Óptimos</h2>
+          <h2 class="content-reveal">Fórmula de Precios Óptimos</h2>
           <div class="formula-container">
             <!-- Definición de Variables -->
             <div class="left-column">
               <div>
-                <div class="section-title">Definición de Variables</div>
+                <div class="section-title content-reveal">
+                  Definición de Variables
+                </div>
                 <div class="variables-grid">
-                  <div class="variable-item">
+                  <div class="variable-item content-reveal">
                     <span class="variable-symbol">O<sub>c</sub></span>
-                    <span class="content">Ocupación de la ciudad (en porcentaje, 0 a 1)</span>
+                    <span class="content"
+                      >Ocupación de la ciudad (en porcentaje, 0 a 1)</span
+                    >
                   </div>
-                  <div class="variable-item">
+                  <div class="variable-item content-reveal">
                     <span class="variable-symbol">P<sub>h</sub></span>
-                    <span class="content">Precio medio histórico del hotel en años anteriores</span>
+                    <span class="content"
+                      >Precio medio histórico del hotel en años anteriores</span
+                    >
                   </div>
-                  <div class="variable-item">
+                  <div class="variable-item content-reveal">
                     <span class="variable-symbol">P<sub>min</sub></span>
                     <span class="content">Precio mínimo de la competencia</span>
                   </div>
-                  <div class="variable-item">
+                  <div class="variable-item content-reveal">
                     <span class="variable-symbol">P<sub>max</sub></span>
                     <span class="content">Precio máximo de la competencia</span>
                   </div>
-                  <div class="variable-item">
+                  <div class="variable-item content-reveal">
                     <span class="variable-symbol">O<sub>c</sub>*</span>
-                    <span class="content">Ocupación de la competencia (en porcentaje, 0 a 1)</span>
+                    <span class="content"
+                      >Ocupación de la competencia (en porcentaje, 0 a 1)</span
+                    >
                   </div>
-                  <div class="variable-item">
+                  <div class="variable-item content-reveal">
                     <span class="variable-symbol">W</span>
-                    <span class="content">Pesos de cada variable (ajustables según estrategia)</span>
+                    <span class="content"
+                      >Pesos de cada variable (ajustables según
+                      estrategia)</span
+                    >
                   </div>
                 </div>
               </div>
@@ -289,32 +350,52 @@
             <!-- Ejemplo de Aplicación -->
             <div class="right-column">
               <div>
-                <div class="section-title">Ejemplo de Aplicación</div>
+                <div class="section-title content-reveal">
+                  Ejemplo de Aplicación
+                </div>
                 <div class="example-grid">
-                  <div class="example-item">
+                  <div class="example-item content-reveal">
                     <div><strong>Pesos asignados:</strong></div>
-                    <div class="content">W<sub>o</sub> = 0.3: ocupación de la ciudad</div>
-                    <div class="content">W<sub>p</sub> = 0.3: precio histórico del hotel</div>
-                    <div class="content">W<sub>r</sub> = 0.2: precios de la competencia</div>
-                    <div class="content">W<sub>oc</sub> = 0.2: ocupación de la competencia</div>
+                    <div class="content">
+                      W<sub>o</sub> = 0.3: ocupación de la ciudad
+                    </div>
+                    <div class="content">
+                      W<sub>p</sub> = 0.3: precio histórico del hotel
+                    </div>
+                    <div class="content">
+                      W<sub>r</sub> = 0.2: precios de la competencia
+                    </div>
+                    <div class="content">
+                      W<sub>oc</sub> = 0.2: ocupación de la competencia
+                    </div>
                   </div>
-                  <div class="example-item" >
+                  <div class="example-item content-reveal">
                     <div><strong>Valores usados:</strong></div>
-                    <div class="content">O<sub>c</sub> = 0.85: 85% ocupación ciudad</div>
-                    <div class="content">P<sub>h</sub> = 100 €: precio histórico</div>
-                    <div class="content">P<sub>min</sub> = 90 €: precio mínimo</div>
-                    <div class="content">P<sub>max</sub> = 120 €: precio máximo</div>
-                    <div class="content">O<sub>c</sub>* = 0.75: 75% ocupación competencia</div>
+                    <div class="content">
+                      O<sub>c</sub> = 0.85: 85% ocupación ciudad
+                    </div>
+                    <div class="content">
+                      P<sub>h</sub> = 100 €: precio histórico
+                    </div>
+                    <div class="content">
+                      P<sub>min</sub> = 90 €: precio mínimo
+                    </div>
+                    <div class="content">
+                      P<sub>max</sub> = 120 €: precio máximo
+                    </div>
+                    <div class="content">
+                      O<sub>c</sub>* = 0.75: 75% ocupación competencia
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <!-- Cálculo Final -->
             <div class="right-column" style="grid-column: 1 / span 2">
               <div>
-                <div class="section-title">Cálculo final</div>
-                <div class="example-result">
+                <div class="section-title content-reveal">Cálculo final</div>
+                <div class="example-result content-reveal">
                   <div class="latex-formula" style="margin-bottom: 20px">
                     $$P_{opt} = W_o \cdot f(O_c) + W_p \cdot P_h + W_c \cdot
                     \frac{P_{c_{min}} + P_{c_{max}}}{2} + W_{oc} \cdot
@@ -337,5 +418,66 @@
       </main>
     </div>
     <script src="particles-bg.js"></script>
+    <script>
+      // Función para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 30) {
+        if (!element) return;
+
+        const text = element.textContent;
+        element.textContent = "";
+        element.classList.add("typewriter");
+
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+
+        // Eliminar el cursor parpadeante después de terminar
+        element.classList.remove("typewriter");
+      }
+
+      // Función para animar elementos secuencialmente
+      async function animateElementsSequentially(elements, delay = 100) {
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Añadir clase de inicio de animación
+          element.classList.add("content-reveal");
+        }
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Quitar clase de inicio y añadir visible para activar transición
+          element.classList.add("visible");
+          // Si es un título, aplicar efecto de máquina de escribir
+          if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
+            await typeWriter(element);
+          }
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Animar el título principal
+        const title = document.querySelector("h2");
+        if (title) {
+          await typeWriter(title);
+        }
+
+        // Animar todos los elementos con la clase content-reveal
+        const elements = document.querySelectorAll(".content-reveal");
+        await animateElementsSequentially(elements, 150);
+      });
+
+      // Añadir listener para la tecla "," que redirige a index.html
+      document.addEventListener("keydown", function (event) {
+        if (event.key === ",") {
+          // Añadir clase para fade out a todo el body
+          document.body.classList.add("fade-out");
+          // Esperar a que termine la animación antes de cambiar la página
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 500);
+        }
+      });
+    </script>
   </body>
 </html>
