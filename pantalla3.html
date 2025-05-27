@@ -129,8 +129,8 @@
       /* Estilos para la animación de carga progresiva */
       .content-reveal {
         opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY(3px);
+        transition: opacity 0.15s ease, transform 0.15s ease;
       }
 
       .content-reveal.visible {
@@ -207,17 +207,14 @@
       }
 
       // Función para animar elementos secuencialmente
-      async function animateElementsSequentially(elements, delay = 100) {
+      async function animateElementsSequentially(elements, delay = 30) {
         for (let i = 0; i < elements.length; i++) {
           const element = elements[i];
-          // Añadir clase de inicio de animación
           element.classList.add("content-reveal");
         }
         for (let i = 0; i < elements.length; i++) {
           const element = elements[i];
-          // Quitar clase de inicio y añadir visible para activar transición
           element.classList.add("visible");
-          // Si es un título, aplicar efecto de máquina de escribir
           if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
             await typeWriter(element);
           }
@@ -231,7 +228,7 @@
         if (title) {
           typeWriter(title);
         }
-      }, 100);
+      }, 30);
 
       document.addEventListener("DOMContentLoaded", async function () {
         const chartContainer = document.querySelector(".chart-container");
@@ -296,7 +293,7 @@
           responsive: true,
           maintainAspectRatio: false,
           animation: {
-            duration: 2000,
+            duration: 500,
             easing: "easeInOutQuart",
           },
           interaction: {

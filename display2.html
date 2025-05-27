@@ -550,6 +550,48 @@ ca<!DOCTYPE html>
       // Inicializar los iframes al cargar la página
       window.addEventListener("load", () => {
         document.body.classList.add("loaded");
+
+        // Función para cargar iframes secuencialmente
+        async function loadIframesSequentially() {
+          const frames = document.querySelectorAll(".display-frame iframe");
+          const frameSources = [
+            "pantalla1.html",
+            "pantalla2.html",
+            "pantalla3.html",
+            "acciones-recomendadas.html",
+          ];
+
+          // Ocultar todos los iframes inicialmente
+          frames.forEach((frame) => {
+            frame.style.opacity = "0";
+            frame.src = "about:blank"; // Limpiar el src inicial
+          });
+
+          // Cargar cada iframe secuencialmente
+          for (let i = 0; i < frames.length; i++) {
+            const frame = frames[i];
+            const source = frameSources[i];
+
+            // Esperar a que el iframe actual se cargue
+            await new Promise((resolve) => {
+              frame.onload = () => {
+                // Mostrar el iframe con una transición suave
+                frame.style.transition = "opacity 0.5s ease";
+                frame.style.opacity = "1";
+                resolve();
+              };
+
+              // Establecer el nuevo src para cargar el contenido
+              frame.src = source;
+            });
+
+            // Esperar un pequeño delay entre cada carga
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+        }
+
+        // Iniciar la carga secuencial
+        loadIframesSequentially();
       });
     </script>
     <div
