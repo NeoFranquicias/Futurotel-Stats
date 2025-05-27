@@ -5,8 +5,8 @@
       {
         "tipo": "accion",
         "fecha": "2025-06-02",
-        "precio_inicial": 67.22,
-        "precio_accion": 55.49,
+        "precio_inicial": 62.24,
+        "precio_accion": 54.25,
         "facturacion_objetivo": 2179,
         "facturacion_conseguida": 2549,
         "habitaciones_por_vender": 7,
@@ -17,10 +17,10 @@
       {
         "tipo": "info",
         "contenido": [
-          "Si bajamos el precio a 67,22€ llenaremos 1 habitación antes de las 72 horas que es la fecha límite para que la competencia empiece a mostrar ofertas agresivas.",
-          "Te propongo ajustar un precio de 55,49€ para llenar el hotel, si bien es cierto que ese día no se espera una ocupación muy alta en Málaga los clientes podrán aparcar sin mayor problema y la venta en parking se verá disminuida considerablemente por ello planteo dos opciones:",
-          "Ofrecer el parking incluido y vender a 67,22€ (el coste del parking es de 7€ por lo que tendríamos un beneficio de 60,22€ sobre los 55,49€ si no aplicamos esta opción.",
-          "Vender a 55,49€ la habitación y ofrecer a call center un plus por vender parking."
+          "Si bajamos el precio a 62.23€ llenaremos 1 habitación antes de las 72 horas que es la fecha límite para que la competencia empiece a mostrar ofertas agresivas.",
+          "Te propongo ajustar un precio de 54,25€ para llenar el hotel, si bien es cierto que ese día no se espera una ocupación muy alta en Málaga los clientes podrán aparcar sin mayor problema y la venta en parking se verá disminuida considerablemente por ello planteo dos opciones:",
+          "Ofrecer el parking incluido y vender a 67,22€ (el coste del parking es de 7€. Beneficio de 60,22€.",
+          "Vender a 54,25€ la habitación y ofrecer a call center un plus por vender parking. Beneficio de 64,25€."
         ]
       },
       {
@@ -29,8 +29,8 @@
         "valores": [31, 87, 80, 22, 44, 15, 11, 39, 19, 28, 23, 92],
         "texto": [
           {"titulo": "Top Ventas", "texto": "Gaby, David y Natalia lideran las ventas de parking. Gaby está muy cerca de alcanzar el bono por 100 ventas."},
-          {"titulo": "Propuesta", "texto": "Como David y Natalia están de vacaciones y Gaby libra mañana, propongo que Estefanía cambie el turno con Gaby. Para evitar conflictos, Jorge puede gestionar el cambio con Sara y luego con Gaby."},
-          {"titulo": "Resumen", "texto": "1. Jorge cambia turno a Sara. 2. Jorge cambia turno a Gaby. Si se realiza este cambio, Gaby podrá conseguir el bono y los upgrades."}
+          {"titulo": "Propuesta", "texto": "Como David y Natalia están de vacaciones y Gaby libra mañana, propongo que Estefanía cambie el turno con Gaby."},
+          {"titulo": "Resumen", "texto": "Si se realiza este cambio, Gaby podrá conseguir el bono y los upgrades."}
         ]
       }
     ]

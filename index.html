@@ -192,13 +192,32 @@
             } else if (
               nombre.includes("carrio sol") ||
               nombre.includes("parquemar") ||
-              nombre.includes("torre hogar")
+              nombre.includes("torre hogar") ||
+              nombre.includes("royal urban") ||
+              nombre.includes("granada1") ||
+              nombre.includes("granada2")
             ) {
               ocupacion = 100;
+            } else if (nombre.includes("spa garden") || nombre.includes("cambrils")) {
+              ocupacion = 92;
+            } else if (nombre.includes("dreams")) {
+              ocupacion = 93;
+            } else if (nombre.includes("sevilla")) {
+              ocupacion = 96;
             } else {
               ocupacion = Math.floor(Math.random() * 10) + 90; // 90-99
             }
-            const precio = nombre.includes("malagueta") ? 57 : (hotel.precio ?? Math.floor(Math.random() * (150 - 80 + 1)) + 80);
+            const precio = nombre.includes("malagueta") ? 62 : 
+              nombre.includes("parquemar") ? 105 :
+              nombre.includes("carrio sol") ? 145 :
+              nombre.includes("granada 1") ? 90 :
+              nombre.includes("spa garden") ? 72 :
+              nombre.includes("granada 2") ? 94 :
+              nombre.includes("dreams") ? 91 :
+              nombre.includes("cambrils") ? 97 :
+              nombre.includes("sevilla") ? 72 :
+              nombre.includes("torre hogar") ? 83 :
+              (hotel.precio ?? Math.floor(Math.random() * (150 - 80 + 1)) + 80);
             card.innerHTML = `
                         <div class="hotel-name">${hotel.nombre}</div>
                         <div class="hotel-stats">
