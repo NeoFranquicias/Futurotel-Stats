@@ -400,53 +400,53 @@
 
       function renderPantalla(pantallaIdx) {
         if (!acciones.length) return;
-        
+
         // Limpiar animaciones en curso
         clearAllAnimations();
-        
+
         const accion = acciones[0]; // Solo una acción
         const pantallas = accion.pantallas || [];
         const pantalla = pantallas[pantallaIdx % pantallas.length];
         const grid = document.getElementById("accionesGrid");
-        const title = document.getElementById('mainTitle');
-        
+        const title = document.getElementById("mainTitle");
+
         // Resetear el título inmediatamente
         if (title) {
-          title.style.opacity = '0';
-          title.style.transform = 'translateY(-20px)';
-          title.style.transition = 'none';
-          title.style.borderRight = 'none';
+          title.style.opacity = "0";
+          title.style.transform = "translateY(-20px)";
+          title.style.transition = "none";
+          title.style.borderRight = "none";
         }
-        
+
         // Limpiar el grid inmediatamente
-        grid.style.opacity = '0';
-        grid.style.transition = 'opacity 0.3s ease';
-        
+        grid.style.opacity = "0";
+        grid.style.transition = "opacity 0.3s ease";
+
         // Esperar un frame para asegurar que los estilos se apliquen
         currentAnimationFrame = requestAnimationFrame(() => {
           // Limpiar el contenido del grid
-          grid.innerHTML = '';
-          
+          grid.innerHTML = "";
+
           // Renderizar el nuevo contenido
           renderPantallaContent();
-          
+
           // Animar el título principal
           if (title) {
             const titleText = title.textContent;
-            title.textContent = '';
-            title.style.opacity = '0';
-            title.style.transform = 'translateY(-20px)';
-            title.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            title.style.overflow = 'hidden';
-            title.style.display = 'inline-block';
-            
+            title.textContent = "";
+            title.style.opacity = "0";
+            title.style.transform = "translateY(-20px)";
+            title.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+            title.style.overflow = "hidden";
+            title.style.display = "inline-block";
+
             // Mostrar el título con animación
             setTimeout(() => {
-              title.style.opacity = '1';
-              title.style.transform = 'translateY(0)';
-              
+              title.style.opacity = "1";
+              title.style.transform = "translateY(0)";
+
               // Efecto de máquina de escribir para el título
-              title.style.borderRight = '2px solid #00eaff';
+              title.style.borderRight = "2px solid #00eaff";
               let i = 0;
               const typeWriter = () => {
                 if (i < titleText.length) {
@@ -454,35 +454,35 @@
                   i++;
                   currentTitleTypeWriter = setTimeout(typeWriter, 30);
                 } else {
-                  title.style.borderRight = 'none';
+                  title.style.borderRight = "none";
                 }
               };
               typeWriter();
             }, 100);
           }
-          
+
           // Mostrar el grid con animación
           setTimeout(() => {
-            grid.style.opacity = '1';
-            
+            grid.style.opacity = "1";
+
             // Animar los elementos del grid
-            const elements = grid.querySelectorAll('.acciones-card');
+            const elements = grid.querySelectorAll(".acciones-card");
             elements.forEach((el, index) => {
-              el.style.opacity = '0';
-              el.style.transform = 'translateY(20px)';
-              el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-              
+              el.style.opacity = "0";
+              el.style.transform = "translateY(20px)";
+              el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+
               currentTypeWriterTimeout = setTimeout(() => {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-                
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+
                 // Aplicar efecto de máquina de escribir a los títulos
-                const title = el.querySelector('h3');
+                const title = el.querySelector("h3");
                 if (title) {
                   const text = title.textContent;
-                  title.textContent = '';
-                  title.style.overflow = 'hidden';
-                  title.style.borderRight = '2px solid #00eaff';
+                  title.textContent = "";
+                  title.style.overflow = "hidden";
+                  title.style.borderRight = "2px solid #00eaff";
                   let i = 0;
                   const typeWriter = () => {
                     if (i < text.length) {
@@ -490,7 +490,7 @@
                       i++;
                       currentTypeWriterTimeout = setTimeout(typeWriter, 30);
                     } else {
-                      title.style.borderRight = 'none';
+                      title.style.borderRight = "none";
                     }
                   };
                   typeWriter();
@@ -510,7 +510,7 @@
             // Tarjeta Acción
             html += `
             <div class="acciones-card cian" style="grid-column:1;grid-row:1;justify-content:center;align-items:center;">
-              <div class="acciones-label">Acción #${accion.id}</div>
+              <div class="acciones-label typewriter">Acción #${accion.id}</div>
               <div class="acciones-fecha">${pantalla.fecha}</div>
               <div class="acciones-precio">Precio<br><span>${formatEuros(
                 pantalla.precio_inicial
@@ -520,14 +520,18 @@
             // Tarjeta Reflexión
             html += `
             <div class="acciones-card cian" style="grid-column:1;grid-row:2; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 24px 18px 24px 22px;">
-              
-                <div style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Facturación Objetivo</div>
-                <div style="font-size:1.4rem; color:#fff; font-weight:bold; margin-bottom: 12px;">${formatEuros(pantalla.facturacion_objetivo)}</div>
-                <div style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Facturación Conseguida</div>
-                <div style="font-size:1.4rem; color:#fff; font-weight:bold; margin-bottom: 12px;">${formatEuros(pantalla.facturacion_conseguida)}</div>
-                <div style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Habitaciones por Vender</div>
-                <div style="font-size:1.4rem; color:#fff; font-weight:bold;">${pantalla.habitaciones_por_vender}</div>
-              </div>
+              <div class="acciones-label typewriter" style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Facturación Objetivo</div>
+              <div style="font-size:1.4rem; color:#fff; font-weight:bold; margin-bottom: 12px;">${formatEuros(
+                pantalla.facturacion_objetivo
+              )}</div>
+              <div class="acciones-label typewriter" style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Facturación Conseguida</div>
+              <div style="font-size:1.4rem; color:#fff; font-weight:bold; margin-bottom: 12px;">${formatEuros(
+                pantalla.facturacion_conseguida
+              )}</div>
+              <div class="acciones-label typewriter" style="font-size:1.4rem; color:#00eaff; font-weight:bold; margin-bottom: 4px;">Habitaciones por Vender</div>
+              <div style="font-size:1.4rem; color:#fff; font-weight:bold;">${
+                pantalla.habitaciones_por_vender
+              }</div>
             </div>
           `;
             // Tarjeta Justificación
@@ -544,14 +548,14 @@
             // Tarjeta Si aplica (verde)
             html += `
             <div class="acciones-card verde" style="grid-column:3;grid-row:1;">
-              <div class="acciones-label">Si se aplica la acción</div>
+              <div class="acciones-label typewriter">Si se aplica la acción</div>
               <div class="acciones-derivacion">${pantalla.si_aplica || ""}</div>
             </div>
           `;
             // Tarjeta No aplica (rojo)
             html += `
             <div class="acciones-card rojo" style="grid-column:3;grid-row:2;">
-              <div class="acciones-label">Si no se aplica la acción</div>
+              <div class="acciones-label typewriter">Si no se aplica la acción</div>
               <div class="acciones-derivacion">${pantalla.no_aplica || ""}</div>
             </div>
           `;
@@ -559,7 +563,7 @@
             // Grid de 3 columnas y 2 filas: gráfica en columna 1 (2 filas), texto en columnas 2-3 (2 filas)
             html += `
             <div class='acciones-card cian' style='grid-column:1;grid-row:1/span 2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 10px 10px 10px;box-sizing:border-box;min-width:260px;'>
-              <div class='acciones-label' style='margin-bottom:12px; font-size:1.6rem;'>Ventas por empleado</div>
+              <div class='acciones-label typewriter' style='margin-bottom:12px; font-size:1.6rem;'>Ventas por empleado</div>
               <canvas id='graficaBarras' width='320' height='390' style='display:block;margin:auto;width:100%;max-width:340px;background:rgba(0,0,0,0.12);border-radius:14px;'></canvas>
             </div>
             <div style='grid-column:2/span 2;grid-row:1/span 2;display:grid;grid-template-rows:auto;gap:18px;align-items:flex-start;justify-content:flex-start;min-width:420px;'>
@@ -567,7 +571,7 @@
                 .map(
                   (seccion) => `
                 <div class='acciones-card cian' style='padding:20px 18px 10px 18px;box-sizing:border-box;'>
-                  <div class='acciones-label' style='margin-bottom:10px; font-size:1.6rem;'>${seccion.titulo}</div>
+                  <div class='acciones-label typewriter' style='margin-bottom:10px; font-size:1.6rem;'>${seccion.titulo}</div>
                   <div style='font-size:1.3rem;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${seccion.texto}</div>
                 </div>
               `
@@ -632,7 +636,7 @@
                 }
                 html +=
                   `<div class='acciones-card cian' style='${gridStyles[i]}padding: 18px 20px 10px 20px; display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;'>` +
-                  `<div class='acciones-label' style='margin-bottom:12px;font-size:1.6rem;'>${titulo}</div>` +
+                  `<div class='acciones-label typewriter' style='margin-bottom:12px;font-size:1.6rem;'>${titulo}</div>` +
                   `<div style='font-size:1.25rem;line-height:1.7;width:100%;word-break:break-word;white-space:normal;overflow-y:auto;max-height:95%;'>${contenidoHtml}</div>` +
                   `</div>`;
               }
@@ -640,6 +644,27 @@
           }
           grid.innerHTML = html;
           grid.style.opacity = 1;
+
+          // Add typewriter effect to all titles simultaneously
+          const typewriterElements = document.querySelectorAll(".typewriter");
+          typewriterElements.forEach((element) => {
+            const text = element.textContent;
+            element.textContent = "";
+            element.style.overflow = "hidden";
+            element.style.borderRight = "2px solid #00eaff";
+            let i = 0;
+            const typeWriter = () => {
+              if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 30);
+              } else {
+                element.style.borderRight = "none";
+              }
+            };
+            typeWriter();
+          });
+
           // Renderizar gráfica si aplica
           if (pantalla.tipo === "grafica") {
             setTimeout(() => {
@@ -648,7 +673,6 @@
                   const ctx = document
                     .getElementById("graficaBarras")
                     .getContext("2d");
-                  // Destruye la gráfica anterior si existe
                   if (window.chartBarras) {
                     window.chartBarras.destroy();
                     window.chartBarras = null;
@@ -670,7 +694,7 @@
                       ],
                     },
                     options: {
-                      indexAxis: "y", // Barras horizontales
+                      indexAxis: "y",
                       responsive: false,
                       plugins: { legend: { display: false } },
                       layout: {
