@@ -100,6 +100,9 @@
       padding: 20px;
       position: relative;
       margin-top: 10px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
     }
     .chart-wrapper::before {
       content: "";
@@ -114,6 +117,10 @@
         rgba(0, 234, 255, 0.5),
         transparent
       );
+    }
+    .chart-wrapper.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     .event-legend {
       display: flex;
@@ -140,9 +147,16 @@
       border-radius: 8px;
       background: rgba(0, 0, 0, 0.3);
       white-space: nowrap;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     }
     .event-item:hover {
       background: rgba(0, 0, 0, 0.5);
+    }
+    .event-item.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     .event-color {
       width: 45px;
@@ -168,6 +182,54 @@
       50% {
         text-shadow: 0 0 18px #00eaff;
       }
+    }
+
+    /* Estilos para la animación de carga progresiva */
+    .content-reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .content-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Estilos para la animación de máquina de escribir */
+    .typewriter {
+      position: relative;
+      display: inline-block;
+    }
+
+    .typewriter::after {
+      content: "|";
+      position: absolute;
+      right: -8px;
+      color: #00eaff;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* Estilos para la animación de eventos */
+    .event-item {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .event-item.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
   <body>
@@ -198,11 +260,14 @@
           box-sizing: border-box;
         "
       >
-        <h2 style="margin: 0; padding: 1vh 0; width: 100%; text-align: center">
+        <h2
+          class="content-reveal"
+          style="margin: 0; padding: 1vh 0; width: 100%; text-align: center"
+        >
           Gráfica Ocupación
         </h2>
         <div class="graph-container">
-          <div class="event-legend" id="eventLegend"></div>
+          <div class="event-legend content-reveal" id="eventLegend"></div>
           <div class="chart-wrapper">
             <canvas id="ocupacionChart"></canvas>
           </div>
@@ -214,14 +279,71 @@
     </footer>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+      // Función para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 25) {
+        if (!element) return;
+
+        const text = element.textContent;
+        element.textContent = "";
+        element.classList.add("typewriter");
+
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+
+        // Eliminar el cursor parpadeante después de terminar
+        element.classList.remove("typewriter");
+      }
+
+      // Función para animar elementos secuencialmente
+      async function animateElementsSequentially(elements, delay = 150) {
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Añadir clase de inicio de animación
+          element.classList.add("content-reveal");
+        }
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Quitar clase de inicio y añadir visible para activar transición
+          element.classList.add("visible");
+          // Si es un título, aplicar efecto de máquina de escribir
+          if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
+            await typeWriter(element);
+          }
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      // Función para animar eventos secuencialmente
+      async function animateEventsSequentially(events, delay = 100) {
+        for (let i = 0; i < events.length; i++) {
+          const event = events[i];
+          event.classList.add("visible");
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        const dashboardSection = document.querySelector(".dashboard-section");
+        dashboardSection.style.opacity = "1";
+        dashboardSection.style.visibility = "visible";
+
+        // Animar el título primero
+        const title = document.querySelector("h2");
+        if (title) {
+          title.classList.add("visible");
+          await typeWriter(title);
+        }
+
+        // Cargar los datos
         // Datos de ocupación diaria (30 días)
         const diasMes = Array.from({ length: 30 }, (_, i) => i + 1);
 
         // Cargar datos desde el archivo JSON
         fetch("eventos.json")
           .then((response) => response.json())
-          .then((data) => {
+          .then(async (data) => {
             // Valores base de ocupación (porcentajes)
             const ocupacionBase = data.ocupacion;
 
@@ -361,6 +483,15 @@
             });
 
             legendContainer.appendChild(grid);
+            legendContainer.classList.add("visible");
+
+            // Animar los eventos secuencialmente
+            const eventItems = document.querySelectorAll(".event-item");
+            await animateEventsSequentially(eventItems, 150);
+
+            // Después de que los eventos aparezcan, mostrar la gráfica
+            const chartWrapper = document.querySelector(".chart-wrapper");
+            chartWrapper.classList.add("visible");
 
             // Configurar y crear el gráfico
             const ctx = document

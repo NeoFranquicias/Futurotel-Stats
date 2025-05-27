@@ -125,12 +125,50 @@
           justify-content: center;
         }
       }
+
+      /* Estilos para la animación de carga progresiva */
+      .content-reveal {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .content-reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Estilos para la animación de máquina de escribir */
+      .typewriter {
+        position: relative;
+        display: inline-block;
+      }
+
+      .typewriter::after {
+        content: "|";
+        position: absolute;
+        right: -8px;
+        color: #00eaff;
+        animation: blink 0.7s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="chart-container">
-      <h2 class="chart-title">Demanda de la Ciudad</h2>
-      <div class="legend-container">
+      <h2 class="chart-title content-reveal" style="margin-top: 0">
+        Demanda de la Ciudad
+      </h2>
+      <div class="legend-container content-reveal">
         <div class="legend-item">
           <div
             class="legend-color"
@@ -146,11 +184,65 @@
           <span>Previsión de Demanda</span>
         </div>
       </div>
-      <canvas id="combined-chart"></canvas>
+      <canvas id="combined-chart" class="content-reveal"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+      // Función para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 30) {
+        if (!element) return;
+
+        const text = element.textContent;
+        element.textContent = "";
+        element.classList.add("typewriter");
+
+        for (let i = 0; i < text.length; i++) {
+          element.textContent += text[i];
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+
+        // Eliminar el cursor parpadeante después de terminar
+        element.classList.remove("typewriter");
+      }
+
+      // Función para animar elementos secuencialmente
+      async function animateElementsSequentially(elements, delay = 100) {
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Añadir clase de inicio de animación
+          element.classList.add("content-reveal");
+        }
+        for (let i = 0; i < elements.length; i++) {
+          const element = elements[i];
+          // Quitar clase de inicio y añadir visible para activar transición
+          element.classList.add("visible");
+          // Si es un título, aplicar efecto de máquina de escribir
+          if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
+            await typeWriter(element);
+          }
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+      }
+
+      // Iniciar la animación del título con un pequeño retraso
+      setTimeout(() => {
+        const title = document.querySelector("h2");
+        if (title) {
+          typeWriter(title);
+        }
+      }, 100);
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        const chartContainer = document.querySelector(".chart-container");
+        chartContainer.style.opacity = "1";
+        chartContainer.style.visibility = "visible";
+
+        // Animar los elementos secuencialmente
+        const elements = document.querySelectorAll(".content-reveal");
+        await animateElementsSequentially(elements, 150);
+      });
+
       function resizeChart() {
         const container = document.querySelector(".chart-container");
         const canvas = document.getElementById("combined-chart");
@@ -203,6 +295,10 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          animation: {
+            duration: 2000,
+            easing: "easeInOutQuart",
+          },
           interaction: {
             intersect: false,
             mode: "index",
@@ -230,9 +326,9 @@
                   weight: "700",
                 },
                 padding: 6,
-                callback: function(value) {
-                  return value + '%';
-                }
+                callback: function (value) {
+                  return value + "%";
+                },
               },
               border: {
                 display: false,
