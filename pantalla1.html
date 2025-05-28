@@ -24,7 +24,9 @@
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        transition: opacity 0.5s ease;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+        will-change: opacity;
       }
 
       body.fade-out {
@@ -38,6 +40,7 @@
         align-items: center;
         justify-content: center;
         transform-origin: center center;
+        will-change: transform;
       }
 
       main {
@@ -284,6 +287,7 @@
       .typewriter {
         position: relative;
         display: inline-block;
+        will-change: contents;
       }
 
       .typewriter::after {
@@ -292,6 +296,7 @@
         right: -8px;
         color: #00eaff;
         animation: blink 0.7s infinite;
+        will-change: opacity;
       }
 
       @keyframes blink {
@@ -308,7 +313,8 @@
       .content-reveal {
         opacity: 0;
         transform: translateY(10px);
-        transition: opacity 0.5s ease, transform 0.5s ease;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        will-change: opacity, transform;
       }
 
       .content-reveal.visible {
@@ -395,35 +401,41 @@
       </main>
     </div>
     <script>
-      // Función para animar el texto como máquina de escribir
-      async function typeWriter(element, speed = 30) {
+      // Función optimizada para animar el texto como máquina de escribir
+      async function typeWriter(element, speed = 20) {
         if (!element) return;
 
         const text = element.textContent;
         element.textContent = "";
         element.classList.add("typewriter");
 
-        for (let i = 0; i < text.length; i++) {
-          element.textContent += text[i];
-          await new Promise((resolve) => setTimeout(resolve, speed));
-        }
+        let i = 0;
+        const animate = () => {
+          if (i < text.length) {
+            element.textContent += text[i];
+            i++;
+            requestAnimationFrame(() => setTimeout(animate, speed));
+          } else {
+            element.classList.remove("typewriter");
+          }
+        };
 
-        // Eliminar el cursor parpadeante después de terminar
-        element.classList.remove("typewriter");
+        requestAnimationFrame(animate);
       }
 
-      // Función para animar elementos secuencialmente
-      async function animateElementsSequentially(elements, delay = 100) {
-        for (let i = 0; i < elements.length; i++) {
-          const element = elements[i];
-          // Añadir clase de inicio de animación
+      // Función optimizada para animar elementos secuencialmente
+      async function animateElementsSequentially(elements, delay = 80) {
+        const visibleElements = Array.from(elements).filter((el) => {
+          const rect = el.getBoundingClientRect();
+          return rect.top < window.innerHeight && rect.bottom > 0;
+        });
+
+        for (const element of visibleElements) {
           element.classList.add("content-reveal");
         }
-        for (let i = 0; i < elements.length; i++) {
-          const element = elements[i];
-          // Quitar clase de inicio y añadir visible para activar transición
+
+        for (const element of visibleElements) {
           element.classList.add("visible");
-          // Si es un título, aplicar efecto de máquina de escribir
           if (element.tagName && element.tagName.match(/^H[1-6]$/)) {
             await typeWriter(element);
           }
@@ -431,25 +443,39 @@
         }
       }
 
-      // Iniciar la animación del título con un pequeño retraso
-      setTimeout(() => {
-        const title = document.querySelector("h2");
-        if (title) {
-          typeWriter(title);
-        }
-      }, 100);
+      // Función optimizada para el escalado
+      function scaleToFit() {
+        requestAnimationFrame(() => {
+          const baseWidth = 1280;
+          const baseHeight = 720;
+          const ww = window.innerWidth;
+          const wh = window.innerHeight;
+          const scale = Math.min(ww / baseWidth, wh / baseHeight);
+          const wrapper = document.querySelector(".main-scale-wrapper");
+          wrapper.style.transform = `scale(${scale})`;
+        });
+      }
+
+      // Optimizar el manejo de eventos de redimensionamiento
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(scaleToFit, 100);
+      });
 
       document.addEventListener("DOMContentLoaded", async function () {
         const dashboardSection = document.querySelector(".dashboard-section");
         dashboardSection.style.opacity = "1";
         dashboardSection.style.visibility = "visible";
 
-        // Animar los elementos secuencialmente
-        const elements = document.querySelectorAll(".content-reveal");
-        await animateElementsSequentially(elements, 150);
+        // Iniciar animaciones después de un pequeño retraso
+        setTimeout(async () => {
+          const elements = document.querySelectorAll(".content-reveal");
+          await animateElementsSequentially(elements, 80);
+          await cargarDatosPantalla1();
+        }, 100);
 
-        // Cargar los datos
-        await cargarDatosPantalla1();
+        scaleToFit();
       });
     </script>
     <script src="particles-bg.js"></script>
@@ -501,19 +527,6 @@
         }
       }
       document.addEventListener("DOMContentLoaded", cargarDatosPantalla1);
-    </script>
-    <script>
-      function scaleToFit() {
-        const baseWidth = 1280;
-        const baseHeight = 720;
-        const ww = window.innerWidth;
-        const wh = window.innerHeight;
-        const scale = Math.min(ww / baseWidth, wh / baseHeight);
-        const wrapper = document.querySelector(".main-scale-wrapper");
-        wrapper.style.transform = `scale(${scale})`;
-      }
-      window.addEventListener("resize", scaleToFit);
-      window.addEventListener("DOMContentLoaded", scaleToFit);
     </script>
   </body>
 </html>
